@@ -1,0 +1,6 @@
+def {{name}}() -> dict[str, Any]:
+    obj = { {{~#each props}}
+        "{{name}}": {{#unless required}}None if random.random() < {{exclude_probability}} else {{/unless}}{{fake_func.name}}({{fake_func.args}}),{{/each}}
+    }
+
+    return {key: value for key, value in obj.items() if value is not None}

@@ -1,0 +1,11 @@
+import_path: log_file
+description: "Log a message to a file."
+is_async: false
+returns: true
+signature:
+  function: log_to_file
+  parameters:
+    - arg: 0
+      type: string
+      minLength: 256
+      maxLength: 512

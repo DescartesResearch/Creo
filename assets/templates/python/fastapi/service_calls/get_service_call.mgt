@@ -1,0 +1,7 @@
+async def {{name}}(client: httpx.AsyncClient):
+{{#if requires_data}}    query = {{query_data_func}}()
+{{/if}}
+    try:
+        _response = await client.get(f"http://{os.getenv('{{host_env_var}}')}{{path}}"{{#if requires_data}}, params=query{{/if}})
+    except httpx.RequestError as err:
+        logging.error("An error occurred while request %s -> %s.", err.request.method, repr(err.request.url))

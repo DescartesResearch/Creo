@@ -1,0 +1,38 @@
+use rand::{self, Rng};
+
+fn get_random_numeric_value<T: rand::distributions::uniform::SampleUniform + PartialOrd>(min: T, max: T) -> T {
+    rand::thread_rng().gen_range(min..max)
+}
+
+fn get_random_string(min: usize, max: usize) -> String {
+    let mut rng = rand::thread_rng();
+    let length: usize = rng.gen_range(min..max);
+    rng.sample_iter(&rand::distributions::Alphanumeric).take(length).map(char::from).collect()
+}
+
+fn get_random_bool() -> bool {
+    rand::thread_rng().gen()
+}
+
+
+{{#each object_fake_functions}}
+{{>object_fake_function}}
+
+
+{{/each}}
+{{#each array_fake_functions}}
+{{>array_fake_function}}
+
+
+{{/each}}
+{{#each query_data_functions}}
+{{>query_data_function}}
+
+
+{{/each}}
+{{#each service_call_functions}}
+{{>service_call_function}}
+
+
+{{/each}}
+

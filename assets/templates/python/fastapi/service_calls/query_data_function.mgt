@@ -1,0 +1,8 @@
+def {{name}}() -> dict[str, Any]:
+    query = { {{~#each params}}
+        "{{name}}": {{#if nullable}}None if random.random() < {{exclude_probability}} else{{/if}}{{fake_func.name}}({{fake_func.args}})
+{{#if @last}}    {{/if}}
+{{/each ~}} }
+
+    return { key: value for key, value in query.items() if value is not None }
+

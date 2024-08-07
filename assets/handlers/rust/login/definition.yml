@@ -1,0 +1,18 @@
+import_path: login
+description: "Login a user using username/email and password authentication."
+is_async: true
+returns: true
+depends_on:
+  - name: db:mongo
+    init: seed-login
+signature:
+  function: login_with_username_or_email
+  parameters:
+    - arg: 0
+      type: string
+      minimum: 3
+      maximum: 64
+    - arg: 1
+      type: string
+      minimum: 6
+      maximum: 48

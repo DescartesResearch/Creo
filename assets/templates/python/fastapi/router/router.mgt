@@ -1,0 +1,23 @@
+from fastapi import APIRouter, Query{{#if service_call_imports}}, Depends{{/if}}{{#if http_post_operations}}, Request{{/if}}
+from fastapi.responses import JSONResponse
+
+from http_client import get_async_http_client
+{{#each type_imports}}
+{{this.import}}
+{{/each}}
+{{#each service_call_imports}}
+{{this.import}}
+{{/each}}
+{{#each handler_func_imports}}
+{{this.import}}
+{{/each}}
+
+
+router = APIRouter()
+
+{{#each http_post_operations}}
+{{>post_operation}}
+{{/each}}
+{{#each http_get_operations}}
+{{>get_operation}}
+{{/each}}

@@ -1,0 +1,12 @@
+from functools import lru_cache
+
+import httpx
+
+@lru_cache
+def get_async_http_client() -> httpx.AsyncClient:
+    return httpx.AsyncClient()
+
+async def shutdown_http_client() -> None:
+    if get_async_http_client.cache_info().currsize > 1:
+        await get_async_http_client().aclose()
+        get_async_http_client.cache_clear()

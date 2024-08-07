@@ -1,0 +1,13 @@
+import_path: primes
+description: "Simple function to generate prime numbers."
+is_async: false
+returns: true
+signature:
+  function: generate_first_primes
+  parameters:
+    - arg: 0
+      type: integer
+      minimum: 1
+      exclusiveMinimum: false
+      maximum: 100
+      exclusiveMaximum: false

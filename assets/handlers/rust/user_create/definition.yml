@@ -1,0 +1,30 @@
+import_path: user_create
+description: "Simple CRUD operations for an user entity"
+is_async: true
+returns: true
+depends_on:
+  - name: db:mongo
+    init: seed-user
+signature:
+  function: create_user
+  parameters:
+    - arg: 0
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 64
+        email:
+          type: string
+          minLength: 3
+          maxLength: 64
+        password:
+          type: string
+          minLength: 6
+          maxLength: 48
+      additionalProperties: false
+      required:
+        - username
+        - email
+        - password

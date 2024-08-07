@@ -1,0 +1,15 @@
+async fn {{name}}(client: &hyper::Client<hyper::client::HttpConnector>) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    {{#if requires_data}}
+    let data = {{query_data_func}}();
+    let query = serde_urlencoded::to_string(data)?;
+    {{/if}}
+    let uri = std::env::var("{{host_env_var}}")?;
+    let uri = format!("http://{}{{path}}{{#if requires_data}}?{}{{/if}}", uri{{#if requires_data}}, query{{/if}});
+    let uri: hyper::Uri = uri.parse()?;
+
+    let _response = client.get(uri).await.map_err(|err| {
+        eprintln!("failed to request: {err}");
+        err
+    })?;
+    Ok(())
+}

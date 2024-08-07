@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=63.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "matrix"
+description = "Simple function to invert a random matrix of a given size."
+version = "1.0.0"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.26.0,<1.27.0"]

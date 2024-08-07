@@ -1,0 +1,14 @@
+[package]
+name = "seed-login"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = { version = "0.4.38", features = ["serde"] }
+lazy_static = "1.5.0"
+mongodb = "3.0.1"
+rand = "0.8.5"
+serde = { version = "1.0.204", features = ["derive"] }
+tokio = { version = "1.38.0", features = ["full"] }

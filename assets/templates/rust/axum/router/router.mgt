@@ -1,0 +1,30 @@
+use axum::{
+    Router,
+    http::StatusCode,
+    response::IntoResponse,
+};
+{{#each service_call_imports}}
+{{this.import}}
+{{/each}}
+{{#each handler_func_imports}}
+{{this.import}}
+{{/each}}
+
+
+pub fn router() -> Router {
+    Router::new()
+    {{#each http_post_operations}}
+    .route("{{this.path}}", axum::routing::post({{this.name}}))
+    {{/each}}
+    {{#each http_get_operations}}
+    .route("{{this.path}}", axum::routing::get({{this.name}}))
+    {{/each}}
+}
+
+{{#each http_post_operations}}
+{{>post_operation}}
+{{/each}}
+{{#each http_get_operations}}
+{{>get_operation}}
+{{/each}}
+

@@ -1,0 +1,26 @@
+async fn {{name}}(client: &hyper::Client<hyper::client::HttpConnector>) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    {{#if requires_query_data}}
+    let data = {{query_data_func}}();
+    let query = serde_urlencoded::to_string(data)?;
+    {{/if}}
+    let uri = std::env::var("{{host_env_var}}")?;
+    let uri = format!("http://{}{{path}}{{#if requires_query_data}}?{}{{/if}}", uri{{#if requires_query_data}}, query{{/if}});
+    let uri: hyper::Uri = uri.parse()?;
+
+    let payload = {{body_data_func}}();
+    let payload = serde_json::to_string(&payload).expect("could not serialize payload data");
+
+    let req = hyper::Request::builder()
+        .method(hyper::Method::POST)
+        .uri(uri)
+        .header(hyper::header::CONTENT_TYPE, "application/json")
+        .body(hyper::Body::from(payload))
+        .expect("could not build request");
+
+    let _response = client.request(req).await.map_err(|err| {
+        eprintln!("failed to request: {err}");
+        err
+    })?;
+    Ok(())
+}
+

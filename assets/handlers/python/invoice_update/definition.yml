@@ -1,0 +1,119 @@
+import_path: update_invoice
+description: "Updates the invoice with the given ID."
+is_async: true
+returns: true
+depends_on:
+  - name: db:mongo
+    init: seed-invoice
+signature:
+  function: update_invoice
+  parameters:
+    - arg: 0
+      name: id
+      type: integer
+      minimum: 1
+      maximum: 300000
+    - arg: 1
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              item:
+                type: object
+                properties:
+                  price_in_cents:
+                    type: integer
+                    minimum: 0
+                    exclusiveMinimum: true
+                  name:
+                    type: string
+                    minLength: 1
+                    maxLength: 128
+                additionalProperties: false
+                required:
+                  - price_in_cents
+                  - name
+              quantity:
+                type: integer
+                minimum: 0
+                exclusiveMinimum: true
+            additionalProperties: false
+            required:
+              - item
+              - quantity
+        billing_address:
+          type: object
+          properties:
+            first_name:
+              type: string
+              minLength: 2
+              maxLength: 64
+            last_name:
+              type: string
+              minLength: 2
+              maxLength: 64
+            street:
+              type: string
+              minLength: 2
+              maxLength: 128
+            number:
+              type: integer
+              minimum: 0
+              exclusiveMinimum: true
+            zip_code:
+              type: integer
+            city:
+              type: string
+            country:
+              type: string
+          additionalProperties: false
+          required:
+            - first_name
+            - last_name
+            - street
+            - number
+            - zip_code
+            - city
+            - country
+        shipping_address:
+          type: object
+          properties:
+            first_name:
+              type: string
+              minLength: 2
+              maxLength: 64
+            last_name:
+              type: string
+              minLength: 2
+              maxLength: 64
+            street:
+              type: string
+              minLength: 2
+              maxLength: 128
+            number:
+              type: integer
+              minimum: 0
+              exclusiveMinimum: true
+            zip_code:
+              type: integer
+            city:
+              type: string
+            country:
+              type: string
+          additionalProperties: false
+          required:
+            - first_name
+            - last_name
+            - street
+            - number
+            - zip_code
+            - city
+            - country
+        extra_info:
+          type: string
+          minLength: 0
+          maxLength: 512
+      additionalProperties: false

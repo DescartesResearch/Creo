@@ -1,0 +1,9 @@
+import_path: archive
+description: "Compress a directory into a tarball."
+is_async: true
+returns: false
+signature:
+  function: archive_files
+  parameters:
+    - arg: 0
+      type: boolean

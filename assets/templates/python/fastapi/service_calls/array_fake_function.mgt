@@ -1,0 +1,2 @@
+def {{name}}() -> list[Any]:
+    return [{{fake_func.name}}({{fake_func.args}}) for _ in range({{inclusive_min_items}}, {{exclusive_max_items}})]

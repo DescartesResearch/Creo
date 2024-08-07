@@ -1,0 +1,10 @@
+async def {{name}}(client: httpx.AsyncClient):
+{{#if requires_query_data}}    query = {{query_data_func}}()
+{{/if}}
+    payload = {{body_data_func}}()
+
+    try:
+        _response = await client.post(f"http://{os.getenv('{{host_env_var}}')}{{path}}"{{#if requires_query_data}}, params=query{{/if}}, json=payload)
+    except httpx.RequestError as err:
+        logging.error("An error occurred while requesting %s -> %s.", err.request.method, repr(err.request.url))
+

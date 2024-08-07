@@ -1,0 +1,18 @@
+{{#each post_service_calls}}
+{{>post_service_call}}
+
+
+{{/each}}
+{{#each get_service_calls}}
+{{>get_service_call}}
+
+
+{{/each}}
+
+pub async fn {{name}}(client: hyper::Client<hyper::client::HttpConnector>) {
+        let _ = tokio::join!({{#each post_service_calls}}
+            {{name}}(&client),{{/each}}{{#each get_service_calls}}
+            {{name}}(&client),{{/each}}
+        );
+}
+

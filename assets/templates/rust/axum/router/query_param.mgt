@@ -1,0 +1,9 @@
+{{#if number_validation}}{{#if minimum}}#[validate(minimum={{this}})]
+{{/if}}{{#if maximum}}#[validate(maximum={{this}})]
+{{/if}}{{/if}}{{#if integer_validation}}{{#if minimum}}#[validate(minimum={{this}})]
+{{/if}}{{#if maximum}}#[validate(maximum={{this}})]
+{{/if}}{{/if}}{{#if string_validation}}{{#if min_length}}#[validate(min_length={{this}})]
+{{/if}}{{#if max_length}}#[validate(max_length={{this}})]
+{{/if}}{{#if pattern}}#[validate(pattern=r"{{this}}")]
+{{/if}}{{/if}}
+{{name}}: {{param_type}}

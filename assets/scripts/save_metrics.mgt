@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail # abort on nonzero exit status, unbound variable and don't hide errors within pipes
+
+metrics_folder="${1}/metrics"
+mkdir "${metrics_folder}"
+metric_path=$(readlink -f -- "${metrics_folder}")
+scp -r {{user_name}}@{{worker_ip}}:{{path}}/metrics/* "${metric_path}" >/dev/null
+ssh {{user_name}}@{{worker_ip}} "rm -rf {{path}}/metrics"

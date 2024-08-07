@@ -1,0 +1,13 @@
+import_path: matrix
+description: "Simple function to invert a random matrix of a given size."
+is_async: false
+returns: true
+signature:
+  function: invert_random_matrix
+  parameters:
+    - arg: 0
+      type: integer
+      minimum: 1
+      exclusiveMinimum: false
+      maximum: 50
+      exclusiveMaximum: false

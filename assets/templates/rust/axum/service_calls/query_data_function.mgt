@@ -1,0 +1,17 @@
+fn {{name}}() -> std::collections::HashMap<&'static str, serde_json::Value> {
+    let mut query = std::collections::HashMap::new();
+    let mut rng = rand::thread_rng();
+
+
+    {{#each params}}
+    {{#if nullable}}
+    if rng.gen::<f64>() >= {{exclude_probability}} {
+        query.insert("{{name}}", {{fake_func.name}}({{fake_func.args}}).into());
+    }
+    {{else}}
+    query.insert("{{name}}", {{fake_func.name}}({{fake_func.args}}).into());
+    {{/if}}
+    {{/each}}
+
+    query
+}

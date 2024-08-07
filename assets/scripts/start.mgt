@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+set -euo pipefail # abort on nonzero exit status, unbound variable and don't hide errors within pipes
+
+(
+	script_path=$(dirname -- "${BASH_SOURCE[0]}")
+	script_path=$(readlink -f -- "${script_path}")
+	cd "${script_path}"
+	cd "${1}"
+
+	application_directories=(*/)
+
+	for dir in "${application_directories[@]}"; do
+		# Setup
+		dir_path=$(readlink -f -- "${dir}")
+		dir_name=${dir_path##*/}
+		yaml_file="${dir_path}/load_generator.yml"
+
+		benchmark_duration={{benchmark_duration}}
+		director_threads={{director_threads}}
+		virtual_users={{virtual_users}}
+		timeout={{timeout}}
+
+		# Warmup Variables
+		warmup_pause={{warmup_pause}}
+		warmup_duration={{warmup_duration}}
+		warmup_rps={{warmup_rps}}
+
+		if [ -d "${dir_path}/benchmarks" ]; then rm -rf "${dir_path}/benchmarks"; fi
+		for rps in {{rps}}; do
+			for ((iteration = 1; iteration <= {{iterations}}; iteration++)); do
+				bash "${dir_path}/init.sh" {{records}}
+				echo "Starting application \`${dir_name}\` ..."
+				(
+					cd "${dir_path}"
+					./start_application.sh
+				)
+				echo "[INFO] Successfully started application \`${dir_name}\`!"
+				echo "[INFO] Starting benchmark run #${iteration} with RPS ${rps} for \`${dir_name}\` ..."
+				benchmark_folder="benchmarks/rps-${rps}/run-${iteration}"
+				benchmark_run="${dir_path}/${benchmark_folder}"
+				mkdir -p "${benchmark_run}"
+				(
+					cd "${script_path}"
+					cd "../load_generator"
+					YAML_PATH=${yaml_file} BENCHMARK_RUN=${benchmark_run} START_RPS=$rps END_RPS=$rps BENCHMARK_DURATION=${benchmark_duration} DIRECTOR_THREADS=${director_threads} VIRTUAL_USERS=${virtual_users} TIMEOUT=${timeout} WARMUP_PAUSE=${warmup_pause} WARMUP_DURATION=${warmup_duration} WARMUP_RPS=${warmup_rps} docker compose -p ${dir_name} up --build --abort-on-container-exit --force-recreate
+				)
+				echo "[INFO] Finished benchmark run #${iteration} with RPS ${rps} for \`${dir_name}\`!"
+				echo "[INFO] Stopping application \`${dir_name}\` ..."
+				(
+					cd "${dir_path}"
+					./stop_application.sh
+				)
+				echo "[INFO] Successfully stopped application \`${dir_name}\`!"
+				echo "[INFO] Saving collected metrics for application \`${dir_name}\`"
+				(
+					cd "${dir_path}"
+					./save_metrics.sh "${benchmark_folder}"
+				)
+				echo "[INFO] Successfully saved collected metrics for application \`${dir_name}\`"
+			done
+		done
+	done
+)

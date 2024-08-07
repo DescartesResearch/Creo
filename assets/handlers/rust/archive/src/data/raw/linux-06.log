@@ -1,0 +1,2502 @@
+Nov 22 08:55:25 combo kernel: Out of Memory: Killed process 874 (python).
+Nov 22 09:00:17 combo kernel: Out of Memory: Killed process 875 (httpd).
+Nov 22 09:05:20 combo kernel: Out of Memory: Killed process 885 (httpd).
+Nov 22 09:10:32 combo kernel: Out of Memory: Killed process 904 (httpd).
+Nov 22 09:10:37 combo kernel: Out of Memory: Killed process 912 (python).
+Nov 22 09:15:25 combo kernel: Out of Memory: Killed process 915 (httpd).
+Nov 22 09:15:30 combo kernel: Out of Memory: Killed process 927 (python).
+Nov 22 09:20:25 combo kernel: Out of Memory: Killed process 930 (httpd).
+Nov 22 09:20:32 combo kernel: Out of Memory: Killed process 941 (python).
+Nov 22 09:25:24 combo kernel: Out of Memory: Killed process 945 (httpd).
+Nov 22 09:25:29 combo kernel: Out of Memory: Killed process 955 (python).
+Nov 22 09:25:40 combo kernel: Out of Memory: Killed process 957 (httpd).
+Nov 22 09:25:55 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 09:25:55 combo kernel: Call Trace:
+Nov 22 09:25:55 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:25:55 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 09:25:55 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 22 09:25:55 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 22 09:25:55 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 09:25:55 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 09:25:55 combo kernel:  [<0211c38d>] proc_dointvec+0x11/0x15
+Nov 22 09:25:55 combo kernel:  [<0211c01d>] do_proc_dointvec_conv+0x0/0x36
+Nov 22 09:25:55 combo kernel:  [<0211bdc5>] do_rw_proc+0x79/0x8d
+Nov 22 09:25:55 combo kernel:  [<02142d47>] invalidate_inode_buffers+0x9/0x33
+Nov 22 09:25:55 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:25:55 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 22 09:25:56 combo kernel:  [<0215242b>] dput+0x12c/0x13a
+Nov 22 09:25:56 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:25:56 combo kernel:
+Nov 22 09:25:56 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 09:25:57 combo kernel: Call Trace:
+Nov 22 09:25:57 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:25:57 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 09:25:58 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 22 09:25:58 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 09:25:59 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 09:25:59 combo kernel:  [<0211c38d>] proc_dointvec+0x11/0x15
+Nov 22 09:25:59 combo kernel:  [<0211c01d>] do_proc_dointvec_conv+0x0/0x36
+Nov 22 09:26:00 combo kernel:  [<0211bdc5>] do_rw_proc+0x79/0x8d
+Nov 22 09:26:00 combo kernel:  [<02142d47>] invalidate_inode_buffers+0x9/0x33
+Nov 22 09:26:01 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:26:01 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 22 09:26:01 combo kernel:  [<0215242b>] dput+0x12c/0x13a
+Nov 22 09:26:02 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:26:02 combo kernel:
+Nov 22 09:26:02 combo kernel: VM: killing process httpd
+Nov 22 09:26:05 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 09:26:05 combo kernel: Call Trace:
+Nov 22 09:26:05 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:26:06 combo kernel:  [<0212d1de>] generic_file_aio_write_nolock+0x4fe/0x84e
+Nov 22 09:26:06 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 22 09:26:06 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 22 09:26:07 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 22 09:26:07 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 22 09:26:07 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 22 09:26:08 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 22 09:26:08 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 22 09:26:08 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 22 09:26:09 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 22 09:26:09 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 22 09:26:09 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 22 09:26:09 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 22 09:26:09 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 22 09:26:10 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 22 09:26:10 combo kernel:  [<0211c38d>] proc_dointvec+0x11/0x15
+Nov 22 09:26:10 combo kernel:  [<0211c01d>] do_proc_dointvec_conv+0x0/0x36
+Nov 22 09:26:10 combo kernel:  [<0211bdc5>] do_rw_proc+0x79/0x8d
+Nov 22 09:26:11 combo kernel:  [<02142d47>] invalidate_inode_buffers+0x9/0x33
+Nov 22 09:26:11 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:26:11 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 22 09:26:11 combo kernel:  [<0215242b>] dput+0x12c/0x13a
+Nov 22 09:26:12 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:26:12 combo kernel:
+Nov 22 09:30:23 combo kernel: Out of Memory: Killed process 958 (httpd).
+Nov 22 09:30:47 combo kernel: Out of Memory: Killed process 966 (python).
+Nov 22 09:31:02 combo kernel: Out of Memory: Killed process 971 (httpd).
+Nov 22 09:31:14 combo kernel: Out of Memory: Killed process 972 (httpd).
+Nov 22 09:31:19 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 09:31:19 combo kernel: Call Trace:
+Nov 22 09:31:19 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:31:19 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 09:31:19 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 22 09:31:19 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 22 09:31:19 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 09:31:19 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 09:31:19 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 09:31:19 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 09:31:19 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:31:19 combo kernel:
+Nov 22 09:31:19 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 09:31:21 combo kernel: Call Trace:
+Nov 22 09:31:22 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:31:23 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 09:31:24 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 22 09:31:26 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 09:31:27 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 09:31:29 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 09:31:30 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 09:31:31 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:31:32 combo kernel:
+Nov 22 09:31:32 combo kernel: VM: killing process httpd
+Nov 22 09:31:33 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 22 09:31:34 combo kernel: Call Trace:
+Nov 22 09:31:34 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:31:35 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 22 09:31:35 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 22 09:31:36 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 22 09:31:36 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 22 09:31:37 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 22 09:31:37 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 22 09:31:38 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 22 09:31:38 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 22 09:31:38 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 22 09:31:39 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 22 09:31:39 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 22 09:31:40 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 22 09:31:41 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 22 09:31:41 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 22 09:31:42 combo last message repeated 2 times
+Nov 22 09:31:42 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 22 09:31:42 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 22 09:31:43 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 22 09:31:43 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 22 09:31:43 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 22 09:31:44 combo kernel:  [<021295e4>] check_free_space+0x1b5/0x1cb
+Nov 22 09:31:44 combo kernel:  [<0210737b>] do_IRQ+0x15d/0x169
+Nov 22 09:31:44 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 22 09:31:45 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 22 09:31:45 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 22 09:31:45 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 22 09:31:45 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 09:31:45 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 09:31:46 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:31:46 combo kernel:
+Nov 22 09:31:46 combo kernel: Out of Memory: Killed process 973 (httpd).
+Nov 22 09:35:20 combo kernel: Out of Memory: Killed process 974 (httpd).
+Nov 22 09:35:26 combo kernel: Out of Memory: Killed process 982 (python).
+Nov 22 09:35:34 combo kernel: Out of Memory: Killed process 985 (httpd).
+Nov 22 09:35:35 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 09:35:35 combo kernel: Call Trace:
+Nov 22 09:35:35 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:35:35 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 09:35:35 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 09:35:35 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 09:35:35 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 09:35:35 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 09:35:35 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 09:35:35 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 09:35:35 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:35:39 combo kernel:
+Nov 22 09:35:41 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 09:35:45 combo kernel: Call Trace:
+Nov 22 09:35:47 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:35:48 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 09:35:50 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 09:35:56 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 09:35:58 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 09:35:58 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 09:35:59 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 09:35:59 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 09:36:00 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:36:00 combo kernel:
+Nov 22 09:36:01 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 09:36:01 combo kernel: Call Trace:
+Nov 22 09:36:02 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:36:02 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 22 09:36:02 combo kernel:  [<0212c784>] filemap_nopage+0x182/0x26d
+Nov 22 09:36:03 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 09:36:03 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 09:36:04 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 09:36:04 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 09:36:04 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 09:36:05 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:36:05 combo kernel:
+Nov 22 09:36:06 combo kernel: VM: killing process httpd
+Nov 22 09:36:06 combo kernel: Out of Memory: Killed process 986 (httpd).
+Nov 22 09:36:06 combo kernel: Out of Memory: Killed process 508 (sendmail).
+Nov 22 09:36:07 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 09:36:07 combo kernel: Call Trace:
+Nov 22 09:36:07 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 09:36:08 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 09:36:08 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 09:36:08 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 09:36:09 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 09:36:09 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 09:36:09 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 09:36:10 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 09:36:10 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 09:36:10 combo kernel:
+Nov 22 09:36:10 combo kernel: Out of Memory: Killed process 630 (sendmail).
+Nov 22 10:25:28 combo kernel: Out of Memory: Killed process 987 (httpd).
+Nov 22 10:35:16 combo kernel: Out of Memory: Killed process 1013 (httpd).
+Nov 22 10:35:26 combo kernel: Out of Memory: Killed process 1103 (python).
+Nov 22 10:40:21 combo kernel: Out of Memory: Killed process 1104 (httpd).
+Nov 22 10:40:29 combo kernel: Out of Memory: Killed process 1109 (python).
+Nov 22 10:45:14 combo kernel: Out of Memory: Killed process 1112 (httpd).
+Nov 22 10:45:29 combo kernel: Out of Memory: Killed process 1116 (python).
+Nov 22 10:50:18 combo kernel: Out of Memory: Killed process 1118 (httpd).
+Nov 22 11:00:15 combo kernel: Out of Memory: Killed process 1126 (httpd).
+Nov 22 11:00:23 combo kernel: Out of Memory: Killed process 1134 (python).
+Nov 22 11:10:25 combo kernel: Out of Memory: Killed process 1138 (httpd).
+Nov 22 11:10:32 combo kernel: Out of Memory: Killed process 1162 (python).
+Nov 22 11:15:28 combo kernel: Out of Memory: Killed process 1166 (httpd).
+Nov 22 11:15:41 combo kernel: Out of Memory: Killed process 1178 (python).
+Nov 22 11:20:23 combo kernel: Out of Memory: Killed process 1179 (httpd).
+Nov 22 11:20:27 combo kernel: Out of Memory: Killed process 1188 (python).
+Nov 22 11:25:22 combo kernel: Out of Memory: Killed process 1194 (httpd).
+Nov 22 11:25:28 combo kernel: Out of Memory: Killed process 1208 (python).
+Nov 22 11:25:37 combo kernel: Out of Memory: Killed process 1212 (httpd).
+Nov 22 11:30:26 combo kernel: Out of Memory: Killed process 1213 (httpd).
+Nov 22 11:30:35 combo kernel: Out of Memory: Killed process 1227 (python).
+Nov 22 11:30:48 combo kernel: Out of Memory: Killed process 1231 (httpd).
+Nov 22 11:30:51 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 11:30:51 combo kernel: Call Trace:
+Nov 22 11:30:51 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 11:30:51 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 11:30:51 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 11:30:51 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 11:30:51 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 11:30:51 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 11:30:51 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 11:30:51 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 22 11:30:51 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 11:30:51 combo kernel:  [<0210737b>] do_IRQ+0x15d/0x169
+Nov 22 11:30:52 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 11:30:54 combo kernel:
+Nov 22 11:30:55 combo kernel: Out of Memory: Killed process 764 (sendmail).
+Nov 22 11:40:17 combo kernel: Out of Memory: Killed process 1233 (httpd).
+Nov 22 11:50:16 combo kernel: Out of Memory: Killed process 1257 (httpd).
+Nov 22 11:50:22 combo kernel: Out of Memory: Killed process 1267 (python).
+Nov 22 12:00:18 combo kernel: Out of Memory: Killed process 1269 (httpd).
+Nov 22 12:05:18 combo kernel: Out of Memory: Killed process 1283 (httpd).
+Nov 22 12:05:26 combo kernel: Out of Memory: Killed process 1300 (python).
+Nov 22 12:10:25 combo kernel: Out of Memory: Killed process 1302 (httpd).
+Nov 22 12:10:35 combo kernel: Out of Memory: Killed process 1309 (python).
+Nov 22 12:15:25 combo kernel: Out of Memory: Killed process 1313 (httpd).
+Nov 22 12:15:34 combo kernel: Out of Memory: Killed process 1322 (python).
+Nov 22 12:20:32 combo kernel: Out of Memory: Killed process 1323 (httpd).
+Nov 22 12:20:40 combo kernel: Out of Memory: Killed process 1345 (python).
+Nov 22 12:25:22 combo kernel: Out of Memory: Killed process 1349 (httpd).
+Nov 22 12:25:28 combo kernel: Out of Memory: Killed process 1359 (python).
+Nov 22 12:25:39 combo kernel: Out of Memory: Killed process 1361 (httpd).
+Nov 22 12:25:51 combo kernel: Out of Memory: Killed process 905 (sendmail).
+Nov 22 12:25:54 combo kernel: sendmail: page allocation failure. order:0, mode:0x1d2
+Nov 22 12:25:54 combo kernel: Call Trace:
+Nov 22 12:25:54 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 12:25:54 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 12:25:54 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 12:25:54 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 12:25:54 combo kernel:  [<021359c3>] do_wp_page+0x97/0x21c
+Nov 22 12:25:54 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 12:25:54 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 12:25:54 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 22 12:25:54 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 12:25:54 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 12:25:55 combo kernel:  [<0214201b>] __fput+0xb3/0xd1
+Nov 22 12:25:56 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 12:25:56 combo kernel:
+Nov 22 12:25:57 combo kernel: sendmail: page allocation failure. order:0, mode:0x1d2
+Nov 22 12:25:57 combo kernel: Call Trace:
+Nov 22 12:25:58 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 12:25:58 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 12:25:59 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 12:25:59 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 12:26:00 combo kernel:  [<021359c3>] do_wp_page+0x97/0x21c
+Nov 22 12:26:00 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 12:26:00 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 12:26:01 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 22 12:26:02 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 12:26:02 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 12:26:03 combo kernel:  [<0214201b>] __fput+0xb3/0xd1
+Nov 22 12:26:03 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 12:26:03 combo kernel:
+Nov 22 12:26:37 combo sshd(pam_unix)[1370]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1369]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1383]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1371]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1372]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1381]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1366]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1367]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1368]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:26:37 combo sshd(pam_unix)[1365]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=c-67-176-148-16.hsd1.il.comcast.net  user=root
+Nov 22 12:40:21 combo kernel: Out of Memory: Killed process 1364 (httpd).
+Nov 22 12:40:55 combo kernel: Out of Memory: Killed process 1416 (python).
+Nov 22 12:45:16 combo kernel: Out of Memory: Killed process 1418 (httpd).
+Nov 22 12:45:24 combo kernel: Out of Memory: Killed process 1421 (python).
+Nov 22 13:00:11 combo kernel: Out of Memory: Killed process 1423 (httpd).
+Nov 22 13:00:17 combo kernel: Out of Memory: Killed process 1438 (python).
+Nov 22 13:05:14 combo kernel: Out of Memory: Killed process 1442 (httpd).
+Nov 22 13:05:20 combo kernel: Out of Memory: Killed process 1460 (python).
+Nov 22 13:10:21 combo kernel: Out of Memory: Killed process 1461 (httpd).
+Nov 22 13:10:41 combo kernel: Out of Memory: Killed process 1468 (python).
+Nov 22 13:15:29 combo kernel: Out of Memory: Killed process 1475 (httpd).
+Nov 22 13:15:35 combo kernel: Out of Memory: Killed process 1490 (python).
+Nov 22 13:20:25 combo kernel: Out of Memory: Killed process 1493 (httpd).
+Nov 22 13:20:32 combo kernel: Out of Memory: Killed process 1502 (python).
+Nov 22 13:25:23 combo kernel: Out of Memory: Killed process 1508 (httpd).
+Nov 22 13:25:30 combo kernel: Out of Memory: Killed process 1522 (python).
+Nov 22 13:25:46 combo kernel: Out of Memory: Killed process 1526 (httpd).
+Nov 22 13:30:30 combo kernel: Out of Memory: Killed process 1527 (httpd).
+Nov 22 13:30:41 combo kernel: Out of Memory: Killed process 1536 (python).
+Nov 22 13:30:55 combo kernel: Out of Memory: Killed process 1538 (httpd).
+Nov 22 13:31:01 combo kernel: Out of Memory: Killed process 1539 (httpd).
+Nov 22 13:31:09 combo kernel: Out of Memory: Killed process 1535 (mrtg).
+Nov 22 13:31:14 combo kernel: Out of Memory: Killed process 1039 (sendmail).
+Nov 22 13:40:17 combo kernel: Out of Memory: Killed process 1543 (httpd).
+Nov 22 13:40:23 combo kernel: Out of Memory: Killed process 1563 (python).
+Nov 22 13:45:15 combo kernel: Out of Memory: Killed process 1568 (httpd).
+Nov 22 13:45:20 combo kernel: Out of Memory: Killed process 1571 (python).
+Nov 22 13:50:16 combo kernel: Out of Memory: Killed process 1573 (httpd).
+Nov 22 13:50:23 combo kernel: Out of Memory: Killed process 1579 (python).
+Nov 22 14:00:18 combo kernel: Out of Memory: Killed process 1581 (httpd).
+Nov 22 14:00:24 combo kernel: Out of Memory: Killed process 1590 (python).
+Nov 22 14:10:21 combo kernel: Out of Memory: Killed process 1594 (httpd).
+Nov 22 14:10:29 combo kernel: Out of Memory: Killed process 1619 (python).
+Nov 22 14:15:22 combo kernel: Out of Memory: Killed process 1622 (httpd).
+Nov 22 14:15:36 combo kernel: Out of Memory: Killed process 1633 (python).
+Nov 22 14:20:21 combo kernel: Out of Memory: Killed process 1634 (httpd).
+Nov 22 14:20:29 combo kernel: Out of Memory: Killed process 1647 (python).
+Nov 22 14:25:19 combo kernel: Out of Memory: Killed process 1653 (httpd).
+Nov 22 14:25:24 combo kernel: Out of Memory: Killed process 1666 (python).
+Nov 22 14:25:35 combo kernel: Out of Memory: Killed process 1667 (httpd).
+Nov 22 14:30:25 combo kernel: Out of Memory: Killed process 1668 (httpd).
+Nov 22 14:30:45 combo kernel: Out of Memory: Killed process 1682 (python).
+Nov 22 14:30:56 combo kernel: Out of Memory: Killed process 1686 (httpd).
+Nov 22 14:31:04 combo kernel: Out of Memory: Killed process 1687 (httpd).
+Nov 22 14:31:09 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 14:31:09 combo kernel: Call Trace:
+Nov 22 14:31:09 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:31:09 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 14:31:09 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 14:31:09 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 14:31:09 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 14:31:09 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:31:09 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 14:31:09 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 14:31:09 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:31:09 combo kernel:
+Nov 22 14:31:10 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 14:31:11 combo kernel: Call Trace:
+Nov 22 14:31:13 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:31:14 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 14:31:15 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 22 14:31:16 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 22 14:31:18 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 14:31:19 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:31:20 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 14:31:21 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 14:31:23 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:31:24 combo kernel:
+Nov 22 14:31:25 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 14:31:27 combo kernel: Call Trace:
+Nov 22 14:31:29 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:31:35 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 14:31:36 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 22 14:31:37 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 14:31:37 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:31:38 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 14:31:38 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 14:31:39 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:31:39 combo kernel:
+Nov 22 14:31:40 combo kernel: VM: killing process httpd
+Nov 22 14:31:40 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 22 14:31:41 combo kernel: Call Trace:
+Nov 22 14:31:42 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:31:42 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 22 14:31:43 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 22 14:31:44 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 22 14:31:44 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 22 14:31:45 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 22 14:31:45 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 22 14:31:46 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 22 14:31:46 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 22 14:31:47 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 22 14:31:47 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 22 14:31:48 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 22 14:31:48 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 22 14:31:48 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 22 14:31:49 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 22 14:31:49 combo last message repeated 3 times
+Nov 22 14:31:50 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 22 14:31:50 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 22 14:31:50 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 22 14:31:50 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 22 14:31:51 combo kernel:  [<021c8b76>] vt_console_print+0x0/0x28f
+Nov 22 14:31:51 combo kernel:  [<02118726>] __call_console_drivers+0x36/0x42
+Nov 22 14:31:51 combo kernel:  [<02118840>] call_console_drivers+0xbe/0xe3
+Nov 22 14:31:51 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 22 14:31:52 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 22 14:31:52 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 22 14:31:52 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 22 14:31:52 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 22 14:31:52 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 22 14:31:52 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 22 14:31:53 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 14:31:53 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 14:31:53 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:31:53 combo kernel:
+Nov 22 14:31:54 combo kernel: Out of Memory: Killed process 1688 (httpd).
+Nov 22 14:31:54 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 14:31:54 combo kernel: Call Trace:
+Nov 22 14:31:54 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:31:55 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 14:31:55 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 14:31:55 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 14:31:55 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 14:31:56 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:31:56 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 22 14:31:56 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 14:31:56 combo kernel:  [<021208bf>] sys_rt_sigaction+0x6b/0x80
+Nov 22 14:31:57 combo kernel:  [<0213f3d3>] get_user_size+0x30/0x57
+Nov 22 14:31:57 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:31:58 combo kernel:
+Nov 22 14:31:58 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 14:31:59 combo kernel: Call Trace:
+Nov 22 14:31:59 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:31:59 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 14:32:00 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 14:32:00 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 14:32:00 combo kernel:  [<021359c3>] do_wp_page+0x97/0x21c
+Nov 22 14:32:00 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 14:32:01 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:32:01 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 22 14:32:01 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 14:32:02 combo kernel:  [<021208bf>] sys_rt_sigaction+0x6b/0x80
+Nov 22 14:32:02 combo kernel:  [<0213f3d3>] get_user_size+0x30/0x57
+Nov 22 14:32:02 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:02 combo kernel:
+Nov 22 14:32:03 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 14:32:03 combo kernel: Call Trace:
+Nov 22 14:32:03 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:32:04 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 22 14:32:04 combo kernel:  [<0212c784>] filemap_nopage+0x182/0x26d
+Nov 22 14:32:04 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 14:32:05 combo kernel:  [<021359c3>] do_wp_page+0x97/0x21c
+Nov 22 14:32:05 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 14:32:05 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:32:05 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 22 14:32:05 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 14:32:06 combo kernel:  [<021208bf>] sys_rt_sigaction+0x6b/0x80
+Nov 22 14:32:06 combo kernel:  [<0213f3d3>] get_user_size+0x30/0x57
+Nov 22 14:32:06 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:06 combo kernel:
+Nov 22 14:32:07 combo kernel: VM: killing process httpd
+Nov 22 14:32:07 combo kernel: Out of Memory: Killed process 1689 (httpd).
+Nov 22 14:32:07 combo kernel: Out of Memory: Killed process 1157 (sendmail).
+Nov 22 14:32:07 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 14:32:08 combo kernel: Call Trace:
+Nov 22 14:32:08 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:32:09 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 14:32:09 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 22 14:32:10 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 22 14:32:10 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 14:32:10 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:32:10 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 22 14:32:11 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 14:32:13 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:13 combo kernel:
+Nov 22 14:32:13 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 14:32:13 combo kernel: Call Trace:
+Nov 22 14:32:14 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:32:14 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 14:32:14 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 22 14:32:14 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 14:32:15 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:32:15 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 22 14:32:15 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 14:32:16 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:16 combo kernel:
+Nov 22 14:32:16 combo kernel: VM: killing process httpd
+Nov 22 14:32:16 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 22 14:32:16 combo kernel: Call Trace:
+Nov 22 14:32:17 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:32:17 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 22 14:32:17 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 22 14:32:17 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 22 14:32:18 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 22 14:32:18 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 22 14:32:18 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 22 14:32:18 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 22 14:32:19 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 22 14:32:19 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 22 14:32:19 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 22 14:32:19 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 22 14:32:20 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 22 14:32:20 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 22 14:32:20 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 22 14:32:21 combo last message repeated 3 times
+Nov 22 14:32:21 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 22 14:32:21 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 22 14:32:21 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 22 14:32:22 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 22 14:32:22 combo kernel:  [<021295e4>] check_free_space+0x1b5/0x1cb
+Nov 22 14:32:22 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 22 14:32:22 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 22 14:32:23 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 22 14:32:23 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 22 14:32:23 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 22 14:32:23 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 22 14:32:23 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 14:32:23 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:23 combo kernel:
+Nov 22 14:32:24 combo kernel: sendmail: page allocation failure. order:0, mode:0x1d2
+Nov 22 14:32:24 combo kernel: Call Trace:
+Nov 22 14:32:24 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:32:24 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 14:32:25 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 14:32:25 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 14:32:25 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 14:32:25 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:32:26 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 22 14:32:26 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 14:32:26 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:26 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 22 14:32:27 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:27 combo kernel:
+Nov 22 14:32:27 combo kernel: sendmail: page allocation failure. order:0, mode:0x1d2
+Nov 22 14:32:27 combo kernel: Call Trace:
+Nov 22 14:32:28 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:32:28 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 14:32:28 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 14:32:28 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 14:32:29 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 14:32:29 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:32:29 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 22 14:32:30 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 14:32:30 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:30 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 22 14:32:30 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:31 combo kernel:
+Nov 22 14:32:31 combo kernel: sendmail: page allocation failure. order:0, mode:0x1d2
+Nov 22 14:32:31 combo kernel: Call Trace:
+Nov 22 14:32:31 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 14:32:32 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 22 14:32:32 combo kernel:  [<0212c784>] filemap_nopage+0x182/0x26d
+Nov 22 14:32:32 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 14:32:32 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 14:32:33 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 14:32:33 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 22 14:32:33 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 14:32:33 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:33 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 22 14:32:34 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 14:32:34 combo kernel:
+Nov 22 14:32:34 combo kernel: VM: killing process sendmail
+Nov 22 14:40:18 combo kernel: Out of Memory: Killed process 1691 (httpd).
+Nov 22 14:40:26 combo kernel: Out of Memory: Killed process 1706 (python).
+Nov 22 14:45:13 combo kernel: Out of Memory: Killed process 1710 (httpd).
+Nov 22 14:45:20 combo kernel: Out of Memory: Killed process 1714 (python).
+Nov 22 14:50:23 combo kernel: Out of Memory: Killed process 1715 (httpd).
+Nov 22 14:55:18 combo kernel: Out of Memory: Killed process 1724 (httpd).
+Nov 22 15:00:18 combo kernel: Out of Memory: Killed process 1729 (httpd).
+Nov 22 15:00:28 combo kernel: Out of Memory: Killed process 1734 (python).
+Nov 22 15:10:23 combo kernel: Out of Memory: Killed process 1737 (httpd).
+Nov 22 15:10:31 combo kernel: Out of Memory: Killed process 1765 (python).
+Nov 22 15:15:20 combo kernel: Out of Memory: Killed process 1767 (httpd).
+Nov 22 15:15:26 combo kernel: Out of Memory: Killed process 1775 (python).
+Nov 22 15:20:25 combo kernel: Out of Memory: Killed process 1779 (httpd).
+Nov 22 15:20:41 combo kernel: Out of Memory: Killed process 1792 (python).
+Nov 22 15:25:25 combo kernel: Out of Memory: Killed process 1796 (httpd).
+Nov 22 15:25:33 combo kernel: Out of Memory: Killed process 1797 (httpd).
+Nov 22 15:25:38 combo kernel: Out of Memory: Killed process 1805 (python).
+Nov 22 15:25:57 combo kernel: Out of Memory: Killed process 1807 (httpd).
+Nov 22 15:30:25 combo kernel: Out of Memory: Killed process 1808 (httpd).
+Nov 22 15:30:33 combo kernel: Out of Memory: Killed process 1824 (python).
+Nov 22 15:30:44 combo kernel: Out of Memory: Killed process 1831 (httpd).
+Nov 22 15:30:51 combo kernel: Out of Memory: Killed process 1303 (sendmail).
+Nov 22 15:35:22 combo kernel: Out of Memory: Killed process 1833 (httpd).
+Nov 22 15:40:23 combo kernel: Out of Memory: Killed process 1841 (httpd).
+Nov 22 15:40:33 combo kernel: Out of Memory: Killed process 1850 (python).
+Nov 22 15:45:24 combo kernel: Out of Memory: Killed process 1859 (httpd).
+Nov 22 15:45:34 combo kernel: Out of Memory: Killed process 1860 (httpd).
+Nov 22 15:45:44 combo kernel: Out of Memory: Killed process 1854 (httpd).
+Nov 22 15:46:08 combo kernel: Out of Memory: Killed process 1855 (httpd).
+Nov 22 15:50:15 combo kernel: Out of Memory: Killed process 1856 (httpd).
+Nov 22 15:50:27 combo kernel: Out of Memory: Killed process 1857 (httpd).
+Nov 22 15:50:36 combo kernel: Out of Memory: Killed process 1858 (httpd).
+Nov 22 15:55:16 combo kernel: Out of Memory: Killed process 1861 (httpd).
+Nov 22 15:55:25 combo kernel: Out of Memory: Killed process 1876 (python).
+Nov 22 16:00:17 combo kernel: Out of Memory: Killed process 1877 (httpd).
+Nov 22 16:05:16 combo kernel: Out of Memory: Killed process 1885 (httpd).
+Nov 22 16:05:25 combo kernel: Out of Memory: Killed process 1886 (httpd).
+Nov 22 16:05:33 combo kernel: Out of Memory: Killed process 1904 (python).
+Nov 22 16:10:20 combo kernel: Out of Memory: Killed process 1905 (httpd).
+Nov 22 16:10:26 combo kernel: Out of Memory: Killed process 1913 (python).
+Nov 22 16:15:23 combo kernel: Out of Memory: Killed process 1915 (httpd).
+Nov 22 16:15:31 combo kernel: Out of Memory: Killed process 1922 (python).
+Nov 22 16:20:21 combo kernel: Out of Memory: Killed process 1925 (httpd).
+Nov 22 16:20:31 combo kernel: Out of Memory: Killed process 1937 (python).
+Nov 22 16:20:52 combo kernel: Out of Memory: Killed process 1941 (httpd).
+Nov 22 16:25:22 combo kernel: Out of Memory: Killed process 1942 (httpd).
+Nov 22 16:25:30 combo kernel: Out of Memory: Killed process 1945 (httpd).
+Nov 22 16:25:41 combo kernel: Out of Memory: Killed process 1952 (python).
+Nov 22 16:25:57 combo kernel: Out of Memory: Killed process 1953 (httpd).
+Nov 22 16:26:12 combo kernel: Out of Memory: Killed process 1954 (httpd).
+Nov 22 16:26:40 combo kernel: Out of Memory: Killed process 1955 (httpd).
+Nov 22 16:26:46 combo kernel: Out of Memory: Killed process 1462 (sendmail).
+Nov 22 16:40:20 combo kernel: Out of Memory: Killed process 1957 (httpd).
+Nov 22 16:40:32 combo kernel: Out of Memory: Killed process 1986 (python).
+Nov 22 16:50:27 combo kernel: Out of Memory: Killed process 1991 (httpd).
+Nov 22 16:55:16 combo kernel: Out of Memory: Killed process 2005 (httpd).
+Nov 22 16:55:22 combo kernel: Out of Memory: Killed process 2008 (python).
+Nov 22 17:00:19 combo kernel: Out of Memory: Killed process 2010 (httpd).
+Nov 22 17:00:27 combo kernel: Out of Memory: Killed process 2011 (httpd).
+Nov 22 17:00:38 combo kernel: Out of Memory: Killed process 2015 (python).
+Nov 22 17:10:29 combo kernel: Out of Memory: Killed process 2019 (httpd).
+Nov 22 17:10:35 combo kernel: Out of Memory: Killed process 2045 (python).
+Nov 22 17:15:23 combo kernel: Out of Memory: Killed process 2049 (httpd).
+Nov 22 17:15:36 combo kernel: Out of Memory: Killed process 2060 (python).
+Nov 22 17:20:21 combo kernel: Out of Memory: Killed process 2065 (httpd).
+Nov 22 17:20:25 combo kernel: Out of Memory: Killed process 2080 (python).
+Nov 22 17:20:39 combo kernel: Out of Memory: Killed process 2083 (httpd).
+Nov 22 17:25:22 combo kernel: Out of Memory: Killed process 2084 (httpd).
+Nov 22 17:25:32 combo kernel: Out of Memory: Killed process 2095 (python).
+Nov 22 17:25:49 combo kernel: Out of Memory: Killed process 2097 (httpd).
+Nov 22 17:25:54 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 17:25:54 combo kernel: Call Trace:
+Nov 22 17:25:54 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 17:25:54 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 17:25:54 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 22 17:25:54 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 22 17:25:54 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 17:25:54 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 17:25:54 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 17:25:54 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 22 17:25:54 combo kernel:  [<0213f3d3>] get_user_size+0x30/0x57
+Nov 22 17:25:54 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 17:25:54 combo kernel:
+Nov 22 17:25:55 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 17:25:56 combo kernel: Call Trace:
+Nov 22 17:25:58 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 17:26:00 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 17:26:02 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 22 17:26:03 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 17:26:03 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 17:26:04 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 17:26:04 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 22 17:26:05 combo kernel:  [<0213f3d3>] get_user_size+0x30/0x57
+Nov 22 17:26:05 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 17:26:06 combo kernel:
+Nov 22 17:26:06 combo kernel: VM: killing process httpd
+Nov 22 17:26:06 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 22 17:26:07 combo kernel: Call Trace:
+Nov 22 17:26:07 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 17:26:08 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 22 17:26:08 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 22 17:26:09 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 22 17:26:09 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 22 17:26:10 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 22 17:26:11 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 22 17:26:11 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 22 17:26:11 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 22 17:26:12 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 22 17:26:12 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 22 17:26:13 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 22 17:26:14 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 22 17:26:14 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 22 17:26:14 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 22 17:26:15 combo last message repeated 2 times
+Nov 22 17:26:15 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 22 17:26:16 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 22 17:26:16 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 22 17:26:16 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 22 17:26:17 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 22 17:26:18 combo kernel:  [<021295e4>] check_free_space+0x1b5/0x1cb
+Nov 22 17:26:18 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 22 17:26:18 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 22 17:26:19 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 22 17:26:19 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 22 17:26:19 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 22 17:26:19 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 22 17:26:19 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 22 17:26:20 combo kernel:  [<0213f3d3>] get_user_size+0x30/0x57
+Nov 22 17:26:21 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 17:26:21 combo kernel:
+Nov 22 17:30:26 combo kernel: Out of Memory: Killed process 2098 (httpd).
+Nov 22 17:30:37 combo kernel: Out of Memory: Killed process 2117 (python).
+Nov 22 17:30:51 combo kernel: Out of Memory: Killed process 2120 (httpd).
+Nov 22 17:31:00 combo kernel: Out of Memory: Killed process 2121 (httpd).
+Nov 22 17:31:06 combo kernel: Out of Memory: Killed process 1613 (sendmail).
+Nov 22 17:31:11 combo kernel: Out of Memory: Killed process 1758 (sendmail).
+Nov 22 18:25:23 combo kernel: Out of Memory: Killed process 2124 (httpd).
+Nov 22 18:30:45 combo kernel: Out of Memory: Killed process 2221 (httpd).
+Nov 22 18:35:27 combo kernel: Out of Memory: Killed process 2235 (httpd).
+Nov 22 18:35:33 combo kernel: Out of Memory: Killed process 2242 (python).
+Nov 22 18:40:16 combo kernel: Out of Memory: Killed process 2243 (httpd).
+Nov 22 18:45:19 combo kernel: Out of Memory: Killed process 2253 (httpd).
+Nov 22 18:45:33 combo kernel: Out of Memory: Killed process 2256 (python).
+Nov 22 18:50:15 combo kernel: Out of Memory: Killed process 2258 (httpd).
+Nov 22 18:50:28 combo kernel: Out of Memory: Killed process 2259 (httpd).
+Nov 22 18:50:35 combo kernel: Out of Memory: Killed process 2267 (python).
+Nov 22 18:55:20 combo kernel: Out of Memory: Killed process 2270 (httpd).
+Nov 22 18:55:34 combo kernel: Out of Memory: Killed process 2273 (python).
+Nov 22 19:00:18 combo kernel: Out of Memory: Killed process 2275 (httpd).
+Nov 22 19:00:22 combo kernel: Out of Memory: Killed process 2280 (python).
+Nov 22 19:05:16 combo kernel: Out of Memory: Killed process 2283 (httpd).
+Nov 22 19:05:25 combo kernel: Out of Memory: Killed process 2300 (httpd).
+Nov 22 19:05:35 combo kernel: Out of Memory: Killed process 2303 (python).
+Nov 22 19:10:18 combo kernel: Out of Memory: Killed process 2306 (httpd).
+Nov 22 19:10:23 combo kernel: Out of Memory: Killed process 2314 (python).
+Nov 22 19:15:29 combo kernel: Out of Memory: Killed process 2318 (httpd).
+Nov 22 19:15:34 combo kernel: Out of Memory: Killed process 2332 (python).
+Nov 22 19:20:19 combo kernel: Out of Memory: Killed process 2333 (httpd).
+Nov 22 19:20:27 combo kernel: Out of Memory: Killed process 2350 (python).
+Nov 22 19:25:21 combo kernel: Out of Memory: Killed process 2352 (httpd).
+Nov 22 19:25:30 combo kernel: Out of Memory: Killed process 2371 (python).
+Nov 22 19:25:41 combo kernel: Out of Memory: Killed process 2372 (httpd).
+Nov 22 19:25:48 combo kernel: Out of Memory: Killed process 2373 (httpd).
+Nov 22 19:25:55 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 22 19:25:55 combo kernel: Call Trace:
+Nov 22 19:25:55 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 19:25:55 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 22 19:25:55 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 22 19:25:55 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 22 19:25:55 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 22 19:25:55 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 19:25:55 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 19:25:55 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 19:25:55 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 19:25:55 combo kernel:
+Nov 22 19:25:55 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 19:25:57 combo kernel: Call Trace:
+Nov 22 19:25:57 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 19:25:58 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 19:25:59 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 19:26:01 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 19:26:04 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 19:26:06 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 19:26:10 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 19:26:11 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 19:26:13 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 19:26:19 combo kernel:
+Nov 22 19:26:22 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 19:26:26 combo kernel: Call Trace:
+Nov 22 19:26:30 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 19:26:31 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 22 19:26:31 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 22 19:26:32 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 19:26:32 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 19:26:33 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 19:26:34 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 19:26:34 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 19:26:34 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 19:26:35 combo kernel:
+Nov 22 19:26:36 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 22 19:26:36 combo kernel: Call Trace:
+Nov 22 19:26:37 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 19:26:38 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 22 19:26:39 combo kernel:  [<0212c784>] filemap_nopage+0x182/0x26d
+Nov 22 19:26:40 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 22 19:26:41 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 22 19:26:41 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 22 19:26:42 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 19:26:43 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 19:26:43 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 19:26:44 combo kernel:
+Nov 22 19:26:44 combo kernel: VM: killing process httpd
+Nov 22 19:26:45 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 22 19:26:45 combo kernel: Call Trace:
+Nov 22 19:26:46 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 22 19:26:46 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 22 19:26:47 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 22 19:26:48 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 22 19:26:48 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 22 19:26:49 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 22 19:26:49 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 22 19:26:50 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 22 19:26:51 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 22 19:26:51 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 22 19:26:52 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 22 19:26:52 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 22 19:26:52 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 22 19:26:53 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 19:26:53 combo kernel:  [<021287f4>] __print_symbol+0x35/0x121
+Nov 22 19:26:53 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 22 19:26:54 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 22 19:26:54 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 22 19:26:54 combo kernel:  [<021295e4>] check_free_space+0x1b5/0x1cb
+Nov 22 19:26:55 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 22 19:26:55 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 22 19:26:55 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 22 19:26:55 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 22 19:26:56 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 22 19:26:56 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 22 19:26:56 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 22 19:26:57 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 22 19:26:57 combo kernel:
+Nov 22 19:26:57 combo kernel: Out of Memory: Killed process 2374 (httpd).
+Nov 22 19:26:58 combo kernel: Out of Memory: Killed process 1906 (sendmail).
+Nov 22 19:26:58 combo kernel: Out of Memory: Killed process 2039 (sendmail).
+Nov 22 19:26:58 combo kernel: Out of Memory: Killed process 2183 (sendmail).
+Nov 22 21:20:24 combo kernel: Out of Memory: Killed process 2376 (httpd).
+Nov 22 21:20:31 combo kernel: Out of Memory: Killed process 2448 (httpd).
+Nov 22 21:20:45 combo kernel: Out of Memory: Killed process 2561 (httpd).
+Nov 22 21:25:20 combo kernel: Out of Memory: Killed process 2573 (httpd).
+Nov 22 21:25:32 combo kernel: Out of Memory: Killed process 2565 (httpd).
+Nov 22 21:25:45 combo kernel: Out of Memory: Killed process 2588 (httpd).
+Nov 22 21:30:32 combo kernel: Out of Memory: Killed process 2589 (httpd).
+Nov 22 21:30:39 combo kernel: Out of Memory: Killed process 2596 (httpd).
+Nov 22 21:30:53 combo kernel: Out of Memory: Killed process 2601 (httpd).
+Nov 22 21:31:13 combo kernel: Out of Memory: Killed process 2603 (httpd).
+Nov 22 21:35:26 combo kernel: Out of Memory: Killed process 2608 (httpd).
+Nov 22 21:35:35 combo kernel: Out of Memory: Killed process 2617 (httpd).
+Nov 22 21:35:49 combo kernel: Out of Memory: Killed process 2618 (httpd).
+Nov 22 21:40:24 combo kernel: Out of Memory: Killed process 2629 (httpd).
+Nov 22 21:40:34 combo kernel: Out of Memory: Killed process 2640 (python).
+Nov 22 21:45:19 combo kernel: Out of Memory: Killed process 2642 (httpd).
+Nov 22 21:45:24 combo kernel: Out of Memory: Killed process 2645 (python).
+Nov 22 21:50:23 combo kernel: Out of Memory: Killed process 2647 (httpd).
+Nov 22 21:50:29 combo kernel: Out of Memory: Killed process 2651 (python).
+Nov 22 21:55:14 combo kernel: Out of Memory: Killed process 2655 (httpd).
+Nov 22 21:55:33 combo kernel: Out of Memory: Killed process 2658 (python).
+Nov 22 22:00:20 combo kernel: Out of Memory: Killed process 2660 (httpd).
+Nov 22 22:00:29 combo kernel: Out of Memory: Killed process 2661 (httpd).
+Nov 22 22:00:40 combo kernel: Out of Memory: Killed process 2665 (python).
+Nov 22 22:05:12 combo kernel: Out of Memory: Killed process 2669 (httpd).
+Nov 22 22:05:19 combo kernel: Out of Memory: Killed process 2687 (python).
+Nov 22 22:10:25 combo kernel: Out of Memory: Killed process 2688 (httpd).
+Nov 22 22:10:33 combo kernel: Out of Memory: Killed process 2695 (python).
+Nov 22 22:15:20 combo kernel: Out of Memory: Killed process 2697 (httpd).
+Nov 22 22:15:26 combo kernel: Out of Memory: Killed process 2707 (python).
+Nov 22 22:20:23 combo kernel: Out of Memory: Killed process 2710 (httpd).
+Nov 22 22:20:29 combo kernel: Out of Memory: Killed process 2719 (python).
+Nov 22 22:20:38 combo kernel: Out of Memory: Killed process 2724 (httpd).
+Nov 22 22:20:53 combo kernel: Out of Memory: Killed process 2307 (sendmail).
+Nov 22 22:20:59 combo kernel: Out of Memory: Killed process 2449 (sendmail).
+Nov 22 23:25:20 combo kernel: Out of Memory: Killed process 2726 (httpd).
+Nov 22 23:30:26 combo kernel: Out of Memory: Killed process 2799 (httpd).
+Nov 22 23:30:34 combo kernel: Out of Memory: Killed process 2854 (python).
+Nov 22 23:35:26 combo kernel: Out of Memory: Killed process 2856 (httpd).
+Nov 22 23:35:31 combo kernel: Out of Memory: Killed process 2866 (python).
+Nov 22 23:40:26 combo kernel: Out of Memory: Killed process 2869 (httpd).
+Nov 22 23:40:36 combo kernel: Out of Memory: Killed process 2874 (python).
+Nov 22 23:45:15 combo kernel: Out of Memory: Killed process 2877 (httpd).
+Nov 22 23:45:28 combo kernel: Out of Memory: Killed process 2880 (python).
+Nov 22 23:50:15 combo kernel: Out of Memory: Killed process 2882 (httpd).
+Nov 22 23:50:22 combo kernel: Out of Memory: Killed process 2886 (python).
+Nov 22 23:55:17 combo kernel: Out of Memory: Killed process 2890 (httpd).
+Nov 22 23:55:26 combo kernel: Out of Memory: Killed process 2902 (python).
+Nov 23 00:00:17 combo kernel: Out of Memory: Killed process 2903 (httpd).
+Nov 23 00:00:25 combo kernel: Out of Memory: Killed process 2909 (python).
+Nov 23 00:05:14 combo kernel: Out of Memory: Killed process 2911 (httpd).
+Nov 23 00:05:26 combo kernel: Out of Memory: Killed process 2930 (python).
+Nov 23 00:10:26 combo kernel: Out of Memory: Killed process 2931 (httpd).
+Nov 23 00:10:37 combo kernel: Out of Memory: Killed process 2938 (python).
+Nov 23 00:15:22 combo kernel: Out of Memory: Killed process 2940 (httpd).
+Nov 23 00:15:38 combo kernel: Out of Memory: Killed process 2951 (python).
+Nov 23 00:15:51 combo kernel: Out of Memory: Killed process 2952 (httpd).
+Nov 23 00:20:24 combo kernel: Out of Memory: Killed process 2953 (httpd).
+Nov 23 00:20:41 combo kernel: Out of Memory: Killed process 2967 (httpd).
+Nov 23 00:20:50 combo kernel: Out of Memory: Killed process 2964 (python).
+Nov 23 00:20:58 combo kernel: Out of Memory: Killed process 2968 (httpd).
+Nov 23 00:21:04 combo kernel: Out of Memory: Killed process 2689 (sendmail).
+Nov 23 00:25:26 combo kernel: Out of Memory: Killed process 2970 (httpd).
+Nov 23 00:30:26 combo kernel: Out of Memory: Killed process 2972 (httpd).
+Nov 23 00:30:38 combo kernel: Out of Memory: Killed process 2992 (python).
+Nov 23 00:35:32 combo kernel: Out of Memory: Killed process 2995 (httpd).
+Nov 23 00:40:32 combo kernel: Out of Memory: Killed process 3010 (httpd).
+Nov 23 00:40:42 combo kernel: Out of Memory: Killed process 3023 (python).
+Nov 23 00:45:27 combo kernel: Out of Memory: Killed process 3027 (httpd).
+Nov 23 00:45:32 combo kernel: Out of Memory: Killed process 3028 (httpd).
+Nov 23 00:45:37 combo kernel: Out of Memory: Killed process 3031 (python).
+Nov 23 00:50:16 combo kernel: Out of Memory: Killed process 3033 (httpd).
+Nov 23 00:50:23 combo kernel: Out of Memory: Killed process 3039 (python).
+Nov 23 00:55:17 combo kernel: Out of Memory: Killed process 3041 (httpd).
+Nov 23 00:55:22 combo kernel: Out of Memory: Killed process 3044 (python).
+Nov 23 01:00:16 combo kernel: Out of Memory: Killed process 3046 (httpd).
+Nov 23 01:00:22 combo kernel: Out of Memory: Killed process 3052 (python).
+Nov 23 01:05:16 combo kernel: Out of Memory: Killed process 3054 (httpd).
+Nov 23 01:05:22 combo kernel: Out of Memory: Killed process 3072 (python).
+Nov 23 01:10:20 combo kernel: Out of Memory: Killed process 3073 (httpd).
+Nov 23 01:10:26 combo kernel: Out of Memory: Killed process 3080 (python).
+Nov 23 01:15:23 combo kernel: Out of Memory: Killed process 3083 (httpd).
+Nov 23 01:15:30 combo kernel: Out of Memory: Killed process 3092 (python).
+Nov 23 01:15:42 combo kernel: Out of Memory: Killed process 3095 (httpd).
+Nov 23 01:15:57 combo kernel: Out of Memory: Killed process 2549 (sendmail).
+Nov 23 01:25:22 combo kernel: Out of Memory: Killed process 3097 (httpd).
+Nov 23 01:30:18 combo kernel: Out of Memory: Killed process 3120 (httpd).
+Nov 23 01:35:29 combo kernel: Out of Memory: Killed process 3132 (httpd).
+Nov 23 01:35:42 combo kernel: Out of Memory: Killed process 3141 (python).
+Nov 23 01:40:20 combo kernel: Out of Memory: Killed process 3143 (httpd).
+Nov 23 01:40:29 combo kernel: Out of Memory: Killed process 3149 (python).
+Nov 23 01:45:15 combo kernel: Out of Memory: Killed process 3153 (httpd).
+Nov 23 01:45:26 combo kernel: Out of Memory: Killed process 3157 (python).
+Nov 23 01:50:16 combo kernel: Out of Memory: Killed process 3158 (httpd).
+Nov 23 01:50:31 combo kernel: Out of Memory: Killed process 3159 (httpd).
+Nov 23 01:50:37 combo kernel: Out of Memory: Killed process 3163 (python).
+Nov 23 01:55:12 combo kernel: Out of Memory: Killed process 3167 (httpd).
+Nov 23 01:55:18 combo kernel: Out of Memory: Killed process 3171 (python).
+Nov 23 02:00:16 combo kernel: Out of Memory: Killed process 3172 (httpd).
+Nov 23 02:00:21 combo kernel: Out of Memory: Killed process 3178 (python).
+Nov 23 02:05:16 combo kernel: Out of Memory: Killed process 3180 (httpd).
+Nov 23 02:05:25 combo kernel: Out of Memory: Killed process 3197 (python).
+Nov 23 02:10:23 combo kernel: Out of Memory: Killed process 3199 (httpd).
+Nov 23 02:10:28 combo kernel: Out of Memory: Killed process 3206 (python).
+Nov 23 02:15:28 combo kernel: Out of Memory: Killed process 3209 (httpd).
+Nov 23 02:15:33 combo kernel: Out of Memory: Killed process 3220 (python).
+Nov 23 02:15:53 combo kernel: Out of Memory: Killed process 3224 (httpd).
+Nov 23 02:20:20 combo kernel: Out of Memory: Killed process 3225 (httpd).
+Nov 23 02:20:29 combo kernel: Out of Memory: Killed process 3238 (python).
+Nov 23 02:20:46 combo kernel: Out of Memory: Killed process 3242 (httpd).
+Nov 23 02:20:52 combo kernel: Out of Memory: Killed process 2804 (sendmail).
+Nov 23 02:21:06 combo kernel: Out of Memory: Killed process 2932 (sendmail).
+Nov 23 03:20:27 combo kernel: Out of Memory: Killed process 3243 (httpd).
+Nov 23 03:25:26 combo kernel: Out of Memory: Killed process 3319 (httpd).
+Nov 23 03:30:29 combo kernel: Out of Memory: Killed process 3364 (httpd).
+Nov 23 03:30:37 combo kernel: Out of Memory: Killed process 3383 (python).
+Nov 23 03:35:32 combo kernel: Out of Memory: Killed process 3387 (httpd).
+Nov 23 03:35:44 combo kernel: Out of Memory: Killed process 3394 (python).
+Nov 23 03:40:24 combo kernel: Out of Memory: Killed process 3396 (httpd).
+Nov 23 03:40:34 combo kernel: Out of Memory: Killed process 3399 (httpd).
+Nov 23 03:40:41 combo kernel: Out of Memory: Killed process 3403 (python).
+Nov 23 03:45:14 combo kernel: Out of Memory: Killed process 3407 (httpd).
+Nov 23 03:45:19 combo kernel: Out of Memory: Killed process 3411 (python).
+Nov 23 03:50:19 combo kernel: Out of Memory: Killed process 3412 (httpd).
+Nov 23 03:50:24 combo kernel: Out of Memory: Killed process 3413 (httpd).
+Nov 23 03:50:36 combo kernel: Out of Memory: Killed process 3419 (python).
+Nov 23 03:55:16 combo kernel: Out of Memory: Killed process 3421 (httpd).
+Nov 23 03:55:24 combo kernel: Out of Memory: Killed process 3424 (python).
+Nov 23 04:00:13 combo kernel: Out of Memory: Killed process 3426 (httpd).
+Nov 23 04:00:30 combo kernel: Out of Memory: Killed process 3430 (python).
+Nov 23 04:04:58 combo su(pam_unix)[3787]: session opened for user cyrus by (uid=0)
+Nov 23 04:04:59 combo su(pam_unix)[3787]: session closed for user cyrus
+Nov 23 04:05:02 combo logrotate: ALERT exited abnormally with [1]
+Nov 23 04:05:52 combo kernel: Out of Memory: Killed process 3434 (httpd).
+Nov 23 04:06:10 combo kernel: Out of Memory: Killed process 3779 (sendmail).
+Nov 23 04:06:39 combo kernel: Out of Memory: Killed process 3819 (httpd).
+Nov 23 04:06:47 combo kernel: Out of Memory: Killed process 3800 (python).
+Nov 23 04:10:32 combo kernel: Out of Memory: Killed process 3822 (httpd).
+Nov 23 04:10:46 combo kernel: Out of Memory: Killed process 3975 (python).
+Nov 23 04:10:58 combo kernel: Out of Memory: Killed process 3978 (httpd).
+Nov 23 04:11:13 combo kernel: Out of Memory: Killed process 3979 (httpd).
+Nov 23 04:11:21 combo kernel: Out of Memory: Killed process 3074 (sendmail).
+Nov 23 04:11:27 combo kernel: Out of Memory: Killed process 3200 (sendmail).
+Nov 23 04:45:34 combo kernel: Out of Memory: Killed process 3981 (httpd).
+Nov 23 04:50:45 combo kernel: Out of Memory: Killed process 4233 (httpd).
+Nov 23 04:50:51 combo kernel: Out of Memory: Killed process 4241 (python).
+Nov 23 04:55:32 combo kernel: Out of Memory: Killed process 4244 (httpd).
+Nov 23 04:55:39 combo kernel: Out of Memory: Killed process 4253 (python).
+Nov 23 05:00:14 combo kernel: Out of Memory: Killed process 4254 (httpd).
+Nov 23 05:00:33 combo kernel: Out of Memory: Killed process 4265 (python).
+Nov 23 05:00:43 combo kernel: Out of Memory: Killed process 4269 (httpd).
+Nov 23 05:00:48 combo kernel: Out of Memory: Killed process 4178 (updatedb).
+Nov 23 05:00:59 combo su(pam_unix)[4270]: session opened for user news by (uid=0)
+Nov 23 05:01:06 combo su(pam_unix)[4270]: session closed for user news
+Nov 23 05:15:24 combo kernel: Out of Memory: Killed process 4332 (httpd).
+Nov 23 05:20:26 combo kernel: Out of Memory: Killed process 4359 (httpd).
+Nov 23 05:25:28 combo kernel: Out of Memory: Killed process 4375 (httpd).
+Nov 23 05:30:39 combo kernel: Out of Memory: Killed process 4389 (httpd).
+Nov 23 05:30:44 combo kernel: Out of Memory: Killed process 4400 (python).
+Nov 23 05:35:32 combo kernel: Out of Memory: Killed process 4404 (httpd).
+Nov 23 05:35:40 combo kernel: Out of Memory: Killed process 4417 (python).
+Nov 23 05:40:20 combo kernel: Out of Memory: Killed process 4418 (httpd).
+Nov 23 05:40:26 combo kernel: Out of Memory: Killed process 4423 (python).
+Nov 23 05:45:14 combo kernel: Out of Memory: Killed process 4427 (httpd).
+Nov 23 05:45:26 combo kernel: Out of Memory: Killed process 4431 (python).
+Nov 23 05:50:18 combo kernel: Out of Memory: Killed process 4432 (httpd).
+Nov 23 05:50:25 combo kernel: Out of Memory: Killed process 4436 (python).
+Nov 23 05:55:16 combo kernel: Out of Memory: Killed process 4440 (httpd).
+Nov 23 05:55:22 combo kernel: Out of Memory: Killed process 4443 (python).
+Nov 23 06:00:18 combo kernel: Out of Memory: Killed process 4445 (httpd).
+Nov 23 06:00:24 combo kernel: Out of Memory: Killed process 4451 (python).
+Nov 23 06:10:20 combo kernel: Out of Memory: Killed process 4453 (httpd).
+Nov 23 06:10:34 combo kernel: Out of Memory: Killed process 4477 (python).
+Nov 23 06:15:27 combo kernel: Out of Memory: Killed process 4480 (httpd).
+Nov 23 06:15:32 combo kernel: Out of Memory: Killed process 4493 (python).
+Nov 23 06:15:38 combo kernel: Out of Memory: Killed process 4497 (sshd).
+Nov 23 06:15:44 combo kernel: Out of Memory: Killed process 4498 (sshd).
+Nov 23 06:15:48 combo kernel: Out of Memory: Killed process 4499 (sshd).
+Nov 23 06:15:54 combo kernel: Out of Memory: Killed process 4508 (sshd).
+Nov 23 06:16:07 combo kernel: Out of Memory: Killed process 4509 (sshd).
+Nov 23 06:16:07 combo kernel: Out of Memory: Killed process 4510 (sshd).
+Nov 23 06:16:09 combo kernel: Out of Memory: Killed process 4511 (sshd).
+Nov 23 06:16:15 combo kernel: Out of Memory: Killed process 4512 (sshd).
+Nov 23 06:16:15 combo sshd(pam_unix)[4505]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4505]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:15 combo sshd(pam_unix)[4504]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4504]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:15 combo sshd(pam_unix)[4495]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4495]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:15 combo sshd(pam_unix)[4494]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4494]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:15 combo sshd(pam_unix)[4507]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4496]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4503]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4500]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4501]: check pass; user unknown
+Nov 23 06:16:15 combo sshd(pam_unix)[4506]: check pass; user unknown
+Nov 23 06:16:20 combo kernel: Out of Memory: Killed process 4513 (sshd).
+Nov 23 06:16:21 combo sshd(pam_unix)[4507]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:22 combo sshd(pam_unix)[4496]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:24 combo sshd(pam_unix)[4503]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:26 combo sshd(pam_unix)[4500]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:27 combo sshd(pam_unix)[4501]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:28 combo sshd(pam_unix)[4506]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.114.82.252
+Nov 23 06:16:33 combo kernel: Out of Memory: Killed process 4514 (sshd).
+Nov 23 06:16:51 combo kernel: Out of Memory: Killed process 4502 (httpd).
+Nov 23 06:17:04 combo kernel: Out of Memory: Killed process 3320 (sendmail).
+Nov 23 06:17:05 combo kernel: Out of Memory: Killed process 3970 (sendmail).
+Nov 23 07:15:20 combo kernel: Out of Memory: Killed process 4517 (httpd).
+Nov 23 07:20:30 combo kernel: Out of Memory: Killed process 4581 (httpd).
+Nov 23 07:20:39 combo kernel: Out of Memory: Killed process 4626 (python).
+Nov 23 07:25:23 combo kernel: Out of Memory: Killed process 4631 (httpd).
+Nov 23 07:30:20 combo kernel: Out of Memory: Killed process 4636 (httpd).
+Nov 23 07:30:30 combo kernel: Out of Memory: Killed process 4656 (python).
+Nov 23 07:35:26 combo kernel: Out of Memory: Killed process 4662 (httpd).
+Nov 23 07:35:31 combo kernel: Out of Memory: Killed process 4674 (python).
+Nov 23 07:40:18 combo kernel: Out of Memory: Killed process 4676 (httpd).
+Nov 23 07:40:25 combo kernel: Out of Memory: Killed process 4685 (python).
+Nov 23 07:40:38 combo kernel: Out of Memory: Killed process 4689 (httpd).
+Nov 23 07:45:17 combo kernel: Out of Memory: Killed process 4690 (httpd).
+Nov 23 07:45:34 combo kernel: Out of Memory: Killed process 4693 (python).
+Nov 23 07:45:41 combo kernel: Out of Memory: Killed process 4695 (httpd).
+Nov 23 07:50:16 combo kernel: Out of Memory: Killed process 4696 (httpd).
+Nov 23 07:50:29 combo kernel: Out of Memory: Killed process 4700 (python).
+Nov 23 07:55:18 combo kernel: Out of Memory: Killed process 4704 (httpd).
+Nov 23 07:55:42 combo kernel: Out of Memory: Killed process 4708 (python).
+Nov 23 08:00:19 combo kernel: Out of Memory: Killed process 4710 (httpd).
+Nov 23 08:00:27 combo kernel: Out of Memory: Killed process 4715 (python).
+Nov 23 08:00:42 combo kernel: Out of Memory: Killed process 4716 (python).
+Nov 23 08:05:15 combo kernel: Out of Memory: Killed process 4720 (httpd).
+Nov 23 08:05:21 combo kernel: Out of Memory: Killed process 4738 (python).
+Nov 23 08:10:26 combo kernel: Out of Memory: Killed process 4740 (httpd).
+Nov 23 08:10:35 combo kernel: Out of Memory: Killed process 4750 (python).
+Nov 23 08:15:26 combo kernel: Out of Memory: Killed process 4752 (httpd).
+Nov 23 08:16:00 combo kernel: Out of Memory: Killed process 4764 (python).
+Nov 23 08:16:07 combo kernel: Out of Memory: Killed process 4766 (httpd).
+Nov 23 08:16:12 combo kernel: Out of Memory: Killed process 4767 (httpd).
+Nov 23 08:16:17 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 08:16:17 combo kernel: Call Trace:
+Nov 23 08:16:17 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 08:16:17 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 08:16:17 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 08:16:17 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 08:16:17 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 08:16:17 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 08:16:17 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 08:16:17 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:16:17 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 23 08:16:17 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:16:17 combo kernel:
+Nov 23 08:16:19 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 08:16:20 combo kernel: Call Trace:
+Nov 23 08:16:22 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 08:16:23 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 08:16:24 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 23 08:16:25 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 08:16:26 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 08:16:27 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 08:16:28 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:16:29 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 23 08:16:32 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:16:33 combo kernel:
+Nov 23 08:16:35 combo kernel: VM: killing process httpd
+Nov 23 08:16:36 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 23 08:16:37 combo kernel: Call Trace:
+Nov 23 08:16:38 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 08:16:43 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 23 08:16:43 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 23 08:16:44 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 23 08:16:44 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 23 08:16:45 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 23 08:16:45 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 23 08:16:46 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 23 08:16:46 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 23 08:16:47 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 23 08:16:47 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 23 08:16:48 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 23 08:16:50 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 23 08:16:50 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 23 08:16:51 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 23 08:16:52 combo last message repeated 2 times
+Nov 23 08:16:53 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 23 08:16:53 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 23 08:16:54 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 23 08:16:54 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 23 08:16:55 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 23 08:16:55 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 23 08:16:55 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 23 08:16:56 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 23 08:16:56 combo kernel:  [<021284a0>] module_text_address+0x3a/0x5d
+Nov 23 08:16:56 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 23 08:16:57 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 23 08:16:57 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 23 08:16:57 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 23 08:16:58 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 23 08:16:59 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 23 08:16:59 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 08:16:59 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:17:00 combo kernel:  [<0227e913>] schedule+0x3f/0x44d
+Nov 23 08:17:01 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:17:02 combo kernel:
+Nov 23 08:17:02 combo kernel: Out of Memory: Killed process 4768 (httpd).
+Nov 23 08:17:03 combo kernel: Out of Memory: Killed process 4763 (mrtg).
+Nov 23 08:20:24 combo kernel: Out of Memory: Killed process 4772 (httpd).
+Nov 23 08:20:56 combo kernel: Out of Memory: Killed process 4785 (python).
+Nov 23 08:21:12 combo kernel: Out of Memory: Killed process 4788 (httpd).
+Nov 23 08:21:20 combo kernel: Out of Memory: Killed process 4789 (httpd).
+Nov 23 08:21:25 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 08:21:25 combo kernel: Call Trace:
+Nov 23 08:21:25 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 08:21:25 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 08:21:25 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 08:21:25 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 08:21:25 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 08:21:25 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 08:21:25 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 08:21:25 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 08:21:25 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:21:25 combo kernel:
+Nov 23 08:21:25 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 08:21:27 combo kernel: Call Trace:
+Nov 23 08:21:28 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 08:21:30 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 08:21:32 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 08:21:33 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 08:21:35 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 08:21:37 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 08:21:40 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 08:21:40 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 08:21:41 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:21:41 combo kernel:
+Nov 23 08:21:42 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 08:21:42 combo kernel: Call Trace:
+Nov 23 08:21:43 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 08:21:43 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 08:21:44 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 08:21:45 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 08:21:46 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 08:21:46 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 08:21:47 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 08:21:47 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 08:21:48 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 08:21:48 combo kernel:
+Nov 23 08:21:49 combo kernel: Out of Memory: Killed process 4341 (sendmail).
+Nov 23 08:21:49 combo kernel: Out of Memory: Killed process 4472 (sendmail).
+Nov 23 09:00:14 combo kernel: Out of Memory: Killed process 4791 (httpd).
+Nov 23 09:00:19 combo kernel: Out of Memory: Killed process 4854 (python).
+Nov 23 09:15:23 combo kernel: Out of Memory: Killed process 4859 (httpd).
+Nov 23 09:15:37 combo kernel: Out of Memory: Killed process 4874 (httpd).
+Nov 23 09:20:26 combo kernel: Out of Memory: Killed process 4899 (httpd).
+Nov 23 09:25:19 combo kernel: Out of Memory: Killed process 4914 (httpd).
+Nov 23 09:30:27 combo kernel: Out of Memory: Killed process 4927 (httpd).
+Nov 23 09:30:37 combo kernel: Out of Memory: Killed process 4937 (python).
+Nov 23 09:35:20 combo kernel: Out of Memory: Killed process 4941 (httpd).
+Nov 23 09:35:25 combo kernel: Out of Memory: Killed process 4949 (python).
+Nov 23 09:40:36 combo kernel: Out of Memory: Killed process 4950 (httpd).
+Nov 23 09:40:49 combo kernel: Out of Memory: Killed process 4960 (python).
+Nov 23 09:41:06 combo kernel: Out of Memory: Killed process 4964 (httpd).
+Nov 23 09:45:16 combo kernel: Out of Memory: Killed process 4965 (httpd).
+Nov 23 09:45:23 combo kernel: Out of Memory: Killed process 4969 (python).
+Nov 23 09:50:14 combo kernel: Out of Memory: Killed process 4971 (httpd).
+Nov 23 09:50:26 combo kernel: Out of Memory: Killed process 4976 (python).
+Nov 23 09:50:38 combo kernel: Out of Memory: Killed process 4980 (httpd).
+Nov 23 09:55:14 combo kernel: Out of Memory: Killed process 4981 (httpd).
+Nov 23 09:55:28 combo kernel: Out of Memory: Killed process 4985 (python).
+Nov 23 10:00:19 combo kernel: Out of Memory: Killed process 4987 (httpd).
+Nov 23 10:00:28 combo kernel: Out of Memory: Killed process 4993 (python).
+Nov 23 10:00:34 combo kernel: Out of Memory: Killed process 4997 (httpd).
+Nov 23 10:05:15 combo kernel: Out of Memory: Killed process 4998 (httpd).
+Nov 23 10:05:53 combo kernel: Out of Memory: Killed process 5021 (httpd).
+Nov 23 10:06:03 combo kernel: Out of Memory: Killed process 5019 (python).
+Nov 23 10:06:16 combo kernel: Out of Memory: Killed process 5022 (httpd).
+Nov 23 10:10:14 combo kernel: Out of Memory: Killed process 5023 (httpd).
+Nov 23 10:10:29 combo kernel: Out of Memory: Killed process 5034 (python).
+Nov 23 10:10:44 combo kernel: Out of Memory: Killed process 5036 (httpd).
+Nov 23 10:10:53 combo kernel: Out of Memory: Killed process 5037 (httpd).
+Nov 23 10:11:04 combo kernel: Out of Memory: Killed process 4600 (sendmail).
+Nov 23 10:20:23 combo kernel: Out of Memory: Killed process 5039 (httpd).
+Nov 23 10:25:15 combo kernel: Out of Memory: Killed process 5066 (httpd).
+Nov 23 10:30:29 combo kernel: Out of Memory: Killed process 5070 (httpd).
+Nov 23 10:30:36 combo kernel: Out of Memory: Killed process 5095 (python).
+Nov 23 10:35:25 combo kernel: Out of Memory: Killed process 5098 (httpd).
+Nov 23 10:35:39 combo kernel: Out of Memory: Killed process 5109 (python).
+Nov 23 10:40:29 combo kernel: Out of Memory: Killed process 5110 (httpd).
+Nov 23 10:40:43 combo kernel: Out of Memory: Killed process 5122 (httpd).
+Nov 23 10:40:50 combo kernel: Out of Memory: Killed process 5118 (python).
+Nov 23 10:40:58 combo kernel: Out of Memory: Killed process 5123 (httpd).
+Nov 23 10:41:07 combo kernel: Out of Memory: Killed process 4742 (sendmail).
+Nov 23 11:00:12 combo kernel: Out of Memory: Killed process 5124 (httpd).
+Nov 23 11:15:28 combo kernel: Out of Memory: Killed process 5142 (httpd).
+Nov 23 11:20:23 combo kernel: Out of Memory: Killed process 5197 (httpd).
+Nov 23 11:25:23 combo kernel: Out of Memory: Killed process 5213 (httpd).
+Nov 23 11:25:30 combo kernel: Out of Memory: Killed process 5221 (python).
+Nov 23 11:30:26 combo kernel: Out of Memory: Killed process 5224 (httpd).
+Nov 23 11:30:45 combo kernel: Out of Memory: Killed process 5238 (python).
+Nov 23 11:35:33 combo kernel: Out of Memory: Killed process 5241 (httpd).
+Nov 23 11:35:39 combo kernel: Out of Memory: Killed process 5251 (python).
+Nov 23 11:40:16 combo kernel: Out of Memory: Killed process 5255 (httpd).
+Nov 23 11:40:24 combo kernel: Out of Memory: Killed process 5266 (python).
+Nov 23 11:40:36 combo kernel: Out of Memory: Killed process 5269 (httpd).
+Nov 23 11:40:41 combo kernel: Out of Memory: Killed process 5270 (httpd).
+Nov 23 11:40:57 combo kernel: Out of Memory: Killed process 4880 (sendmail).
+Nov 23 11:41:06 combo kernel: Out of Memory: Killed process 5026 (sendmail).
+Nov 23 12:40:18 combo kernel: Out of Memory: Killed process 5271 (httpd).
+Nov 23 13:20:22 combo kernel: Out of Memory: Killed process 5378 (httpd).
+Nov 23 13:20:31 combo kernel: Out of Memory: Killed process 5452 (httpd).
+Nov 23 13:25:21 combo kernel: Out of Memory: Killed process 5471 (httpd).
+Nov 23 13:25:32 combo kernel: Out of Memory: Killed process 5479 (python).
+Nov 23 13:30:22 combo kernel: Out of Memory: Killed process 5481 (httpd).
+Nov 23 13:30:26 combo kernel: Out of Memory: Killed process 5494 (python).
+Nov 23 13:35:23 combo kernel: Out of Memory: Killed process 5496 (httpd).
+Nov 23 13:35:39 combo kernel: Out of Memory: Killed process 5502 (python).
+Nov 23 13:40:21 combo kernel: Out of Memory: Killed process 5505 (httpd).
+Nov 23 13:40:30 combo kernel: Out of Memory: Killed process 5511 (python).
+Nov 23 13:40:55 combo kernel: Out of Memory: Killed process 5515 (httpd).
+Nov 23 13:41:03 combo kernel: Out of Memory: Killed process 5516 (httpd).
+Nov 23 13:41:08 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 13:41:08 combo kernel: Call Trace:
+Nov 23 13:41:08 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 13:41:08 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 13:41:08 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 13:41:08 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 13:41:08 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 13:41:08 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 13:41:08 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 23 13:41:08 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 13:41:08 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 13:41:08 combo kernel:
+Nov 23 13:41:08 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 13:41:11 combo kernel: Call Trace:
+Nov 23 13:41:12 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 13:41:14 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 13:41:16 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 23 13:41:17 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 13:41:18 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 13:41:20 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 23 13:41:23 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 13:41:25 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 13:41:29 combo kernel:
+Nov 23 13:41:29 combo kernel: VM: killing process httpd
+Nov 23 13:41:30 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 23 13:41:30 combo kernel: Call Trace:
+Nov 23 13:41:31 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 13:41:32 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 23 13:41:32 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 23 13:41:33 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 23 13:41:33 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 23 13:41:33 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 23 13:41:33 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 23 13:41:34 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 23 13:41:34 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 23 13:41:35 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 23 13:41:35 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 23 13:41:35 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 23 13:41:36 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 23 13:41:36 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 23 13:41:36 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 23 13:41:37 combo last message repeated 2 times
+Nov 23 13:41:37 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 23 13:41:38 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 23 13:41:38 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 23 13:41:38 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 23 13:41:38 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 23 13:41:39 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 23 13:41:40 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 23 13:41:40 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 23 13:41:40 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 23 13:41:41 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 23 13:41:41 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 23 13:41:41 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 23 13:41:41 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 23 13:41:41 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 23 13:41:42 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 23 13:41:44 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 13:41:44 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 13:41:44 combo kernel:
+Nov 23 13:41:45 combo kernel: Out of Memory: Killed process 5517 (httpd).
+Nov 23 13:41:45 combo kernel: Out of Memory: Killed process 5175 (sendmail).
+Nov 23 13:50:17 combo kernel: Out of Memory: Killed process 5518 (httpd).
+Nov 23 14:20:27 combo kernel: Out of Memory: Killed process 5523 (httpd).
+Nov 23 14:25:22 combo kernel: Out of Memory: Killed process 5601 (httpd).
+Nov 23 14:25:32 combo kernel: Out of Memory: Killed process 5612 (python).
+Nov 23 14:30:36 combo kernel: Out of Memory: Killed process 5615 (httpd).
+Nov 23 14:30:43 combo kernel: Out of Memory: Killed process 5626 (python).
+Nov 23 14:35:20 combo kernel: Out of Memory: Killed process 5628 (httpd).
+Nov 23 14:35:31 combo kernel: Out of Memory: Killed process 5637 (python).
+Nov 23 14:35:42 combo kernel: Out of Memory: Killed process 5638 (httpd).
+Nov 23 14:40:14 combo kernel: Out of Memory: Killed process 5640 (httpd).
+Nov 23 14:40:23 combo kernel: Out of Memory: Killed process 5646 (python).
+Nov 23 14:40:32 combo kernel: Out of Memory: Killed process 5650 (httpd).
+Nov 23 14:40:40 combo kernel: Out of Memory: Killed process 5651 (httpd).
+Nov 23 14:40:53 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 23 14:40:53 combo kernel: Call Trace:
+Nov 23 14:40:53 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:40:53 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 23 14:40:53 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 23 14:40:53 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 23 14:40:53 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 23 14:40:53 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 14:40:53 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 14:40:53 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:40:53 combo kernel:  [<0210737b>] do_IRQ+0x15d/0x169
+Nov 23 14:40:53 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:40:53 combo kernel:
+Nov 23 14:40:54 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 23 14:40:55 combo kernel: Call Trace:
+Nov 23 14:40:55 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:40:56 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 23 14:40:57 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 23 14:40:58 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 23 14:41:00 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 23 14:41:01 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 14:41:02 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 14:41:02 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:41:03 combo kernel:  [<0210737b>] do_IRQ+0x15d/0x169
+Nov 23 14:41:05 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:41:05 combo kernel:
+Nov 23 14:41:07 combo kernel: httpd: page allocation failure. order:0, mode:0x1d2
+Nov 23 14:41:08 combo kernel: Call Trace:
+Nov 23 14:41:09 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:41:10 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 23 14:41:10 combo kernel:  [<0212c784>] filemap_nopage+0x182/0x26d
+Nov 23 14:41:10 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 23 14:41:11 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 23 14:41:11 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 14:41:11 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 14:41:12 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:41:12 combo kernel:  [<0210737b>] do_IRQ+0x15d/0x169
+Nov 23 14:41:12 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:41:12 combo kernel:
+Nov 23 14:41:13 combo kernel: VM: killing process httpd
+Nov 23 14:41:13 combo kernel: Out of Memory: Killed process 5652 (httpd).
+Nov 23 14:41:14 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 14:41:15 combo kernel: Call Trace:
+Nov 23 14:41:16 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:41:16 combo kernel:  [<02135b2f>] do_wp_page+0x203/0x21c
+Nov 23 14:41:16 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 14:41:17 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 14:41:17 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 14:41:17 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 14:41:18 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 14:41:18 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 14:41:18 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:41:19 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:41:19 combo kernel:
+Nov 23 14:41:19 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 14:41:19 combo kernel: Call Trace:
+Nov 23 14:41:20 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:41:20 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 14:41:20 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 23 14:41:20 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 14:41:20 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 14:41:21 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 14:41:21 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:41:21 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:41:21 combo kernel:
+Nov 23 14:41:22 combo kernel: VM: killing process httpd
+Nov 23 14:41:22 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 23 14:41:22 combo kernel: Call Trace:
+Nov 23 14:41:22 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:41:23 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 23 14:41:23 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 23 14:41:23 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 23 14:41:23 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 23 14:41:24 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 23 14:41:24 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 23 14:41:24 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 23 14:41:24 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 23 14:41:25 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 23 14:41:25 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 23 14:41:25 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 23 14:41:25 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 23 14:41:25 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 23 14:41:26 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 23 14:41:27 combo last message repeated 3 times
+Nov 23 14:41:27 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 23 14:41:27 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 23 14:41:28 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 23 14:41:28 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 23 14:41:28 combo kernel:  [<021c8b76>] vt_console_print+0x0/0x28f
+Nov 23 14:41:28 combo kernel:  [<02118726>] __call_console_drivers+0x36/0x42
+Nov 23 14:41:28 combo kernel:  [<02118840>] call_console_drivers+0xbe/0xe3
+Nov 23 14:41:29 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 23 14:41:29 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 23 14:41:29 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 23 14:41:29 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 23 14:41:29 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 23 14:41:29 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 23 14:41:30 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 23 14:41:31 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 14:41:31 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:41:31 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:41:31 combo kernel:
+Nov 23 14:41:32 combo kernel: Out of Memory: Killed process 5653 (httpd).
+Nov 23 14:45:16 combo kernel: Out of Memory: Killed process 5654 (httpd).
+Nov 23 14:45:30 combo kernel: Out of Memory: Killed process 5658 (python).
+Nov 23 14:45:47 combo kernel: Out of Memory: Killed process 5659 (httpd).
+Nov 23 14:45:53 combo kernel: Out of Memory: Killed process 5660 (httpd).
+Nov 23 14:45:57 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 14:45:57 combo kernel: Call Trace:
+Nov 23 14:45:57 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:45:57 combo kernel:  [<02135b2f>] do_wp_page+0x203/0x21c
+Nov 23 14:45:57 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 14:45:57 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 14:45:57 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 14:45:57 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 14:45:57 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 14:45:57 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 23 14:45:57 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:45:57 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:45:57 combo kernel:
+Nov 23 14:45:58 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 14:45:59 combo kernel: Call Trace:
+Nov 23 14:46:00 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:46:00 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 14:46:00 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 23 14:46:01 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 14:46:01 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 14:46:02 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 23 14:46:02 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:46:02 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:46:03 combo kernel:
+Nov 23 14:46:03 combo kernel: VM: killing process httpd
+Nov 23 14:46:03 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 23 14:46:03 combo kernel: Call Trace:
+Nov 23 14:46:04 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 14:46:04 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 23 14:46:04 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 23 14:46:05 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 23 14:46:05 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 23 14:46:05 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 23 14:46:06 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 23 14:46:06 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 23 14:46:06 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 23 14:46:06 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 23 14:46:07 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 23 14:46:07 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 23 14:46:07 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 23 14:46:07 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 23 14:46:08 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 23 14:46:09 combo last message repeated 2 times
+Nov 23 14:46:09 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 23 14:46:09 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 23 14:46:09 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 23 14:46:10 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 23 14:46:10 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 23 14:46:10 combo kernel:  [<02115ed2>] __wake_up_common+0x2f/0x50
+Nov 23 14:46:10 combo kernel:  [<02115f01>] __wake_up+0xe/0x16
+Nov 23 14:46:11 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 23 14:46:11 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 23 14:46:11 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 23 14:46:11 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 23 14:46:11 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 23 14:46:11 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 23 14:46:12 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 23 14:46:12 combo kernel:  [<02115617>] recalc_task_prio+0x141/0x14c
+Nov 23 14:46:12 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 14:46:12 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 14:46:12 combo kernel:
+Nov 23 14:50:32 combo kernel: Out of Memory: Killed process 5661 (httpd).
+Nov 23 14:50:43 combo kernel: Out of Memory: Killed process 5667 (python).
+Nov 23 14:50:55 combo kernel: Out of Memory: Killed process 5669 (httpd).
+Nov 23 14:51:02 combo kernel: Out of Memory: Killed process 5670 (httpd).
+Nov 23 14:51:19 combo kernel: Out of Memory: Killed process 5319 (sendmail).
+Nov 23 14:51:24 combo kernel: Out of Memory: Killed process 5428 (sendmail).
+Nov 23 15:35:33 combo kernel: Out of Memory: Killed process 5673 (httpd).
+Nov 23 15:40:23 combo kernel: Out of Memory: Killed process 5678 (httpd).
+Nov 23 16:10:27 combo kernel: Out of Memory: Killed process 5776 (httpd).
+Nov 23 16:15:32 combo kernel: Out of Memory: Killed process 5833 (httpd).
+Nov 23 16:20:44 combo kernel: Out of Memory: Killed process 5846 (httpd).
+Nov 23 16:25:38 combo kernel: Out of Memory: Killed process 5857 (httpd).
+Nov 23 16:25:51 combo kernel: Out of Memory: Killed process 5870 (python).
+Nov 23 16:30:28 combo kernel: Out of Memory: Killed process 5872 (httpd).
+Nov 23 16:30:39 combo kernel: Out of Memory: Killed process 5881 (python).
+Nov 23 16:35:29 combo kernel: Out of Memory: Killed process 5883 (httpd).
+Nov 23 16:35:42 combo kernel: Out of Memory: Killed process 5898 (python).
+Nov 23 16:35:54 combo kernel: Out of Memory: Killed process 5901 (httpd).
+Nov 23 16:40:21 combo kernel: Out of Memory: Killed process 5902 (httpd).
+Nov 23 16:40:36 combo kernel: Out of Memory: Killed process 5911 (python).
+Nov 23 16:41:02 combo kernel: Out of Memory: Killed process 5915 (httpd).
+Nov 23 16:41:08 combo kernel: Out of Memory: Killed process 5916 (httpd).
+Nov 23 16:41:17 combo kernel: Out of Memory: Killed process 5566 (sendmail).
+Nov 23 16:41:21 combo kernel: Out of Memory: Killed process 5708 (sendmail).
+Nov 23 16:41:27 combo kernel: Out of Memory: Killed process 5824 (sendmail).
+Nov 23 18:40:21 combo kernel: Out of Memory: Killed process 5917 (httpd).
+Nov 23 18:40:27 combo kernel: Out of Memory: Killed process 6017 (httpd).
+Nov 23 18:45:22 combo kernel: Out of Memory: Killed process 6137 (httpd).
+Nov 23 18:45:39 combo kernel: Out of Memory: Killed process 6139 (httpd).
+Nov 23 19:00:24 combo kernel: Out of Memory: Killed process 6144 (httpd).
+Nov 23 19:10:23 combo kernel: Out of Memory: Killed process 6157 (httpd).
+Nov 23 19:10:36 combo kernel: Out of Memory: Killed process 6189 (python).
+Nov 23 19:15:31 combo kernel: Out of Memory: Killed process 6196 (httpd).
+Nov 23 19:20:37 combo kernel: Out of Memory: Killed process 6210 (httpd).
+Nov 23 19:20:44 combo kernel: Out of Memory: Killed process 6224 (python).
+Nov 23 19:25:25 combo kernel: Out of Memory: Killed process 6226 (httpd).
+Nov 23 19:25:31 combo kernel: Out of Memory: Killed process 6235 (python).
+Nov 23 19:30:37 combo kernel: Out of Memory: Killed process 6237 (httpd).
+Nov 23 19:30:43 combo kernel: Out of Memory: Killed process 6247 (python).
+Nov 23 19:35:23 combo kernel: Out of Memory: Killed process 6250 (httpd).
+Nov 23 19:35:33 combo kernel: Out of Memory: Killed process 6262 (python).
+Nov 23 19:35:50 combo kernel: Out of Memory: Killed process 6264 (httpd).
+Nov 23 19:36:03 combo kernel: Out of Memory: Killed process 5963 (sendmail).
+Nov 23 19:36:24 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 19:36:24 combo kernel: Call Trace:
+Nov 23 19:36:24 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 19:36:24 combo kernel:  [<021359f7>] do_wp_page+0xcb/0x21c
+Nov 23 19:36:24 combo kernel:  [<021364c6>] handle_mm_fault+0xbc/0xe2
+Nov 23 19:36:24 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 19:36:24 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 23 19:36:24 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 23 19:36:24 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 19:36:24 combo kernel:  [<02107352>] do_IRQ+0x134/0x169
+Nov 23 19:36:24 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 19:36:24 combo kernel:
+Nov 23 19:36:24 combo kernel: VM: killing process httpd
+Nov 23 20:05:14 combo kernel: Out of Memory: Killed process 6265 (httpd).
+Nov 23 20:15:25 combo kernel: Out of Memory: Killed process 6319 (httpd).
+Nov 23 20:20:22 combo kernel: Out of Memory: Killed process 6345 (httpd).
+Nov 23 20:20:34 combo kernel: Out of Memory: Killed process 6364 (python).
+Nov 23 20:25:33 combo kernel: Out of Memory: Killed process 6367 (httpd).
+Nov 23 20:25:38 combo kernel: Out of Memory: Killed process 6379 (python).
+Nov 23 20:27:12 combo sshd(pam_unix)[6383]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6383]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:12 combo sshd(pam_unix)[6384]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6384]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:12 combo sshd(pam_unix)[6388]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6388]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:12 combo sshd(pam_unix)[6382]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6382]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:12 combo sshd(pam_unix)[6389]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6389]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:12 combo sshd(pam_unix)[6385]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6385]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:12 combo sshd(pam_unix)[6390]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6386]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6400]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6387]: check pass; user unknown
+Nov 23 20:27:12 combo sshd(pam_unix)[6390]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:12 combo sshd(pam_unix)[6386]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:13 combo sshd(pam_unix)[6400]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:27:13 combo sshd(pam_unix)[6387]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=cfp.acm.org
+Nov 23 20:30:19 combo kernel: Out of Memory: Killed process 6380 (httpd).
+Nov 23 20:30:37 combo kernel: Out of Memory: Killed process 6411 (python).
+Nov 23 20:35:26 combo kernel: Out of Memory: Killed process 6415 (httpd).
+Nov 23 20:35:38 combo kernel: Out of Memory: Killed process 6416 (httpd).
+Nov 23 20:35:55 combo kernel: Out of Memory: Killed process 6421 (python).
+Nov 23 20:36:13 combo kernel: Out of Memory: Killed process 6425 (httpd).
+Nov 23 20:40:27 combo kernel: Out of Memory: Killed process 6426 (httpd).
+Nov 23 20:40:38 combo kernel: Out of Memory: Killed process 6433 (python).
+Nov 23 20:40:47 combo kernel: Out of Memory: Killed process 6437 (httpd).
+Nov 23 20:41:03 combo kernel: Out of Memory: Killed process 6072 (sendmail).
+Nov 23 20:45:16 combo kernel: Out of Memory: Killed process 6439 (httpd).
+Nov 23 21:00:14 combo kernel: Out of Memory: Killed process 6445 (httpd).
+Nov 23 21:10:34 combo kernel: Out of Memory: Killed process 6464 (httpd).
+Nov 23 21:15:23 combo kernel: Out of Memory: Killed process 6494 (httpd).
+Nov 23 21:15:33 combo kernel: Out of Memory: Killed process 6505 (python).
+Nov 23 21:20:26 combo kernel: Out of Memory: Killed process 6506 (httpd).
+Nov 23 21:20:32 combo kernel: Out of Memory: Killed process 6509 (httpd).
+Nov 23 21:25:23 combo kernel: Out of Memory: Killed process 6527 (httpd).
+Nov 23 21:25:29 combo kernel: Out of Memory: Killed process 6541 (python).
+Nov 23 21:30:18 combo kernel: Out of Memory: Killed process 6544 (httpd).
+Nov 23 21:30:26 combo kernel: Out of Memory: Killed process 6553 (python).
+Nov 23 21:30:38 combo kernel: Out of Memory: Killed process 6558 (httpd).
+Nov 23 21:35:46 combo kernel: Out of Memory: Killed process 6559 (httpd).
+Nov 23 21:35:58 combo kernel: Out of Memory: Killed process 6568 (python).
+Nov 23 21:36:07 combo kernel: Out of Memory: Killed process 6569 (httpd).
+Nov 23 21:36:11 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 21:36:11 combo kernel: Call Trace:
+Nov 23 21:36:11 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 21:36:11 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 21:36:11 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 21:36:11 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 21:36:11 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 21:36:11 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 21:36:11 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 21:36:11 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 21:36:11 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 21:36:11 combo kernel:
+Nov 23 21:36:11 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 21:36:14 combo kernel: Call Trace:
+Nov 23 21:36:17 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 21:36:19 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 21:36:20 combo kernel:  [<02135dee>] swapin_readahead+0x2c/0x47
+Nov 23 21:36:20 combo kernel:  [<02135e66>] do_swap_page+0x5d/0x1f9
+Nov 23 21:36:21 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 21:36:21 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 21:36:22 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 21:36:23 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 21:36:23 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 21:36:24 combo kernel:
+Nov 23 21:36:24 combo kernel: httpd: page allocation failure. order:0, mode:0xd2
+Nov 23 21:36:25 combo kernel: Call Trace:
+Nov 23 21:36:25 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 21:36:26 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 21:36:26 combo kernel:  [<0213d341>] read_swap_cache_async+0x41/0x84
+Nov 23 21:36:27 combo kernel:  [<02135e6d>] do_swap_page+0x64/0x1f9
+Nov 23 21:36:27 combo kernel:  [<021364a7>] handle_mm_fault+0x9d/0xe2
+Nov 23 21:36:28 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 23 21:36:28 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 21:36:29 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 21:36:29 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 21:36:29 combo kernel:
+Nov 23 21:36:30 combo kernel: VM: killing process httpd
+Nov 23 21:36:30 combo kernel: httpd: page allocation failure. order:0, mode:0x50
+Nov 23 21:36:30 combo kernel: Call Trace:
+Nov 23 21:36:31 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 23 21:36:31 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 23 21:36:31 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 23 21:36:32 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 23 21:36:32 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 23 21:36:35 combo kernel:  [<0a8e1123>] ext3_get_inode_loc+0x4f/0x201 [ext3]
+Nov 23 21:36:36 combo kernel:  [<0212db65>] mempool_alloc+0x5d/0xf6
+Nov 23 21:36:36 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 23 21:36:37 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 23 21:36:37 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 23 21:36:37 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 23 21:36:38 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 23 21:36:38 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 23 21:36:39 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 23 21:36:39 combo kernel:  [<021c8bda>] vt_console_print+0x64/0x28f
+Nov 23 21:36:40 combo last message repeated 3 times
+Nov 23 21:36:40 combo kernel:  [<021288cf>] __print_symbol+0x110/0x121
+Nov 23 21:36:40 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 23 21:36:41 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 23 21:36:41 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 23 21:36:41 combo kernel:  [<021c8b76>] vt_console_print+0x0/0x28f
+Nov 23 21:36:42 combo kernel:  [<02118726>] __call_console_drivers+0x36/0x42
+Nov 23 21:36:42 combo kernel:  [<02118840>] call_console_drivers+0xbe/0xe3
+Nov 23 21:36:42 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 23 21:36:43 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 23 21:36:43 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 23 21:36:43 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 23 21:36:43 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 23 21:36:44 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 23 21:36:44 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 23 21:36:44 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 23 21:36:45 combo kernel:  [<0227ecc1>] schedule+0x3ed/0x44d
+Nov 23 21:36:45 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 23 21:36:45 combo kernel:
+Nov 23 21:36:45 combo kernel: Out of Memory: Killed process 6570 (httpd).
+Nov 23 21:40:33 combo kernel: Out of Memory: Killed process 6571 (httpd).
+Nov 23 21:40:44 combo kernel: Out of Memory: Killed process 6581 (python).
+Nov 23 21:40:59 combo kernel: Out of Memory: Killed process 6583 (httpd).
+Nov 23 21:41:04 combo kernel: Out of Memory: Killed process 6584 (httpd).
+Nov 23 21:41:16 combo kernel: Out of Memory: Killed process 6183 (sendmail).
+Nov 23 21:45:13 combo kernel: Out of Memory: Killed process 6592 (python).
+Nov 23 21:50:18 combo kernel: Out of Memory: Killed process 6597 (python).
+Nov 23 21:55:17 combo kernel: Out of Memory: Killed process 6602 (httpd).
+Nov 23 21:55:33 combo kernel: Out of Memory: Killed process 6605 (python).
+Nov 23 22:10:23 combo kernel: Out of Memory: Killed process 6638 (python).
+Nov 23 22:15:32 combo kernel: Out of Memory: Killed process 6653 (python).
+Nov 23 22:20:24 combo kernel: Out of Memory: Killed process 6668 (python).
+Nov 23 22:25:26 combo kernel: Out of Memory: Killed process 6675 (httpd).
+Nov 23 22:25:33 combo kernel: Out of Memory: Killed process 6683 (python).
+Nov 23 22:25:40 combo kernel: Out of Memory: Killed process 6682 (mrtg).
+Nov 23 22:30:29 combo kernel: Out of Memory: Killed process 6699 (httpd).
+Nov 23 22:30:35 combo kernel: Out of Memory: Killed process 6703 (python).
+Nov 23 22:30:47 combo kernel: Out of Memory: Killed process 6320 (sendmail).
+Nov 23 22:40:18 combo kernel: Out of Memory: Killed process 6732 (python).
+Nov 23 22:50:20 combo kernel: Out of Memory: Killed process 6742 (python).
+Nov 23 22:55:27 combo kernel: Out of Memory: Killed process 6746 (httpd).
+Nov 23 22:55:37 combo kernel: Out of Memory: Killed process 6750 (python).
+Nov 23 23:00:20 combo kernel: Out of Memory: Killed process 6758 (python).
+Nov 23 23:05:16 combo kernel: Out of Memory: Killed process 6778 (python).
+Nov 23 23:10:20 combo kernel: Out of Memory: Killed process 6785 (python).
+Nov 23 23:15:33 combo kernel: Out of Memory: Killed process 6804 (python).
+Nov 23 23:20:39 combo kernel: Out of Memory: Killed process 6819 (python).
+Nov 23 23:25:24 combo kernel: Out of Memory: Killed process 6835 (python).
+Nov 23 23:25:30 combo kernel: Out of Memory: Killed process 6485 (sendmail).
+Nov 23 23:40:21 combo kernel: Out of Memory: Killed process 6875 (python).
+Nov 23 23:45:17 combo kernel: Out of Memory: Killed process 6880 (python).
+Nov 23 23:50:19 combo kernel: Out of Memory: Killed process 6888 (python).
+Nov 24 00:00:20 combo kernel: Out of Memory: Killed process 6907 (python).
+Nov 24 00:05:39 combo kernel: Out of Memory: Killed process 6929 (python).
+Nov 24 00:10:27 combo kernel: Out of Memory: Killed process 6930 (httpd).
+Nov 24 00:10:45 combo kernel: Out of Memory: Killed process 6937 (python).
+Nov 24 00:15:25 combo kernel: Out of Memory: Killed process 6948 (httpd).
+Nov 24 00:15:33 combo kernel: Out of Memory: Killed process 6959 (python).
+Nov 24 00:20:27 combo kernel: Out of Memory: Killed process 6971 (python).
+Nov 24 00:25:24 combo kernel: Out of Memory: Killed process 6983 (python).
+Nov 24 00:30:36 combo kernel: Out of Memory: Killed process 6999 (python).
+Nov 24 00:30:48 combo kernel: Out of Memory: Killed process 6633 (sendmail).
+Nov 24 00:40:17 combo kernel: Out of Memory: Killed process 7024 (python).
+Nov 24 00:45:13 combo kernel: Out of Memory: Killed process 7031 (python).
+Nov 24 00:50:19 combo kernel: Out of Memory: Killed process 7036 (python).
+Nov 24 00:55:21 combo kernel: Out of Memory: Killed process 7043 (python).
+Nov 24 01:00:17 combo kernel: Out of Memory: Killed process 7044 (httpd).
+Nov 24 01:00:27 combo kernel: Out of Memory: Killed process 7052 (python).
+Nov 24 01:10:24 combo kernel: Out of Memory: Killed process 7084 (python).
+Nov 24 01:15:19 combo kernel: Out of Memory: Killed process 7095 (python).
+Nov 24 01:20:29 combo kernel: Out of Memory: Killed process 7108 (python).
+Nov 24 01:25:40 combo kernel: Out of Memory: Killed process 7125 (python).
+Nov 24 01:25:49 combo kernel: Out of Memory: Killed process 6780 (sendmail).
+Nov 24 01:25:56 combo kernel: Out of Memory: Killed process 6931 (sendmail).
+Nov 24 02:30:30 combo kernel: Out of Memory: Killed process 7212 (httpd).
+Nov 24 02:35:36 combo kernel: Out of Memory: Killed process 7287 (python).
+Nov 24 02:40:22 combo kernel: Out of Memory: Killed process 7293 (python).
+Nov 24 02:45:13 combo kernel: Out of Memory: Killed process 7303 (python).
+Nov 24 02:50:19 combo kernel: Out of Memory: Killed process 7308 (python).
+Nov 24 02:55:21 combo kernel: Out of Memory: Killed process 7312 (httpd).
+Nov 24 02:55:27 combo kernel: Out of Memory: Killed process 7316 (python).
+Nov 24 03:00:16 combo kernel: Out of Memory: Killed process 7321 (python).
+Nov 24 03:05:20 combo kernel: Out of Memory: Killed process 7347 (python).
+Nov 24 03:10:21 combo kernel: Out of Memory: Killed process 7358 (python).
+Nov 24 03:15:27 combo kernel: Out of Memory: Killed process 7368 (python).
+Nov 24 03:20:25 combo kernel: Out of Memory: Killed process 7386 (python).
+Nov 24 03:20:47 combo kernel: Out of Memory: Killed process 7074 (sendmail).
+Nov 24 03:30:27 combo kernel: Out of Memory: Killed process 7409 (python).
+Nov 24 03:35:23 combo kernel: Out of Memory: Killed process 7420 (python).
+Nov 24 03:40:18 combo kernel: Out of Memory: Killed process 7434 (python).
+Nov 24 03:45:14 combo kernel: Out of Memory: Killed process 7439 (python).
+Nov 24 03:50:14 combo kernel: Out of Memory: Killed process 7447 (python).
+Nov 24 03:55:17 combo kernel: Out of Memory: Killed process 7451 (python).
+Nov 24 04:00:19 combo kernel: Out of Memory: Killed process 7458 (python).
+Nov 24 04:05:48 combo kernel: Out of Memory: Killed process 7805 (python).
+Nov 24 04:05:59 combo su(pam_unix)[7817]: session opened for user cyrus by (uid=0)
+Nov 24 04:06:00 combo su(pam_unix)[7817]: session closed for user cyrus
+Nov 24 04:06:02 combo logrotate: ALERT exited abnormally with [1]
+Nov 24 04:10:25 combo kernel: Out of Memory: Killed process 8613 (python).
+Nov 24 04:10:45 combo kernel: Out of Memory: Killed process 7807 (sendmail).
+Nov 24 04:10:52 combo kernel: Out of Memory: Killed process 7215 (sendmail).
+Nov 24 04:15:22 combo kernel: Out of Memory: Killed process 8844 (python).
+Nov 24 04:20:26 combo kernel: Out of Memory: Killed process 8973 (python).
+Nov 24 04:20:44 combo kernel: Out of Memory: Killed process 8975 (ld-linux.so.2).
+Nov 24 04:25:30 combo kernel: Out of Memory: Killed process 9060 (python).
+Nov 24 04:35:36 combo kernel: Out of Memory: Killed process 9081 (python).
+Nov 24 04:50:28 combo kernel: Out of Memory: Killed process 9109 (python).
+Nov 24 04:55:24 combo kernel: Out of Memory: Killed process 9123 (python).
+Nov 24 04:55:37 combo kernel: Out of Memory: Killed process 7351 (sendmail).
+Nov 24 05:00:33 combo kernel: Out of Memory: Killed process 9135 (python).
+Nov 24 05:05:37 combo kernel: Out of Memory: Killed process 9161 (python).
+Nov 24 05:10:27 combo kernel: Out of Memory: Killed process 9177 (python).
+Nov 24 05:10:40 combo kernel: Out of Memory: Killed process 9065 (updatedb).
+Nov 24 05:10:47 combo su(pam_unix)[9181]: session opened for user news by (uid=0)
+Nov 24 05:10:52 combo su(pam_unix)[9181]: session closed for user news
+Nov 24 05:35:21 combo kernel: Out of Memory: Killed process 9295 (python).
+Nov 24 05:40:16 combo kernel: Out of Memory: Killed process 9305 (python).
+Nov 24 05:45:17 combo kernel: Out of Memory: Killed process 9307 (httpd).
+Nov 24 05:45:22 combo kernel: Out of Memory: Killed process 9311 (python).
+Nov 24 05:50:21 combo kernel: Out of Memory: Killed process 9318 (python).
+Nov 24 05:55:15 combo kernel: Out of Memory: Killed process 9327 (python).
+Nov 24 06:00:16 combo kernel: Out of Memory: Killed process 9332 (python).
+Nov 24 06:05:17 combo kernel: Out of Memory: Killed process 9353 (python).
+Nov 24 06:10:20 combo kernel: Out of Memory: Killed process 9360 (python).
+Nov 24 06:15:28 combo kernel: Out of Memory: Killed process 9372 (python).
+Nov 24 06:20:23 combo kernel: Out of Memory: Killed process 9386 (python).
+Nov 24 06:20:33 combo kernel: Out of Memory: Killed process 8570 (sendmail).
+Nov 24 06:30:30 combo kernel: Out of Memory: Killed process 9412 (python).
+Nov 24 06:35:37 combo kernel: Out of Memory: Killed process 9421 (httpd).
+Nov 24 06:40:17 combo kernel: Out of Memory: Killed process 9432 (python).
+Nov 24 06:45:21 combo kernel: Out of Memory: Killed process 9439 (python).
+Nov 24 06:55:18 combo kernel: Out of Memory: Killed process 9452 (python).
+Nov 24 07:00:21 combo kernel: Out of Memory: Killed process 9458 (python).
+Nov 24 07:05:19 combo kernel: Out of Memory: Killed process 9480 (python).
+Nov 24 07:10:27 combo kernel: Out of Memory: Killed process 9488 (python).
+Nov 24 07:15:29 combo kernel: Out of Memory: Killed process 9501 (python).
+Nov 24 07:20:23 combo kernel: Out of Memory: Killed process 9516 (python).
+Nov 24 07:20:31 combo kernel: Out of Memory: Killed process 9168 (sendmail).
+Nov 24 07:40:18 combo kernel: Out of Memory: Killed process 9525 (httpd).
+Nov 24 07:40:31 combo kernel: Out of Memory: Killed process 9574 (python).
+Nov 24 07:50:17 combo kernel: Out of Memory: Killed process 9584 (httpd).
+Nov 24 08:00:24 combo kernel: Out of Memory: Killed process 9585 (httpd).
+Nov 24 08:00:36 combo kernel: Out of Memory: Killed process 9603 (python).
+Nov 24 08:05:20 combo kernel: Out of Memory: Killed process 9626 (python).
+Nov 24 08:10:21 combo kernel: Out of Memory: Killed process 9632 (python).
+Nov 24 08:15:28 combo kernel: Out of Memory: Killed process 9646 (python).
+Nov 24 08:20:28 combo kernel: Out of Memory: Killed process 9663 (python).
+Nov 24 08:25:31 combo kernel: Out of Memory: Killed process 9678 (python).
+Nov 24 08:30:28 combo kernel: Out of Memory: Killed process 9695 (python).
+Nov 24 08:30:38 combo kernel: Out of Memory: Killed process 9354 (sendmail).
+Nov 24 08:40:19 combo kernel: Out of Memory: Killed process 9721 (python).
+Nov 24 09:00:17 combo kernel: Out of Memory: Killed process 9748 (python).
+Nov 24 09:00:33 combo kernel: Out of Memory: Killed process 9745 (python).
+Nov 24 09:05:46 combo kernel: Out of Memory: Killed process 9768 (httpd).
+Nov 24 09:10:33 combo kernel: Out of Memory: Killed process 9780 (python).
+Nov 24 09:15:31 combo kernel: Out of Memory: Killed process 9790 (python).
+Nov 24 09:20:24 combo kernel: Out of Memory: Killed process 9795 (httpd).
+Nov 24 09:20:35 combo kernel: Out of Memory: Killed process 9808 (python).
+Nov 24 09:25:25 combo kernel: Out of Memory: Killed process 9818 (python).
+Nov 24 09:30:39 combo kernel: Out of Memory: Killed process 9822 (httpd).
+Nov 24 09:30:48 combo kernel: Out of Memory: Killed process 9840 (httpd).
+Nov 24 09:31:05 combo kernel: Out of Memory: Killed process 9845 (python).
+Nov 24 09:35:22 combo kernel: Out of Memory: Killed process 9856 (python).
+Nov 24 09:35:32 combo kernel: Out of Memory: Killed process 9855 (mrtg).
+Nov 24 09:36:48 combo sshd(pam_unix)[9860]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9860]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:48 combo sshd(pam_unix)[9867]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9867]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:48 combo sshd(pam_unix)[9869]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9869]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:48 combo sshd(pam_unix)[9864]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9864]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:48 combo sshd(pam_unix)[9861]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9861]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:48 combo sshd(pam_unix)[9863]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9863]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:48 combo sshd(pam_unix)[9870]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9865]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9862]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9866]: check pass; user unknown
+Nov 24 09:36:48 combo sshd(pam_unix)[9870]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:48 combo sshd(pam_unix)[9865]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:49 combo sshd(pam_unix)[9862]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:36:49 combo sshd(pam_unix)[9866]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=ev1s-216-127-80-2.ev1servers.net
+Nov 24 09:40:35 combo kernel: Out of Memory: Killed process 9891 (python).
+Nov 24 09:40:51 combo kernel: Out of Memory: Killed process 9482 (sendmail).
+Nov 24 10:00:15 combo kernel: Out of Memory: Killed process 9909 (httpd).
+Nov 24 10:10:22 combo kernel: Out of Memory: Killed process 9943 (python).
+Nov 24 10:15:31 combo kernel: Out of Memory: Killed process 9958 (python).
+Nov 24 10:20:27 combo kernel: Out of Memory: Killed process 9973 (python).
+Nov 24 10:25:31 combo kernel: Out of Memory: Killed process 9988 (python).
+Nov 24 10:30:32 combo kernel: Out of Memory: Killed process 10003 (python).
+Nov 24 10:30:41 combo kernel: Out of Memory: Killed process 9627 (sendmail).
+Nov 24 10:45:17 combo kernel: Out of Memory: Killed process 10026 (httpd).
+Nov 24 10:45:27 combo kernel: Out of Memory: Killed process 10030 (python).
+Nov 24 10:50:18 combo kernel: Out of Memory: Killed process 10034 (python).
+Nov 24 10:55:18 combo kernel: Out of Memory: Killed process 10041 (python).
+Nov 24 11:05:16 combo kernel: Out of Memory: Killed process 10070 (python).
+Nov 24 11:10:20 combo kernel: Out of Memory: Killed process 10082 (python).
+Nov 24 11:10:26 combo kernel: Out of Memory: Killed process 9775 (sendmail).
+Nov 24 11:10:31 combo kernel: Out of Memory: Killed process 9939 (sendmail).
+Nov 24 11:10:38 combo kernel: Out of Memory: Killed process 10080 (mrtg).
+Nov 24 11:10:47 combo kernel: Out of Memory: Killed process 10074 (sendmail).
+Nov 24 11:10:48 combo ftpd[10084]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10089]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10095]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10094]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10093]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10097]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10087]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10098]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10096]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10090]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10092]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10091]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10086]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10088]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:10:48 combo ftpd[10085]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:10:48 2005
+Nov 24 11:11:04 combo ftpd[10099]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:11:04 2005
+Nov 24 11:11:05 combo ftpd[10100]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:11:05 2005
+Nov 24 11:11:05 combo ftpd[10101]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:11:05 2005
+Nov 24 11:11:06 combo ftpd[10103]: connection from 200.215.8.33 (200-215-8-33.fnsce303.ipd.brasiltelecom.net.br) at Thu Nov 24 11:11:06 2005
+Nov 24 13:40:20 combo kernel: Out of Memory: Killed process 10133 (httpd).
+Nov 24 13:40:29 combo kernel: Out of Memory: Killed process 10388 (python).
+Nov 24 13:45:18 combo kernel: Out of Memory: Killed process 10395 (python).
+Nov 24 13:50:17 combo kernel: Out of Memory: Killed process 10404 (python).
+Nov 24 13:55:14 combo kernel: Out of Memory: Killed process 10410 (python).
+Nov 24 14:00:21 combo kernel: Out of Memory: Killed process 10416 (python).
+Nov 24 14:10:29 combo kernel: Out of Memory: Killed process 10441 (python).
+Nov 24 14:15:24 combo kernel: Out of Memory: Killed process 10456 (python).
+Nov 24 14:20:48 combo kernel: Out of Memory: Killed process 10470 (python).
+Nov 24 14:25:27 combo kernel: Out of Memory: Killed process 10486 (python).
+Nov 24 14:30:30 combo kernel: Out of Memory: Killed process 10504 (python).
+Nov 24 14:30:39 combo kernel: Out of Memory: Killed process 10191 (sendmail).
+Nov 24 14:35:29 combo kernel: Out of Memory: Killed process 10518 (python).
+Nov 24 14:45:21 combo kernel: Out of Memory: Killed process 10534 (httpd).
+Nov 24 14:50:12 combo kernel: Out of Memory: Killed process 10547 (python).
+Nov 24 15:00:21 combo kernel: Out of Memory: Killed process 10559 (python).
+Nov 24 15:05:30 combo kernel: Out of Memory: Killed process 10580 (python).
+Nov 24 15:10:28 combo kernel: Out of Memory: Killed process 10588 (python).
+Nov 24 15:15:45 combo kernel: Out of Memory: Killed process 10601 (httpd).
+Nov 24 15:16:42 combo kernel: Out of Memory: Killed process 10606 (python).
+Nov 24 15:20:33 combo kernel: Out of Memory: Killed process 10616 (python).
+Nov 24 15:25:21 combo kernel: Out of Memory: Killed process 10634 (python).
+Nov 24 15:25:28 combo kernel: Out of Memory: Killed process 10298 (sendmail).
+Nov 24 15:45:15 combo kernel: Out of Memory: Killed process 10686 (python).
+Nov 24 15:50:21 combo kernel: Out of Memory: Killed process 10691 (python).
+Nov 24 15:55:18 combo kernel: Out of Memory: Killed process 10697 (python).
+Nov 24 16:05:14 combo kernel: Out of Memory: Killed process 10725 (python).
+Nov 24 16:10:29 combo kernel: Out of Memory: Killed process 10728 (httpd).
+Nov 24 16:10:38 combo kernel: Out of Memory: Killed process 10733 (python).
+Nov 24 16:15:25 combo kernel: Out of Memory: Killed process 10752 (python).
+Nov 24 16:20:27 combo kernel: Out of Memory: Killed process 10765 (python).
+Nov 24 16:20:34 combo kernel: Out of Memory: Killed process 10437 (sendmail).
+Nov 24 16:40:29 combo kernel: Out of Memory: Killed process 10818 (python).
+Nov 24 16:45:14 combo kernel: Out of Memory: Killed process 10823 (python).
+Nov 24 16:55:27 combo kernel: Out of Memory: Killed process 10834 (python).
+Nov 24 17:00:17 combo kernel: Out of Memory: Killed process 10841 (python).
+Nov 24 17:10:30 combo kernel: Out of Memory: Killed process 10872 (python).
+Nov 24 17:15:22 combo kernel: Out of Memory: Killed process 10885 (python).
+Nov 24 17:20:21 combo kernel: Out of Memory: Killed process 10898 (python).
+Nov 24 17:20:27 combo kernel: Out of Memory: Killed process 10899 (mrtg).
+Nov 24 17:25:41 combo kernel: Out of Memory: Killed process 10910 (python).
+Nov 24 17:25:47 combo kernel: Out of Memory: Killed process 10582 (sendmail).
+Nov 24 17:40:17 combo kernel: Out of Memory: Killed process 10915 (httpd).
+Nov 24 17:40:25 combo kernel: Out of Memory: Killed process 10951 (python).
+Nov 24 17:45:15 combo kernel: Out of Memory: Killed process 10959 (python).
+Nov 24 17:50:26 combo kernel: Out of Memory: Killed process 10960 (httpd).
+Nov 24 17:50:47 combo kernel: Out of Memory: Killed process 10964 (python).
+Nov 24 17:55:15 combo kernel: Out of Memory: Killed process 10971 (python).
+Nov 24 18:00:40 combo kernel: Out of Memory: Killed process 10976 (python).
+Nov 24 18:10:47 combo kernel: Out of Memory: Killed process 11003 (python).
+Nov 24 18:15:19 combo kernel: Out of Memory: Killed process 11018 (python).
+Nov 24 18:20:25 combo kernel: Out of Memory: Killed process 11036 (python).
+Nov 24 18:25:41 combo kernel: Out of Memory: Killed process 11047 (python).
+Nov 24 18:25:50 combo kernel: Out of Memory: Killed process 10727 (sendmail).
+Nov 24 18:30:28 combo kernel: Out of Memory: Killed process 11062 (python).
+Nov 24 18:40:31 combo kernel: Out of Memory: Killed process 11084 (python).
+Nov 24 18:45:12 combo kernel: Out of Memory: Killed process 11092 (python).
+Nov 24 18:50:23 combo kernel: Out of Memory: Killed process 11098 (python).
+Nov 24 18:55:14 combo kernel: Out of Memory: Killed process 11104 (python).
+Nov 24 19:00:16 combo kernel: Out of Memory: Killed process 11109 (python).
+Nov 24 19:10:25 combo kernel: Out of Memory: Killed process 11139 (python).
+Nov 24 19:15:34 combo kernel: Out of Memory: Killed process 11158 (python).
+Nov 24 19:15:54 combo kernel: Out of Memory: Killed process 10864 (sendmail).
+Nov 24 19:25:27 combo kernel: Out of Memory: Killed process 11177 (httpd).
+Nov 24 19:30:24 combo kernel: Out of Memory: Killed process 11193 (python).
+Nov 24 19:35:16 combo kernel: Out of Memory: Killed process 11208 (python).
+Nov 24 19:45:18 combo kernel: Out of Memory: Killed process 11230 (python).
+Nov 24 19:50:20 combo kernel: Out of Memory: Killed process 11234 (python).
+Nov 24 19:55:17 combo kernel: Out of Memory: Killed process 11244 (python).
+Nov 24 20:00:15 combo kernel: Out of Memory: Killed process 11245 (httpd).
+Nov 24 20:00:28 combo kernel: Out of Memory: Killed process 11249 (python).
+Nov 24 20:05:16 combo kernel: Out of Memory: Killed process 11270 (python).
+Nov 24 20:10:25 combo kernel: Out of Memory: Killed process 11279 (python).
+Nov 24 20:15:22 combo kernel: Out of Memory: Killed process 11287 (python).
+Nov 24 20:15:32 combo kernel: Out of Memory: Killed process 10998 (sendmail).
+Nov 24 20:30:21 combo kernel: Out of Memory: Killed process 11328 (python).
+Nov 24 20:35:40 combo kernel: Out of Memory: Killed process 11341 (python).
+Nov 24 20:40:19 combo kernel: Out of Memory: Killed process 11349 (python).
+Nov 24 20:50:16 combo kernel: Out of Memory: Killed process 11360 (python).
+Nov 24 20:55:23 combo kernel: Out of Memory: Killed process 11366 (python).
+Nov 24 21:00:16 combo kernel: Out of Memory: Killed process 11372 (python).
+Nov 24 21:05:13 combo kernel: Out of Memory: Killed process 11392 (python).
+Nov 24 21:10:42 combo kernel: Out of Memory: Killed process 11401 (python).
+Nov 24 21:15:22 combo kernel: Out of Memory: Killed process 11410 (python).
+Nov 24 21:15:33 combo kernel: Out of Memory: Killed process 11132 (sendmail).
+Nov 24 21:30:28 combo kernel: Out of Memory: Killed process 11450 (python).
+Nov 24 21:35:25 combo kernel: Out of Memory: Killed process 11463 (python).
+Nov 24 21:40:20 combo kernel: Out of Memory: Killed process 11476 (python).
+Nov 24 21:45:34 combo kernel: Out of Memory: Killed process 11483 (python).
+Nov 24 21:50:29 combo kernel: Out of Memory: Killed process 11489 (python).
+Nov 24 21:55:17 combo kernel: Out of Memory: Killed process 11496 (python).
+Nov 24 22:00:16 combo kernel: Out of Memory: Killed process 11501 (python).
+Nov 24 22:05:10 combo kernel: Out of Memory: Killed process 11523 (python).
+Nov 24 22:10:23 combo kernel: Out of Memory: Killed process 11538 (python).
+Nov 24 22:15:28 combo kernel: Out of Memory: Killed process 11546 (python).
+Nov 24 22:15:37 combo kernel: Out of Memory: Killed process 11272 (sendmail).
+Nov 24 22:30:32 combo kernel: Out of Memory: Killed process 11581 (python).
+Nov 24 22:35:24 combo kernel: Out of Memory: Killed process 11594 (python).
+Nov 24 22:40:27 combo kernel: Out of Memory: Killed process 11611 (python).
+Nov 24 22:45:17 combo kernel: Out of Memory: Killed process 11625 (python).
+Nov 24 22:50:16 combo kernel: Out of Memory: Killed process 11631 (python).
+Nov 24 22:55:13 combo kernel: Out of Memory: Killed process 11640 (python).
+Nov 24 23:00:14 combo kernel: Out of Memory: Killed process 11644 (httpd).
+Nov 24 23:00:21 combo kernel: Out of Memory: Killed process 11650 (python).
+Nov 24 23:05:15 combo kernel: Out of Memory: Killed process 11668 (python).
+Nov 24 23:10:38 combo kernel: Out of Memory: Killed process 11675 (python).
+Nov 24 23:10:50 combo kernel: Out of Memory: Killed process 11394 (sendmail).
+Nov 24 23:10:57 combo kernel: Out of Memory: Killed process 11530 (sendmail).
+Nov 25 00:25:32 combo kernel: Out of Memory: Killed process 11737 (httpd).
+Nov 25 00:30:26 combo kernel: Out of Memory: Killed process 11873 (python).
+Nov 25 00:35:54 combo kernel: Out of Memory: Killed process 11889 (python).
+Nov 25 00:40:22 combo kernel: Out of Memory: Killed process 11902 (python).
+Nov 25 00:45:16 combo kernel: Out of Memory: Killed process 11908 (python).
+Nov 25 00:50:18 combo kernel: Out of Memory: Killed process 11916 (python).
+Nov 25 00:55:27 combo kernel: Out of Memory: Killed process 11923 (python).
+Nov 25 01:00:17 combo kernel: Out of Memory: Killed process 11932 (python).
+Nov 25 01:05:23 combo kernel: Out of Memory: Killed process 11948 (httpd).
+Nov 25 01:10:27 combo kernel: Out of Memory: Killed process 11960 (python).
+Nov 25 01:10:34 combo kernel: Out of Memory: Killed process 11959 (mrtg).
+Nov 25 01:15:23 combo kernel: Out of Memory: Killed process 11962 (httpd).
+Nov 25 01:15:47 combo kernel: Out of Memory: Killed process 11975 (python).
+Nov 25 01:16:21 combo kernel: Out of Memory: Killed process 11671 (sendmail).
+Nov 25 01:30:24 combo kernel: Out of Memory: Killed process 12009 (python).
+Nov 25 01:35:41 combo kernel: Out of Memory: Killed process 12024 (httpd).
+Nov 25 01:35:51 combo kernel: Out of Memory: Killed process 12022 (python).
+Nov 25 01:40:28 combo kernel: Out of Memory: Killed process 12038 (python).
+Nov 25 01:45:25 combo kernel: Out of Memory: Killed process 12054 (python).
+Nov 25 01:50:13 combo kernel: Out of Memory: Killed process 12058 (python).
+Nov 25 01:55:13 combo kernel: Out of Memory: Killed process 12066 (python).
+Nov 25 02:00:18 combo kernel: Out of Memory: Killed process 12071 (python).
+Nov 25 02:05:21 combo kernel: Out of Memory: Killed process 12090 (python).
+Nov 25 02:10:25 combo kernel: Out of Memory: Killed process 12097 (python).
+Nov 25 02:10:36 combo kernel: Out of Memory: Killed process 11806 (sendmail).
+Nov 25 02:10:36 combo kernel: sendmail: page allocation failure. order:0, mode:0x1d2
+Nov 25 02:10:36 combo kernel: Call Trace:
+Nov 25 02:10:36 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 25 02:10:36 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 25 02:10:36 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 25 02:10:36 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 25 02:10:36 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 25 02:10:36 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 25 02:10:36 combo kernel:  [<021529bb>] d_alloc+0x38/0x1b0
+Nov 25 02:10:36 combo kernel:  [<02152b72>] d_instantiate+0x3f/0x42
+Nov 25 02:10:36 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 25 02:10:36 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 25 02:10:39 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 25 02:10:40 combo kernel:  [<0211fc74>] sys_rt_sigprocmask+0x87/0x9a
+Nov 25 02:10:41 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 25 02:10:42 combo kernel:
+Nov 25 02:10:43 combo kernel: sendmail: page allocation failure. order:0, mode:0x1d2
+Nov 25 02:10:43 combo kernel: Call Trace:
+Nov 25 02:10:43 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 25 02:10:44 combo kernel:  [<021303bd>] do_page_cache_readahead+0xa3/0x101
+Nov 25 02:10:44 combo kernel:  [<0212c71b>] filemap_nopage+0x119/0x26d
+Nov 25 02:10:44 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 25 02:10:44 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 25 02:10:45 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 25 02:10:45 combo kernel:  [<021529bb>] d_alloc+0x38/0x1b0
+Nov 25 02:10:45 combo kernel:  [<02152b72>] d_instantiate+0x3f/0x42
+Nov 25 02:10:45 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 25 02:10:46 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 25 02:10:46 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 25 02:10:46 combo kernel:  [<0211fc74>] sys_rt_sigprocmask+0x87/0x9a
+Nov 25 02:10:46 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 25 02:10:47 combo kernel:
+Nov 25 02:10:47 combo kernel: sendmail: page allocation failure. order:0, mode:0x1d2
+Nov 25 02:10:47 combo kernel: Call Trace:
+Nov 25 02:10:47 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 25 02:10:48 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 25 02:10:48 combo kernel:  [<0212c784>] filemap_nopage+0x182/0x26d
+Nov 25 02:10:48 combo kernel:  [<021361c7>] do_no_page+0xa1/0x235
+Nov 25 02:10:48 combo kernel:  [<0213647b>] handle_mm_fault+0x71/0xe2
+Nov 25 02:10:49 combo kernel:  [<02114537>] do_page_fault+0x12f/0x446
+Nov 25 02:10:49 combo kernel:  [<021529bb>] d_alloc+0x38/0x1b0
+Nov 25 02:10:49 combo kernel:  [<02152b72>] d_instantiate+0x3f/0x42
+Nov 25 02:10:49 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 25 02:10:50 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 25 02:10:50 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 25 02:10:50 combo kernel:  [<0211fc74>] sys_rt_sigprocmask+0x87/0x9a
+Nov 25 02:10:50 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 25 02:10:51 combo kernel:
+Nov 25 02:10:51 combo kernel: VM: killing process sendmail
+Nov 25 02:10:51 combo kernel: sendmail: page allocation failure. order:0, mode:0x50
+Nov 25 02:10:51 combo kernel: Call Trace:
+Nov 25 02:10:52 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 25 02:10:52 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 25 02:10:52 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 25 02:10:52 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 25 02:10:53 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 25 02:10:53 combo kernel:  [<0a8e11ed>] ext3_get_inode_loc+0x119/0x201 [ext3]
+Nov 25 02:10:53 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 25 02:10:53 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 25 02:10:54 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 25 02:10:54 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 25 02:10:54 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 25 02:10:54 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 25 02:10:55 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 25 02:10:55 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 25 02:10:55 combo kernel:  [<021287f4>] __print_symbol+0x35/0x121
+Nov 25 02:10:55 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 25 02:10:56 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 25 02:10:56 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 25 02:10:56 combo kernel:  [<02118840>] call_console_drivers+0xbe/0xe3
+Nov 25 02:10:56 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 25 02:10:57 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 25 02:10:57 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 25 02:10:57 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 25 02:10:57 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 25 02:10:58 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 25 02:10:58 combo kernel:  [<02221a76>] input_unregister_device+0xd/0xc1
+Nov 25 02:10:58 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 25 02:10:58 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 25 02:10:59 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 25 02:10:59 combo kernel:  [<021529bb>] d_alloc+0x38/0x1b0
+Nov 25 02:10:59 combo kernel:  [<02152b72>] d_instantiate+0x3f/0x42
+Nov 25 02:10:59 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 25 02:11:00 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 25 02:11:00 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 25 02:11:00 combo kernel:  [<0211fc74>] sys_rt_sigprocmask+0x87/0x9a
+Nov 25 02:11:00 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 25 02:11:01 combo kernel:
+Nov 25 02:11:01 combo kernel: sendmail: page allocation failure. order:0, mode:0x50
+Nov 25 02:11:01 combo kernel: Call Trace:
+Nov 25 02:11:01 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 25 02:11:02 combo kernel:  [<0212bd04>] find_or_create_page+0x39/0x70
+Nov 25 02:11:02 combo kernel:  [<02142ed7>] grow_dev_page+0x27/0xc3
+Nov 25 02:11:02 combo kernel:  [<02143014>] __getblk_slow+0xa1/0xcb
+Nov 25 02:11:03 combo kernel:  [<0214328d>] __getblk+0x25/0x2b
+Nov 25 02:11:03 combo kernel:  [<0a8e11ed>] ext3_get_inode_loc+0x119/0x201 [ext3]
+Nov 25 02:11:03 combo kernel:  [<0a8e1ba6>] ext3_reserve_inode_write+0x21/0x81 [ext3]
+Nov 25 02:11:03 combo kernel:  [<0a8e1c17>] ext3_mark_inode_dirty+0x11/0x27 [ext3]
+Nov 25 02:11:04 combo kernel:  [<0a8b23ef>] journal_start+0x78/0x9e [jbd]
+Nov 25 02:11:04 combo kernel:  [<0a8e1c7c>] ext3_dirty_inode+0x4f/0x5f [ext3]
+Nov 25 02:11:04 combo kernel:  [<02158800>] __mark_inode_dirty+0x20/0xca
+Nov 25 02:11:04 combo kernel:  [<0215456f>] inode_update_time+0x8e/0x96
+Nov 25 02:11:05 combo kernel:  [<0212cfe2>] generic_file_aio_write_nolock+0x302/0x84e
+Nov 25 02:11:05 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 25 02:11:05 combo kernel:  [<021287f4>] __print_symbol+0x35/0x121
+Nov 25 02:11:06 combo kernel:  [<0212d602>] generic_file_aio_write+0x69/0x7c
+Nov 25 02:11:06 combo kernel:  [<0a8ddb99>] ext3_file_write+0x19/0x88 [ext3]
+Nov 25 02:11:06 combo kernel:  [<02141447>] do_sync_write+0x68/0x9d
+Nov 25 02:11:06 combo kernel:  [<02118840>] call_console_drivers+0xbe/0xe3
+Nov 25 02:11:07 combo kernel:  [<021189cd>] printk+0x106/0x113
+Nov 25 02:11:07 combo kernel:  [<021060c2>] show_trace+0x92/0x97
+Nov 25 02:11:07 combo kernel:  [<02106159>] dump_stack+0x11/0x13
+Nov 25 02:11:07 combo kernel:  [<0212ebf3>] __alloc_pages+0x274/0x281
+Nov 25 02:11:08 combo kernel:  [<0212c5b2>] page_cache_read+0x2a/0x7a
+Nov 25 02:11:08 combo kernel:  [<02129a6c>] do_acct_process+0x283/0x297
+Nov 25 02:11:08 combo kernel:  [<02221a76>] input_unregister_device+0xd/0xc1
+Nov 25 02:11:09 combo kernel:  [<02129a95>] acct_process+0x15/0x1f
+Nov 25 02:11:09 combo kernel:  [<02119ccc>] do_exit+0x9f/0x2e3
+Nov 25 02:11:09 combo kernel:  [<0211476a>] do_page_fault+0x362/0x446
+Nov 25 02:11:10 combo kernel:  [<021529bb>] d_alloc+0x38/0x1b0
+Nov 25 02:11:10 combo kernel:  [<02152b72>] d_instantiate+0x3f/0x42
+Nov 25 02:11:10 combo kernel:  [<02135342>] follow_page+0xda/0xe5
+Nov 25 02:11:11 combo kernel:  [<0213f1ba>] rw_vm+0x1ce/0x1ea
+Nov 25 02:11:11 combo kernel:  [<0213f423>] put_user_size+0x29/0x2d
+Nov 25 02:11:11 combo kernel:  [<0211fc74>] sys_rt_sigprocmask+0x87/0x9a
+Nov 25 02:11:12 combo kernel:  [<02114408>] do_page_fault+0x0/0x446
+Nov 25 02:11:12 combo kernel:
+Nov 25 02:25:25 combo kernel: Out of Memory: Killed process 12133 (python).
+Nov 25 02:30:25 combo kernel: Out of Memory: Killed process 12145 (python).
+Nov 25 02:35:28 combo kernel: Out of Memory: Killed process 12163 (python).
+Nov 25 02:40:20 combo kernel: Out of Memory: Killed process 12175 (python).
+Nov 25 02:45:16 combo kernel: Out of Memory: Killed process 12179 (httpd).
+Nov 25 02:45:24 combo kernel: Out of Memory: Killed process 12183 (python).
+Nov 25 02:55:19 combo kernel: Out of Memory: Killed process 12198 (python).
+Nov 25 02:55:28 combo kernel: Out of Memory: Killed process 12197 (mrtg).
+Nov 25 03:00:15 combo kernel: Out of Memory: Killed process 12210 (python).
+Nov 25 03:05:19 combo kernel: Out of Memory: Killed process 12212 (httpd).
+Nov 25 03:05:24 combo kernel: Out of Memory: Killed process 12230 (python).
+Nov 25 03:10:24 combo kernel: Out of Memory: Killed process 12239 (python).
+Nov 25 03:10:31 combo kernel: Out of Memory: Killed process 11954 (sendmail).
+Nov 25 03:25:29 combo kernel: Out of Memory: Killed process 12283 (python).
+Nov 25 03:30:25 combo kernel: Out of Memory: Killed process 12295 (python).
+Nov 25 03:35:27 combo kernel: Out of Memory: Killed process 12305 (python).
+Nov 25 03:40:51 combo kernel: Out of Memory: Killed process 12321 (python).
+Nov 25 03:45:29 combo kernel: Out of Memory: Killed process 12332 (python).
+Nov 25 03:45:35 combo kernel: Out of Memory: Killed process 12092 (sendmail).
+Nov 25 04:05:32 combo su(pam_unix)[12717]: session opened for user cyrus by (uid=0)
+Nov 25 04:05:35 combo su(pam_unix)[12717]: session closed for user cyrus
+Nov 25 04:05:37 combo logrotate: ALERT exited abnormally with [1]
+Nov 25 04:11:16 combo kernel: Out of Memory: Killed process 12341 (httpd).
+Nov 25 04:11:33 combo kernel: Out of Memory: Killed process 13008 (python).
+Nov 25 04:15:24 combo kernel: Out of Memory: Killed process 13094 (python).
+Nov 25 04:15:52 combo kernel: Out of Memory: Killed process 12707 (sendmail).
+Nov 25 04:16:02 combo kernel: Out of Memory: Killed process 12233 (sendmail).
+Nov 25 04:55:31 combo kernel: Out of Memory: Killed process 13175 (python).
+Nov 25 04:55:37 combo kernel: Out of Memory: Killed process 13100 (updatedb).
+Nov 25 04:55:45 combo su(pam_unix)[13179]: session opened for user news by (uid=0)
+Nov 25 04:55:48 combo su(pam_unix)[13179]: session closed for user news
+Nov 25 05:00:34 combo kernel: Out of Memory: Killed process 13233 (httpd).
+Nov 25 05:00:47 combo kernel: Out of Memory: Killed process 13234 (httpd).
+Nov 25 05:05:33 combo kernel: Out of Memory: Killed process 13235 (httpd).
+Nov 25 05:05:44 combo kernel: Out of Memory: Killed process 13236 (httpd).
+Nov 25 05:10:27 combo kernel: Out of Memory: Killed process 13237 (httpd).
+Nov 25 05:15:28 combo kernel: Out of Memory: Killed process 13238 (httpd).
+Nov 25 05:20:26 combo kernel: Out of Memory: Killed process 13239 (httpd).
+Nov 25 05:30:44 combo kernel: Out of Memory: Killed process 13240 (httpd).
+Nov 25 05:31:06 combo kernel: Out of Memory: Killed process 13345 (python).
+Nov 25 05:35:25 combo kernel: Out of Memory: Killed process 13354 (python).
+Nov 25 05:40:24 combo kernel: Out of Memory: Killed process 13370 (python).
+Nov 25 05:45:26 combo kernel: Out of Memory: Killed process 13384 (python).
+Nov 25 05:45:38 combo kernel: Out of Memory: Killed process 12948 (sendmail).
+Nov 25 06:15:23 combo kernel: Out of Memory: Killed process 13462 (python).
+Nov 25 06:20:25 combo kernel: Out of Memory: Killed process 13470 (python).
+Nov 25 06:30:33 combo kernel: Out of Memory: Killed process 13491 (httpd).
+Nov 25 06:30:57 combo kernel: Out of Memory: Killed process 13499 (python).
+Nov 25 06:35:25 combo kernel: Out of Memory: Killed process 13516 (python).
+Nov 25 06:40:25 combo kernel: Out of Memory: Killed process 13525 (python).
+Nov 25 06:40:44 combo kernel: Out of Memory: Killed process 13526 (mrtg).
+Nov 25 06:45:21 combo kernel: Out of Memory: Killed process 13534 (python).
+Nov 25 06:45:30 combo kernel: Out of Memory: Killed process 13277 (sendmail).
+Nov 25 07:10:28 combo kernel: Out of Memory: Killed process 13545 (httpd).
+Nov 25 07:15:34 combo kernel: Out of Memory: Killed process 13594 (python).
+Nov 25 07:20:31 combo kernel: Out of Memory: Killed process 13606 (python).
+Nov 25 07:25:21 combo kernel: Out of Memory: Killed process 13621 (python).
+Nov 25 07:30:19 combo kernel: Out of Memory: Killed process 13630 (httpd).
+Nov 25 07:30:25 combo kernel: Out of Memory: Killed process 13636 (python).
+Nov 25 07:35:36 combo kernel: Out of Memory: Killed process 13644 (python).
+Nov 25 07:40:35 combo kernel: Out of Memory: Killed process 13659 (python).
+Nov 25 07:40:55 combo kernel: Out of Memory: Killed process 13439 (sendmail).
+Nov 25 08:00:24 combo kernel: Out of Memory: Killed process 13697 (python).
+Nov 25 08:20:33 combo kernel: Out of Memory: Killed process 13714 (httpd).
+Nov 25 08:20:37 combo kernel: Out of Memory: Killed process 13755 (python).
+Nov 25 08:25:29 combo kernel: Out of Memory: Killed process 13771 (python).
+Nov 25 08:30:24 combo kernel: Out of Memory: Killed process 13780 (python).
+Nov 25 08:35:24 combo kernel: Out of Memory: Killed process 13796 (python).
+Nov 25 08:40:33 combo kernel: Out of Memory: Killed process 13805 (python).
+Nov 25 08:45:18 combo kernel: Out of Memory: Killed process 13812 (python).
+Nov 25 08:45:25 combo kernel: Out of Memory: Killed process 13577 (sendmail).
+Nov 25 09:00:20 combo kernel: Out of Memory: Killed process 13836 (python).
+Nov 25 09:15:24 combo kernel: Out of Memory: Killed process 13884 (python).
+Nov 25 09:20:46 combo kernel: Out of Memory: Killed process 13903 (python).
+Nov 25 09:25:31 combo kernel: Out of Memory: Killed process 13917 (python).
+Nov 25 09:30:21 combo kernel: Out of Memory: Killed process 13933 (python).
+Nov 25 09:35:21 combo kernel: Out of Memory: Killed process 13943 (python).
+Nov 25 09:40:22 combo kernel: Out of Memory: Killed process 13959 (python).
+Nov 25 09:45:23 combo kernel: Out of Memory: Killed process 13969 (python).
+Nov 25 09:45:34 combo kernel: Out of Memory: Killed process 13720 (sendmail).
+Nov 25 10:07:33 combo sshd(pam_unix)[14031]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:33 combo sshd(pam_unix)[14029]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:34 combo sshd(pam_unix)[14033]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:34 combo sshd(pam_unix)[14027]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:33 combo sshd(pam_unix)[14032]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:34 combo sshd(pam_unix)[14028]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:34 combo sshd(pam_unix)[14030]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:36 combo sshd(pam_unix)[14041]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:36 combo sshd(pam_unix)[14044]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:07:36 combo sshd(pam_unix)[14043]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=xdsl-5103.wroclaw.dialog.net.pl  user=test
+Nov 25 10:15:47 combo kernel: Out of Memory: Killed process 14071 (httpd).
+Nov 25 10:20:26 combo kernel: Out of Memory: Killed process 14082 (python).
+Nov 25 10:25:30 combo kernel: Out of Memory: Killed process 14093 (python).
+Nov 25 10:30:34 combo kernel: Out of Memory: Killed process 14114 (python).
+Nov 25 10:35:25 combo kernel: Out of Memory: Killed process 14128 (python).
+Nov 25 10:40:24 combo kernel: Out of Memory: Killed process 14143 (python).
+Nov 25 10:40:33 combo kernel: Out of Memory: Killed process 14142 (mrtg).
+Nov 25 10:45:20 combo kernel: Out of Memory: Killed process 14155 (python).
+Nov 25 10:45:30 combo kernel: Out of Memory: Killed process 13862 (sendmail).
+Nov 25 10:58:54 combo sshd(pam_unix)[14185]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14187]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14191]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14188]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14189]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14190]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14195]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14194]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14192]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 10:58:54 combo sshd(pam_unix)[14186]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=59-106-15-121.r-bl100.sakura.ne.jp  user=root
+Nov 25 11:20:26 combo kernel: Out of Memory: Killed process 14264 (python).
+Nov 25 11:25:26 combo kernel: Out of Memory: Killed process 14275 (python).
+Nov 25 11:30:46 combo kernel: Out of Memory: Killed process 14290 (python).
+Nov 25 11:35:46 combo kernel: Out of Memory: Killed process 14307 (python).
+Nov 25 11:40:35 combo kernel: Out of Memory: Killed process 14318 (python).
+Nov 25 11:40:41 combo kernel: Out of Memory: Killed process 14048 (sendmail).
+Nov 25 12:00:17 combo kernel: Out of Memory: Killed process 14348 (python).
+Nov 25 12:15:22 combo kernel: Out of Memory: Killed process 14382 (httpd).
+Nov 25 12:20:30 combo kernel: Out of Memory: Killed process 14390 (httpd).
+Nov 25 12:20:39 combo kernel: Out of Memory: Killed process 14405 (python).
+Nov 25 12:25:28 combo kernel: Out of Memory: Killed process 14418 (python).
+Nov 25 12:30:26 combo kernel: Out of Memory: Killed process 14435 (python).
+Nov 25 12:35:45 combo kernel: Out of Memory: Killed process 14447 (python).
+Nov 25 12:40:36 combo kernel: Out of Memory: Killed process 14455 (python).
+Nov 25 12:45:13 combo kernel: Out of Memory: Killed process 14465 (python).
+Nov 25 12:45:21 combo kernel: Out of Memory: Killed process 14233 (sendmail).
+Nov 25 13:00:18 combo kernel: Out of Memory: Killed process 14477 (httpd).
+Nov 25 13:05:20 combo kernel: Out of Memory: Killed process 14509 (python).
+Nov 25 13:15:26 combo kernel: Out of Memory: Killed process 14529 (python).
+Nov 25 13:20:37 combo kernel: Out of Memory: Killed process 14543 (python).
+Nov 25 13:25:22 combo kernel: Out of Memory: Killed process 14556 (python).
+Nov 25 13:30:22 combo kernel: Out of Memory: Killed process 14566 (python).
+Nov 25 13:35:20 combo kernel: Out of Memory: Killed process 14581 (python).
+Nov 25 13:40:23 combo kernel: Out of Memory: Killed process 14593 (python).
+Nov 25 13:40:38 combo kernel: Out of Memory: Killed process 14369 (sendmail).
+Nov 25 13:40:43 combo kernel: Out of Memory: Killed process 14592 (mrtg).
+Nov 25 14:10:25 combo kernel: Out of Memory: Killed process 14643 (httpd).
+Nov 25 14:20:32 combo kernel: Out of Memory: Killed process 14668 (httpd).
+Nov 25 14:25:27 combo kernel: Out of Memory: Killed process 14688 (python).
+Nov 25 14:30:22 combo kernel: Out of Memory: Killed process 14700 (python).
+Nov 25 14:35:24 combo kernel: Out of Memory: Killed process 14711 (python).
+Nov 25 14:40:46 combo kernel: Out of Memory: Killed process 14724 (httpd).
+Nov 25 14:40:55 combo kernel: Out of Memory: Killed process 14730 (python).
+Nov 25 14:45:30 combo kernel: Out of Memory: Killed process 14741 (python).
+Nov 25 14:45:41 combo kernel: Out of Memory: Killed process 14510 (sendmail).
+Nov 25 15:00:49 combo ftpd[14765]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14770]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14768]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14762]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14771]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14761]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14767]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14769]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14764]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:49 combo ftpd[14763]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:49 2005
+Nov 25 15:00:50 combo ftpd[14766]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:50 2005
+Nov 25 15:00:51 combo ftpd[14776]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:51 2005
+Nov 25 15:00:51 combo ftpd[14777]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:51 2005
+Nov 25 15:00:51 combo ftpd[14774]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:51 2005
+Nov 25 15:00:51 combo ftpd[14778]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:51 2005
+Nov 25 15:00:51 combo ftpd[14779]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:51 2005
+Nov 25 15:00:51 combo ftpd[14772]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:51 2005
+Nov 25 15:00:51 combo ftpd[14773]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:51 2005
+Nov 25 15:00:51 combo ftpd[14775]: connection from 219.96.194.251 (pc1.ayaha-hs-unet.ocn.ne.jp) at Fri Nov 25 15:00:51 2005
+Nov 25 15:10:40 combo kernel: Out of Memory: Killed process 14809 (python).
+Nov 25 15:15:25 combo kernel: Out of Memory: Killed process 14821 (python).
+Nov 25 15:20:26 combo kernel: Out of Memory: Killed process 14830 (python).
+Nov 25 15:25:17 combo kernel: Out of Memory: Killed process 14845 (python).
+Nov 25 15:30:44 combo kernel: Out of Memory: Killed process 14854 (python).
+Nov 25 15:35:23 combo kernel: Out of Memory: Killed process 14876 (python).
+Nov 25 15:36:14 combo sshd(pam_unix)[14896]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14881]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14883]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14895]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14894]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14884]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14882]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14886]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14885]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:36:14 combo sshd(pam_unix)[14880]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=202.164.165.108  user=test
+Nov 25 15:40:21 combo kernel: Out of Memory: Killed process 14913 (python).
+Nov 25 15:45:13 combo kernel: Out of Memory: Killed process 14921 (python).
+Nov 25 15:45:26 combo kernel: Out of Memory: Killed process 14644 (sendmail).
+Nov 25 16:05:13 combo kernel: Out of Memory: Killed process 14923 (httpd).
+Nov 25 16:15:30 combo kernel: Out of Memory: Killed process 14977 (python).
+Nov 25 16:20:32 combo kernel: Out of Memory: Killed process 14996 (python).
+Nov 25 16:25:28 combo kernel: Out of Memory: Killed process 15005 (python).
+Nov 25 16:30:34 combo kernel: Out of Memory: Killed process 15022 (python).
+Nov 25 16:35:22 combo kernel: Out of Memory: Killed process 15032 (python).
+Nov 25 16:40:24 combo kernel: Out of Memory: Killed process 15046 (python).
+Nov 25 16:40:42 combo kernel: Out of Memory: Killed process 14803 (sendmail).
+Nov 25 17:15:22 combo kernel: Out of Memory: Killed process 15102 (httpd).
+Nov 25 17:20:28 combo kernel: Out of Memory: Killed process 15119 (httpd).
+Nov 25 17:20:38 combo kernel: Out of Memory: Killed process 15128 (python).
+Nov 25 17:25:55 combo kernel: Out of Memory: Killed process 15145 (python).
+Nov 25 17:30:25 combo kernel: Out of Memory: Killed process 15146 (httpd).
+Nov 25 17:30:48 combo kernel: Out of Memory: Killed process 15157 (python).
+Nov 25 17:36:13 combo kernel: Out of Memory: Killed process 15170 (python).
+Nov 25 17:40:52 combo kernel: Out of Memory: Killed process 15171 (httpd).
+Nov 25 17:41:24 combo kernel: Out of Memory: Killed process 15178 (python).
+Nov 25 17:45:34 combo kernel: Out of Memory: Killed process 15182 (httpd).
+Nov 25 17:45:40 combo kernel: Out of Memory: Killed process 15189 (python).
+Nov 25 17:45:59 combo kernel: Out of Memory: Killed process 15190 (httpd).
+Nov 25 17:46:10 combo kernel: Out of Memory: Killed process 14961 (sendmail).
+Nov 25 17:52:19 combo sshd(pam_unix)[15225]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.16.123.169  user=root
+Nov 25 17:52:19 combo sshd(pam_unix)[15212]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.16.123.169  user=root
+Nov 25 17:52:19 combo sshd(pam_unix)[15224]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.16.123.169  user=root
+Nov 25 17:52:19 combo sshd(pam_unix)[15217]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.16.123.169  user=root
+Nov 25 17:52:19 combo sshd(pam_unix)[15213]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.16.123.169  user=root
+Nov 25 17:52:19 combo sshd(pam_unix)[15223]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.16.123.169  user=root
+Nov 25 17:52:21 combo sshd(pam_unix)[15226]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.16.123.169  user=root
+Nov 25 18:15:28 combo kernel: Out of Memory: Killed process 15284 (python).
+Nov 25 18:20:23 combo kernel: Out of Memory: Killed process 15295 (python).
+Nov 25 18:25:25 combo kernel: Out of Memory: Killed process 15302 (python).
+Nov 25 18:30:32 combo kernel: Out of Memory: Killed process 15316 (python).
+Nov 25 18:35:31 combo kernel: Out of Memory: Killed process 15327 (python).
+Nov 25 18:40:20 combo kernel: Out of Memory: Killed process 15340 (python).
+Nov 25 18:40:25 combo kernel: Out of Memory: Killed process 15091 (sendmail).
+Nov 25 18:55:19 combo kernel: Out of Memory: Killed process 15362 (python).
+Nov 25 19:10:36 combo kernel: Out of Memory: Killed process 15398 (python).
+Nov 25 19:20:23 combo kernel: Out of Memory: Killed process 15421 (python).
+Nov 25 19:25:22 combo kernel: Out of Memory: Killed process 15438 (python).
+Nov 25 19:30:25 combo kernel: Out of Memory: Killed process 15448 (python).
+Nov 25 19:35:38 combo kernel: Out of Memory: Killed process 15461 (python).
+Nov 25 19:40:20 combo kernel: Out of Memory: Killed process 15477 (python).
+Nov 25 19:40:28 combo kernel: Out of Memory: Killed process 15268 (sendmail).
+Nov 25 20:00:18 combo kernel: Out of Memory: Killed process 15510 (python).
+Nov 25 20:10:35 combo kernel: Out of Memory: Killed process 15539 (python).
+Nov 25 20:20:30 combo kernel: Out of Memory: Killed process 15558 (python).
+Nov 25 20:25:32 combo kernel: Out of Memory: Killed process 15569 (python).
+Nov 25 20:30:28 combo kernel: Out of Memory: Killed process 15579 (python).
+Nov 25 20:30:41 combo kernel: Out of Memory: Killed process 15391 (sendmail).
+Nov 25 21:15:31 combo kernel: Out of Memory: Killed process 15667 (python).
+Nov 25 21:21:06 combo kernel: Out of Memory: Killed process 15680 (python).
+Nov 25 21:26:11 combo kernel: Out of Memory: Killed process 15689 (python).
+Nov 25 21:30:28 combo kernel: Out of Memory: Killed process 15700 (python).
+Nov 25 21:35:20 combo kernel: Out of Memory: Killed process 15718 (python).
+Nov 25 21:40:33 combo kernel: Out of Memory: Killed process 15731 (python).
+Nov 25 21:40:48 combo kernel: Out of Memory: Killed process 15730 (mrtg).
+Nov 25 21:45:37 combo kernel: Out of Memory: Killed process 15748 (python).
+Nov 25 21:45:53 combo kernel: Out of Memory: Killed process 15533 (sendmail).
+Nov 25 21:55:18 combo kernel: Out of Memory: Killed process 15762 (python).
+Nov 25 22:00:25 combo kernel: Out of Memory: Killed process 15768 (python).
+Nov 25 22:15:31 combo kernel: Out of Memory: Killed process 15806 (python).
+Nov 25 22:20:29 combo kernel: Out of Memory: Killed process 15818 (python).
+Nov 25 22:25:34 combo kernel: Out of Memory: Killed process 15827 (python).
+Nov 25 22:30:27 combo kernel: Out of Memory: Killed process 15835 (python).
+Nov 25 22:35:53 combo kernel: Out of Memory: Killed process 15849 (python).
+Nov 25 22:36:15 combo kernel: Out of Memory: Killed process 15650 (sendmail).
+Nov 25 22:45:23 combo kernel: Out of Memory: Killed process 15867 (python).
+Nov 25 22:50:20 combo kernel: Out of Memory: Killed process 15873 (python).
+Nov 25 23:10:39 combo kernel: Out of Memory: Killed process 15909 (python).
+Nov 25 23:15:34 combo kernel: Out of Memory: Killed process 15928 (python).
+Nov 25 23:20:36 combo kernel: Out of Memory: Killed process 15941 (python).
+Nov 25 23:25:31 combo kernel: Out of Memory: Killed process 15954 (python).
+Nov 25 23:30:38 combo kernel: Out of Memory: Killed process 15967 (python).
+Nov 25 23:36:11 combo kernel: Out of Memory: Killed process 15978 (python).
+Nov 25 23:40:25 combo kernel: Out of Memory: Killed process 15991 (python).
+Nov 25 23:40:34 combo kernel: Out of Memory: Killed process 15788 (sendmail).
+Nov 25 23:55:20 combo kernel: Out of Memory: Killed process 16029 (python).
+Nov 26 00:05:16 combo kernel: Out of Memory: Killed process 16055 (python).
+Nov 26 00:15:51 combo kernel: Out of Memory: Killed process 16077 (python).
+Nov 26 00:21:22 combo kernel: Out of Memory: Killed process 16093 (python).
+Nov 26 00:25:23 combo kernel: Out of Memory: Killed process 16106 (python).
+Nov 26 00:30:59 combo kernel: Out of Memory: Killed process 16120 (python).
+Nov 26 00:35:50 combo kernel: Out of Memory: Killed process 16130 (python).
+Nov 26 00:40:25 combo kernel: Out of Memory: Killed process 16141 (python).
+Nov 26 00:45:21 combo kernel: Out of Memory: Killed process 16150 (python).
+Nov 26 00:45:42 combo kernel: Out of Memory: Killed process 15905 (sendmail).
+Nov 26 01:00:19 combo kernel: Out of Memory: Killed process 16170 (python).
+Nov 26 01:10:33 combo kernel: Out of Memory: Killed process 16200 (python).
+Nov 26 01:15:39 combo kernel: Out of Memory: Killed process 16212 (python).
+Nov 26 01:20:32 combo kernel: Out of Memory: Killed process 16231 (python).
+Nov 26 01:26:03 combo kernel: Out of Memory: Killed process 16244 (python).
+Nov 26 01:31:25 combo kernel: Out of Memory: Killed process 16252 (python).
+Nov 26 01:33:56 combo ftpd[16257]: connection from 218.146.61.230 () at Sat Nov 26 01:33:56 2005
+Nov 26 01:33:56 combo ftpd[16261]: connection from 218.146.61.230 () at Sat Nov 26 01:33:56 2005
+Nov 26 01:33:56 combo ftpd[16256]: connection from 218.146.61.230 () at Sat Nov 26 01:33:56 2005
+Nov 26 01:33:56 combo ftpd[16259]: connection from 218.146.61.230 () at Sat Nov 26 01:33:56 2005
+Nov 26 01:33:56 combo ftpd[16258]: connection from 218.146.61.230 () at Sat Nov 26 01:33:56 2005
+Nov 26 01:33:56 combo ftpd[16260]: connection from 218.146.61.230 () at Sat Nov 26 01:33:56 2005
+Nov 26 01:35:53 combo kernel: Out of Memory: Killed process 16268 (python).
+Nov 26 01:40:28 combo kernel: Out of Memory: Killed process 16281 (python).
+Nov 26 01:45:22 combo kernel: Out of Memory: Killed process 16298 (python).
+Nov 26 01:45:31 combo kernel: Out of Memory: Killed process 16297 (mrtg).
+Nov 26 01:50:27 combo kernel: Out of Memory: Killed process 16305 (python).
+Nov 26 01:50:35 combo kernel: Out of Memory: Killed process 16057 (sendmail).
+Nov 26 02:05:17 combo kernel: Out of Memory: Killed process 16338 (python).
+Nov 26 02:11:02 combo kernel: Out of Memory: Killed process 16347 (python).
+Nov 26 02:20:25 combo kernel: Out of Memory: Killed process 16371 (python).
+Nov 26 02:25:19 combo kernel: Out of Memory: Killed process 16389 (python).
+Nov 26 02:30:23 combo kernel: Out of Memory: Killed process 16399 (python).
+Nov 26 02:35:19 combo kernel: Out of Memory: Killed process 16411 (python).
+Nov 26 02:40:24 combo kernel: Out of Memory: Killed process 16425 (python).
+Nov 26 02:40:31 combo kernel: Out of Memory: Killed process 16193 (sendmail).
+Nov 26 02:55:20 combo kernel: Out of Memory: Killed process 16448 (python).
+Nov 26 03:15:21 combo kernel: Out of Memory: Killed process 16493 (python).
+Nov 26 03:20:34 combo kernel: Out of Memory: Killed process 16501 (python).
+Nov 26 03:25:22 combo kernel: Out of Memory: Killed process 16518 (python).
+Nov 26 03:30:45 combo kernel: Out of Memory: Killed process 16531 (python).
+Nov 26 03:35:39 combo kernel: Out of Memory: Killed process 16541 (python).
+Nov 26 03:41:09 combo kernel: Out of Memory: Killed process 16553 (python).
+Nov 26 03:41:37 combo kernel: Out of Memory: Killed process 16340 (sendmail).
+Nov 26 03:55:19 combo kernel: Out of Memory: Killed process 16577 (python).
+Nov 26 04:05:34 combo kernel: Out of Memory: Killed process 16884 (python).
+Nov 26 04:09:36 combo su(pam_unix)[16948]: session opened for user cyrus by (uid=0)
+Nov 26 04:09:39 combo su(pam_unix)[16948]: session closed for user cyrus
+Nov 26 04:09:43 combo logrotate: ALERT exited abnormally with [1]
+Nov 26 04:10:31 combo kernel: Out of Memory: Killed process 16940 (sendmail).
+Nov 26 04:10:36 combo kernel: Out of Memory: Killed process 16982 (python).
+Nov 26 04:15:30 combo kernel: Out of Memory: Killed process 17422 (python).
+Nov 26 04:15:40 combo kernel: Out of Memory: Killed process 17428 (ld-linux.so.2).
+Nov 26 04:15:48 combo kernel: Out of Memory: Killed process 16474 (sendmail).
+Nov 26 04:20:48 combo kernel: Out of Memory: Killed process 17913 (python).
+Nov 26 04:31:05 combo kernel: Out of Memory: Killed process 18069 (python).
+Nov 26 04:35:29 combo kernel: Out of Memory: Killed process 18188 (python).
+Nov 26 05:10:30 combo kernel: Out of Memory: Killed process 18288 (python).
+Nov 26 05:15:43 combo kernel: Out of Memory: Killed process 18304 (python).
+Nov 26 05:20:32 combo kernel: Out of Memory: Killed process 18318 (python).
+Nov 26 05:20:53 combo kernel: Out of Memory: Killed process 18214 (updatedb).
+Nov 26 05:21:07 combo su(pam_unix)[18320]: session opened for user news by (uid=0)
+Nov 26 05:21:13 combo su(pam_unix)[18320]: session closed for user news
+Nov 26 05:25:35 combo kernel: Out of Memory: Killed process 18378 (python).
+Nov 26 05:30:38 combo kernel: Out of Memory: Killed process 18394 (python).
+Nov 26 05:35:31 combo kernel: Out of Memory: Killed process 18403 (python).
+Nov 26 05:40:51 combo kernel: Out of Memory: Killed process 18419 (python).
+Nov 26 05:45:34 combo kernel: Out of Memory: Killed process 18435 (python).
+Nov 26 05:50:24 combo kernel: Out of Memory: Killed process 18449 (python).
+Nov 26 05:55:23 combo kernel: Out of Memory: Killed process 18464 (python).
+Nov 26 05:55:32 combo kernel: Out of Memory: Killed process 16937 (sendmail).
+Nov 26 06:05:26 combo kernel: Out of Memory: Killed process 18496 (python).
+Nov 26 06:10:25 combo kernel: Out of Memory: Killed process 18506 (python).
+Nov 26 06:15:28 combo kernel: Out of Memory: Killed process 18514 (python).
+Nov 26 06:20:27 combo kernel: Out of Memory: Killed process 18523 (python).
+Nov 26 06:25:25 combo kernel: Out of Memory: Killed process 18537 (python).
+Nov 26 06:30:29 combo kernel: Out of Memory: Killed process 18551 (python).
+Nov 26 06:35:37 combo kernel: Out of Memory: Killed process 18565 (python).
+Nov 26 06:35:47 combo kernel: Out of Memory: Killed process 18283 (sendmail).
+Nov 26 06:45:12 combo sshd(pam_unix)[18593]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:12 combo sshd(pam_unix)[18592]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:12 combo sshd(pam_unix)[18588]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:12 combo sshd(pam_unix)[18590]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:12 combo sshd(pam_unix)[18591]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:12 combo sshd(pam_unix)[18589]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:13 combo sshd(pam_unix)[18586]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:13 combo sshd(pam_unix)[18595]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:13 combo sshd(pam_unix)[18587]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:13 combo sshd(pam_unix)[18594]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=61.35.204.36  user=root
+Nov 26 06:45:17 combo kernel: Out of Memory: Killed process 18609 (python).
+Nov 26 06:55:18 combo kernel: Out of Memory: Killed process 18620 (python).
+Nov 26 07:10:35 combo kernel: Out of Memory: Killed process 18654 (python).
+Nov 26 07:15:21 combo kernel: Out of Memory: Killed process 18664 (python).
+Nov 26 07:21:15 combo kernel: Out of Memory: Killed process 18676 (python).
+Nov 26 07:25:31 combo kernel: Out of Memory: Killed process 18686 (python).
+Nov 26 07:30:24 combo kernel: Out of Memory: Killed process 18705 (python).
+Nov 26 07:35:39 combo kernel: Out of Memory: Killed process 18717 (python).
+Nov 26 07:35:51 combo kernel: Out of Memory: Killed process 18497 (sendmail).
+Nov 26 07:50:18 combo kernel: Out of Memory: Killed process 18749 (python).
+Nov 26 07:55:23 combo kernel: Out of Memory: Killed process 18756 (python).
+Nov 26 08:00:17 combo kernel: Out of Memory: Killed process 18761 (python).
+Nov 26 08:00:28 combo kernel: Out of Memory: Killed process 18764 (python).
+Nov 26 08:05:22 combo kernel: Out of Memory: Killed process 18786 (python).
+Nov 26 08:20:24 combo kernel: Out of Memory: Killed process 18816 (python).
+Nov 26 08:25:42 combo kernel: Out of Memory: Killed process 18827 (python).
+Nov 26 08:30:52 combo kernel: Out of Memory: Killed process 18837 (python).
+Nov 26 08:35:52 combo kernel: Out of Memory: Killed process 18848 (python).
+Nov 26 08:36:18 combo kernel: Out of Memory: Killed process 18847 (mrtg).
+Nov 26 08:40:33 combo kernel: Out of Memory: Killed process 18867 (python).
+Nov 26 08:40:42 combo kernel: Out of Memory: Killed process 18647 (sendmail).
+Nov 26 09:00:28 combo kernel: Out of Memory: Killed process 18907 (python).
+Nov 26 09:00:36 combo kernel: Out of Memory: Killed process 18909 (python).
+Nov 26 09:10:38 combo kernel: Out of Memory: Killed process 18938 (python).
+Nov 26 09:15:39 combo kernel: Out of Memory: Killed process 18949 (python).
+Nov 26 09:20:26 combo kernel: Out of Memory: Killed process 18961 (python).
+Nov 26 09:25:33 combo kernel: Out of Memory: Killed process 18971 (python).
+Nov 26 09:30:34 combo kernel: Out of Memory: Killed process 18981 (python).
+Nov 26 09:35:29 combo kernel: Out of Memory: Killed process 18992 (python).
+Nov 26 09:35:43 combo kernel: Out of Memory: Killed process 18787 (sendmail).
+Nov 26 09:45:26 combo kernel: Out of Memory: Killed process 19009 (python).
+Nov 26 09:50:27 combo kernel: Out of Memory: Killed process 19017 (python).
+Nov 26 09:55:23 combo kernel: Out of Memory: Killed process 19023 (python).
+Nov 26 10:00:20 combo kernel: Out of Memory: Killed process 19027 (python).
+Nov 26 10:15:23 combo kernel: Out of Memory: Killed process 19071 (python).
+Nov 26 10:20:32 combo kernel: Out of Memory: Killed process 19082 (python).
+Nov 26 10:25:22 combo kernel: Out of Memory: Killed process 19098 (python).
+Nov 26 10:30:22 combo kernel: Out of Memory: Killed process 19112 (python).
+Nov 26 10:36:50 combo kernel: Out of Memory: Killed process 19124 (python).
+Nov 26 10:37:24 combo kernel: Out of Memory: Killed process 18931 (sendmail).
+Nov 26 11:01:27 combo kernel: Out of Memory: Killed process 19173 (python).
+Nov 26 11:10:29 combo kernel: Out of Memory: Killed process 19201 (python).
+Nov 26 11:20:26 combo kernel: Out of Memory: Killed process 19223 (python).
+Nov 26 11:25:33 combo kernel: Out of Memory: Killed process 19235 (python).
+Nov 26 11:30:24 combo kernel: Out of Memory: Killed process 19245 (python).
+Nov 26 11:35:26 combo kernel: Out of Memory: Killed process 19256 (python).
+Nov 26 11:40:34 combo kernel: Out of Memory: Killed process 19270 (python).
+Nov 26 11:45:28 combo kernel: Out of Memory: Killed process 19281 (python).
+Nov 26 11:45:37 combo kernel: Out of Memory: Killed process 19050 (sendmail).
+Nov 26 11:55:15 combo kernel: Out of Memory: Killed process 19298 (python).
+Nov 26 12:00:19 combo kernel: Out of Memory: Killed process 19304 (python).
+Nov 26 12:15:33 combo kernel: Out of Memory: Killed process 19347 (python).
+Nov 26 12:20:47 combo kernel: Out of Memory: Killed process 19357 (python).
+Nov 26 12:25:21 combo kernel: Out of Memory: Killed process 19370 (python).
+Nov 26 12:30:25 combo kernel: Out of Memory: Killed process 19388 (python).
+Nov 26 12:30:36 combo kernel: Out of Memory: Killed process 19196 (sendmail).
+Nov 26 12:40:54 combo kernel: Out of Memory: Killed process 19414 (python).
+Nov 26 13:00:13 combo kernel: Out of Memory: Killed process 19437 (python).
+Nov 26 13:05:24 combo kernel: Out of Memory: Killed process 19459 (python).
+Nov 26 13:10:35 combo kernel: Out of Memory: Killed process 19466 (python).
+

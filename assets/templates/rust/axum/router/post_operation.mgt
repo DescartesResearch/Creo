@@ -1,0 +1,22 @@
+{{#if query_params}}#[derive(serde::Deserialize, serde_valid::Validate)]
+struct QueryParams{{endpoint_index}} {
+{{#each query_params}}    {{>query_param}},
+{{/each}}
+}
+{{/if}}
+{{#if description}}// {{description}}{{/if}}
+async fn {{name}}(
+{{#if query_params}}    axum::extract::Query(params): axum::extract::Query<QueryParams{{endpoint_index}}>,{{/if}}
+{{#if has_service_calls}}    client: axum::Extension<hyper::Client<hyper::client::HttpConnector>>,{{/if}}
+    body: axum::body::Bytes,
+) -> impl IntoResponse {
+{{#if has_service_calls}}
+    let calls = {{service_call_function_name}}(client.0);{{/if}}
+    let {{body_param_name}}: &[u8] = body.as_ref();
+
+    {{#if has_return_type}}let result = {{/if}}{{handler_func_name}}({{#each handler_args}}{{#unless is_body_arg}}params.{{name}}{{/unless}}{{#if is_body_arg}}{{name}}{{/if}}{{#unless @last}}, {{/unless}}{{/each}}){{#if is_async}}.await{{/if}};
+{{#if has_service_calls}}    calls.await;
+{{/if}}
+
+    {{#if has_return_type}}(StatusCode::OK, axum::Json(result)){{/if}}{{#unless has_return_type}}axum::http::StatusCode::OK{{/unless}}
+}

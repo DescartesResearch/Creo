@@ -1,0 +1,19 @@
+{{#each post_service_calls}}
+{{>post_service_call}}
+
+
+{{/each}}
+{{#each get_service_calls}}
+{{>get_service_call}}
+
+
+{{/each}}
+async def {{name}}(client: httpx.AsyncClient) -> None:
+    await asyncio.gather(
+{{#each post_service_calls}}
+        {{name}}(client),
+{{/each}}
+{{#each get_service_calls}}
+        {{name}}(client),
+{{/each}}
+    )

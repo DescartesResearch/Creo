@@ -1,0 +1,16 @@
+fn {{name}}() -> serde_json::Value {
+    let mut obj: Vec<(_, serde_json::Value)> = Vec::new();
+    let mut rng = rand::thread_rng();
+
+    {{#each props}}
+    {{#unless required}}
+    if rng.gen::<f64>() >= {{exclude_probability}} {
+        obj.push(("{{name}}", {{fake_func.name}}({{fake_func.args}}).into()));
+    }
+    {{else}}
+    obj.push(("{{name}}", {{fake_func.name}}({{fake_func.args}}).into()));
+    {{/unless}}
+    {{/each}}
+
+    obj.into_iter().collect()
+}

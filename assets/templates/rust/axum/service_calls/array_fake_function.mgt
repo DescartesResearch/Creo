@@ -1,0 +1,9 @@
+fn {{name}}() -> serde_json::Value {
+    let mut rng = rand::thread_rng();
+    let length: usize = rng.gen_range({{inclusive_min_items}}..{{exclusive_max_items}});
+    if length == 0 {
+        return Vec::<serde_json::Value>::new().into();
+    }
+    (0..length)
+        .map(|_| {{fake_func.name}}({{fake_func.args}})).collect::<Vec<_>>().into()
+}

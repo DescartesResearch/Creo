@@ -1,0 +1,11 @@
+import_path: hash
+description: "Hashes the given password using the Argon2 hash function."
+is_async: false
+returns: true
+signature:
+  function: hash_password
+  parameters:
+    - arg: 0
+      type: string
+      minLength: 6
+      maxLength: 48

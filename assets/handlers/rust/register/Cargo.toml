@@ -1,0 +1,16 @@
+[package]
+name = "register"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+argon2 = { version = "0.5.3", features = ["std"] }
+chrono = { version = "0.4.38", features = ["now", "serde"] }
+lazy_static = "1.5.0"
+mongodb = "3.0.1"
+serde = { version = "1.0.204", features = ["derive"] }
+serde_valid = "0.24.0"
+tokio = "1.38.0"
+

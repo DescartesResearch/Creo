@@ -1,0 +1,19 @@
+FROM python:3.10-slim
+
+ENV VENV_PATH=/opt/venv
+RUN python -m venv ${VENV_PATH}
+ENV PATH="${VENV_PATH}/bin:$PATH"
+
+WORKDIR /service
+COPY lib lib
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r /tmp/requirements.txt
+
+COPY src src
+
+WORKDIR /service/src
+
+EXPOSE 80
+
+ENTRYPOINT {{entrypoint}}

@@ -1,0 +1,23 @@
+{{>partial_header}}
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+
+from fastapi import FastAPI
+
+from http_client import shutdown_http_client 
+from router import router
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncGenerator[None, None]:
+    """Lifespan events for the API server."""
+    yield
+    await shutdown_http_client()
+
+app = FastAPI(
+    title="{{title}}",
+    description="{{description}}",
+    version="{{version}}",
+    lifespan=lifespan,
+)
+app.include_router(router)

@@ -1,0 +1,14 @@
+FROM rust:1.78 AS builder
+ARG TARGET=/usr/src/service
+WORKDIR ${TARGET}
+COPY . .
+RUN cargo build --release
+
+FROM debian:12-slim
+ARG TARGET=/usr/src/service
+
+WORKDIR ${TARGET}
+COPY --from=builder ${TARGET}/target/release/service service
+COPY lib lib
+EXPOSE 80
+ENTRYPOINT ["./service"]

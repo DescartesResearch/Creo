@@ -1,0 +1,1 @@
+from .generate import generate_first_primes as generate_first_primes

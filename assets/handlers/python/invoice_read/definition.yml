@@ -1,0 +1,14 @@
+import_path: read_invoice
+description: "Reads an invoice from a MongoDB collection by its ID."
+is_async: true
+returns: true
+depends_on:
+  - name: db:mongo
+    init: seed-invoice
+signature:
+  function: read_invoice_by_id
+  parameters:
+    - arg: 0
+      type: integer
+      minimum: 1
+      maximum: 300000

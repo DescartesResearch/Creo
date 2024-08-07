@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -euo pipefail # abort on nonzero exit status, unbound variable and don't hide errors within pipes
+
+ssh {{user_name}}@{{worker_ip}} 'cd {{path}} && mkdir -p metrics && PROMETHEUS_UID="$(id -u)" PROMETHEUS_GID="$(id -g)" docker compose up --build --detach --force-recreate --wait --quiet-pull &> /dev/null'

@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=63.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "create_user"
+description = "Simple CRUD operations for an user entity"
+version = "1.0.0"
+requires-python = ">=3.9"
+dependencies = ["pydantic>=2.5.2,<2.6.0", "motor>=3.2.2,<3.3.2"]

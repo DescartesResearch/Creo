@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ssh {{user_name}}@{{worker_ip}} 'cd {{path}} && if [ -f "init.sh" ]; then echo "Seeding..."; bash init.sh '"$1"' init; fi'

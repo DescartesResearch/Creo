@@ -1,0 +1,30 @@
+import_path: register
+description: "Register a user using a username, email and password."
+is_async: true
+returns: true
+depends_on:
+  - name: db:mongo
+    init: seed-register
+signature:
+  function: register_user
+  parameters:
+    - arg: 0
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 64
+        email:
+          type: string
+          minLength: 3
+          maxLength: 64
+        password:
+          type: string
+          minLength: 6
+          maxLength: 48
+      additionalProperties: false
+      required:
+        - username
+        - email
+        - password

@@ -1,0 +1,19 @@
+@router.post("{{path}}"{{#if description}},
+             description="{{description}}"{{/if}})
+{{#if is_async}}async {{else}}{{#if has_service_calls}}async {{/if}}{{/if}}def {{name}}(
+    request: Request,
+{{#each query_params}}    {{>query_param}},
+{{/each}}
+{{#if has_service_calls}}    client = Depends(get_async_http_client),
+{{/if}}
+) -> {{#if has_return_type}}JSONResponse{{/if}}{{#unless has_return_type}}None{{/unless}}:
+{{#if description}}    """{{description}}"""{{/if}}
+{{#if has_service_calls}}
+    calls = {{service_call_function_name}}(client){{/if}}
+    {{body_param_name}} = await request.body()
+
+    {{#if has_return_type}}result = {{/if}}{{#if is_async}}await {{/if}}{{handler_func_name}}({{#each handler_args}}{{#if is_pos_arg}}{{name}}{{/if}}{{#unless is_pos_arg}}{{name}}={{name}}{{/unless}}{{#unless @last}}, {{/unless}}{{/each}})
+{{#if has_service_calls}}    await calls
+{{/if}}
+
+    {{#if has_return_type}}return JSONResponse(result){{/if}}{{#unless has_return_type}}return None{{/unless}}
