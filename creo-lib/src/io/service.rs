@@ -83,7 +83,7 @@ pub fn create_service_folder<R: rand::Rng>(
         version: "1.0.0".into(),
         contact: openapiv3::Contact {
             name: Some("Creo".into()),
-            url: Some("github.com/descartestools/creo".into()),
+            url: Some("https://github.com/DescartesResearch/creo".into()),
             email: Some("yannik.lubas@uni-wuerzburg.de".into()),
             extensions: Default::default(),
         },
