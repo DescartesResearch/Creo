@@ -9,8 +9,8 @@ The framework's key features are:
 
 ## Getting started
 
-1. [Install](https://www.rust-lang.org/tools/install) the Rust programming language
-2. Build the project with `cargo` and add the binary to your `PATH`
+1. [Install](https://www.rust-lang.org/tools/install) the Rust programming language.
+2. Build the project with `cargo` and add the binary to your `PATH`.
 
 ```shell
 $ cargo build --release
@@ -47,19 +47,19 @@ $ creo generate
 ```
 
 5. Setup two Linux Servers (only tested on Ubuntu Server) with the following requirements:
-   - Setup users with same usernames
+   - Setup users with the same usernames
    - Setup ssh key authentication with the same, password-less ssh key for both users
    - Install [`docker`](https://www.docker.com/) and [`docker compose`](https://docs.docker.com/compose/install/)
      on both servers
 
-One server acts as the master running the load generator sending requests to the application.
-The second servers is the worker running the application using `docker compose`.
+One server is the master running the load generator and sending requests to the application.
+The second server is the worker running the application using `docker compose`.
 
 6. Use `config/benchmark.yml` to specify the deployment and experiment configuration.
 
 ```yaml
 ssh:
-  # Location to your keyfile (supports environment variable/tilde expansion)
+  # Location to the key file (supports environment variable/tilde expansion)
   key_file: ~/.ssh/id_ed25519
   master_hosts:
     - 1.1.1.1
