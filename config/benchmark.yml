@@ -1,0 +1,20 @@
+ssh:
+  key_file: ~/.ssh/id_ed25519
+  master_hosts:
+    - 1.1.1.1
+  worker_hosts:
+    - 2.2.2.2
+  user_name: myuser
+application: my_microservice_application
+benchmark:
+  records: 3000000
+  virtual_user: 450
+  timeout: 3000
+  duration: 600
+  warmup:
+    rate: 10
+    pause: 10
+    duration: 120
+  intensity:
+    start: 150
+    end: 150

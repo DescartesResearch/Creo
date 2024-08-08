@@ -1,0 +1,18 @@
+programming_languages:
+  - rust
+  - python
+application_name: my_microservice_application
+services: 100
+endpoints: 350
+service_calls: 120
+service_types:
+  - fraction: 50
+    resources:
+      - resource: CPU
+        intensity: HIGH
+        fraction: 100
+  - fraction: 50
+    resources:
+      - resource: NETWORK_TRANSMIT
+        intensity: LOW
+        fraction: 100
