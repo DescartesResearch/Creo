@@ -1,9 +1,5 @@
 use crate::Error;
 
-pub fn digits(n: usize) -> usize {
-    (n.checked_ilog10().unwrap_or_default() + 1) as usize
-}
-
 pub fn cleanup_dir(path: impl AsRef<std::path::Path>) {
     let path = path.as_ref();
     if path.exists() {
@@ -20,5 +16,16 @@ pub fn cleanup_dir(path: impl AsRef<std::path::Path>) {
             ),
             Err(err) => log::error!("{}", err),
         }
+    }
+}
+
+pub trait DigitExt {
+    /// Returns the number of digits in `self`.
+    fn digits(&self) -> usize;
+}
+
+impl DigitExt for usize {
+    fn digits(&self) -> usize {
+        (self.checked_ilog10().unwrap_or_default() + 1) as usize
     }
 }
