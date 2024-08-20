@@ -47,11 +47,12 @@ pub fn create_init_service_file(
 }
 
 pub fn create_output_directory(out_dir: impl AsRef<std::path::Path>) -> Result<()> {
-    if !out_dir.as_ref().exists() {
-        creo_lib::io::create_dir_all(&out_dir).map_err(|err| {
+    let out_dir = out_dir.as_ref();
+    if !out_dir.exists() {
+        creo_lib::io::create_dir_all(out_dir).map_err(|err| {
             Error::new(format!(
                 "failed to create output directory at path {}!\n\tReason: {}",
-                out_dir.as_ref().display(),
+                out_dir.display(),
                 err
             ))
         })?

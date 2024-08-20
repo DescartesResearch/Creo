@@ -85,7 +85,7 @@ fn create_query_data_function(
             name: param_name,
             fake_func,
             nullable: param.schema.schema_data.nullable,
-            exclude_probability: crate::constants::EXCLUDE_PROBABILITY,
+            exclude_probability: crate::constants::DEFAULT_EXCLUDE_PROBABILITY,
         });
     }
 
@@ -135,7 +135,7 @@ fn create_object_fake_function(
             name: prop_name.to_string(),
             fake_func,
             required: required_prop_names.contains(prop_name),
-            exclude_probability: crate::constants::EXCLUDE_PROBABILITY,
+            exclude_probability: crate::constants::DEFAULT_EXCLUDE_PROBABILITY,
         })
     }
 

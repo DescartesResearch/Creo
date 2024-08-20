@@ -1,7 +1,7 @@
 use crate::{cli, Error, Result};
 
 pub fn generate_graph<R: rand::Rng>(
-    args: &cli::generate::GenerateConfig,
+    args: &cli::generate::Config,
     rng: &mut R,
 ) -> Result<creo_lib::graph::ColoredGraph> {
     let params = creo_lib::graph::algorithms::random::GNMParameters {
@@ -26,7 +26,7 @@ fn color_graph(
 }
 
 pub fn generate_graph_with_edges(
-    args: &cli::generate::GenerateConfig,
+    args: &cli::generate::Config,
 ) -> Result<creo_lib::graph::ColoredGraph> {
     let edges: Vec<_> = args
         .service_call_list

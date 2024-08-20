@@ -2,17 +2,14 @@ use chrono::Utc;
 use creo_lib::application::get_host;
 use rand_seeder as rng;
 
-use crate::{cli, Error, Result};
+use crate::{cli, util::DigitExt, Error, Result};
 
 mod application;
 mod graph;
 mod io;
 mod validate;
 
-pub fn generate<P: AsRef<std::path::Path>>(
-    args: &cli::generate::GenerateConfig,
-    root: P,
-) -> Result<()> {
+pub fn generate<P: AsRef<std::path::Path>>(args: &cli::generate::Config, root: P) -> Result<()> {
     let root = root.as_ref();
     validate::validate_arguments(args)?;
 
@@ -32,13 +29,13 @@ pub fn generate<P: AsRef<std::path::Path>>(
     crate::io::create_output_directory(&out_dir)?;
 
     // Create application directory
-    let app_dir = out_dir.join(&args.application_name);
+    let app_dir = out_dir.join(&args.app_name);
     drop(out_dir);
     crate::io::create_application_directory(&app_dir, args.into())?;
 
-    let digits = crate::util::digits(application.service_count());
+    let digits = application.service_count().digits();
     let registry = crate::io::create_handler_function_registry(&application)?;
-    let template_dir = root.join(&args.templates_dir);
+    let template_dir = root.join(creo_lib::TEMPLATES_DIR);
     let mut service_compose = Vec::with_capacity(application.service_count());
     let mut depends_on = Vec::with_capacity(application.service_count());
     let mut load_files = Vec::with_capacity(application.service_count());
@@ -60,7 +57,7 @@ pub fn generate<P: AsRef<std::path::Path>>(
             &application,
             &service,
             &registry,
-            &args.application_name,
+            &args.app_name,
             generation_ts,
         );
         crate::io::write_docker_compose_file(

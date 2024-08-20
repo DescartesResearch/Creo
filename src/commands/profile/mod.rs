@@ -19,11 +19,11 @@ pub use deploy::invoke;
 pub use pull::pull;
 
 pub fn generate(
-    args: &cli::profile::GenerateConfig,
+    args: &cli::profile::generate::Config,
     root: impl AsRef<std::path::Path>,
 ) -> Result<()> {
     let root = root.as_ref();
-    let root_handler_dir = root.join(&args.handler_dir);
+    let root_handler_dir = root.join(creo_lib::HANDLER_FUNCTION_DIR);
 
     let seed = format!("profiling-{}", &args.language).to_lowercase();
     let generation_time = Utc::now();
@@ -32,7 +32,7 @@ pub fn generate(
 
     let all_defs = crate::io::glob_language_handler_definitions(&root_handler_dir, &args.language)?;
     let graph = graph::generate_graph(all_defs.len());
-    let application = application::generate_application(args, graph, all_defs);
+    let application = application::profile_application(args, graph, all_defs);
 
     // Create output directory (if it does not exist)
     let out_dir = root.join(creo_lib::PROFILE_DIR);
@@ -47,7 +47,7 @@ pub fn generate(
     crate::io::create_application_directory(&app_dir, app_meta)?;
 
     let registry = crate::io::create_handler_function_registry(&application)?;
-    let template_dir = root.join(&args.templates_dir);
+    let template_dir = root.join(creo_lib::TEMPLATES_DIR);
     for service in application.iter_micro_services() {
         let endpoint = application
             .iter_service_endpoints(service.id)

@@ -1,7 +1,7 @@
 use crate::cli;
 
-pub fn generate_application(
-    args: &cli::profile::GenerateConfig,
+pub fn profile_application(
+    args: &cli::profile::generate::Config,
     graph: creo_lib::graph::ColoredGraph,
     defs: Vec<std::path::PathBuf>,
 ) -> creo_lib::graph::ApplicationGraph {

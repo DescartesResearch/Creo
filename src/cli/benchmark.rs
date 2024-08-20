@@ -1,6 +1,6 @@
 #[derive(argh::FromArgs, PartialEq, Debug)]
 #[argh(subcommand, name = "benchmark")]
-/// Start a benchmark.
+/// Start a benchmark for a deployed microservice applicaton.
 pub struct Command {
     #[argh(
         option,
@@ -8,7 +8,7 @@ pub struct Command {
         long = "config"
     )]
     /// the path to the benchmark configuration file
-    pub config_path: std::path::PathBuf,
+    pub config: std::path::PathBuf,
 }
 
 #[derive(Debug, serde::Deserialize)]

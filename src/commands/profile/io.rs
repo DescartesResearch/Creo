@@ -1,7 +1,7 @@
 use crate::cli;
 
 pub fn create_application_meta_data<'a>(
-    args: &cli::profile::GenerateConfig,
+    args: &cli::profile::generate::Config,
     app_name: &'a str,
     service_count: usize,
     seed: &'a str,

@@ -1,6 +1,6 @@
 #[derive(argh::FromArgs, PartialEq, Debug)]
 #[argh(subcommand, name = "download")]
-/// Download all experiment results for an application.
+/// Download all experiment results for a microservice application.
 pub struct Command {
     #[argh(
         option,
@@ -8,7 +8,7 @@ pub struct Command {
         long = "config"
     )]
     /// the path to the deployment configuration file
-    pub config_path: std::path::PathBuf,
+    pub config: std::path::PathBuf,
 }
 
 #[derive(Debug, serde::Deserialize)]

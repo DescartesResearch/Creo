@@ -1,7 +1,7 @@
 use crate::cli;
 pub use crate::{Error, Result};
 
-pub(super) fn validate_arguments(args: &cli::generate::GenerateConfig) -> Result<()> {
+pub(super) fn validate_arguments(args: &cli::generate::Config) -> Result<()> {
     validate_number_of_service_calls(
         args.number_of_endpoints,
         args.number_of_service_calls,

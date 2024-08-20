@@ -9,18 +9,19 @@ use argh::FromArgs;
 #[derive(FromArgs, PartialEq, Debug)]
 #[argh(subcommand)]
 pub enum Commands {
-    Generate(generate::GenerateCommand),
-    Profile(profile::ProfileCommand),
+    Generate(generate::Command),
+    Profile(profile::Command),
     Deploy(deploy::Command),
     Benchmark(benchmark::Command),
     Download(download::Command),
 }
 
 #[derive(FromArgs, PartialEq, Debug)]
-/// Creo enables generating microservices for performance benchmarking
+/// Creo generates microservice applications for performance benchmarking.
 pub struct Args {
     #[argh(subcommand)]
     pub command: Option<Commands>,
-    #[argh(switch, short = 'v', description = "output the version")]
+    #[argh(switch, short = 'v')]
+    /// display the version number
     pub version: bool,
 }

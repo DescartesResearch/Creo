@@ -1,6 +1,6 @@
 #[derive(argh::FromArgs, PartialEq, Debug)]
 #[argh(subcommand, name = "deploy")]
-/// Deploy an application including its benchmarking harness.
+/// Deploy a microservice application including its benchmarking harness.
 pub struct Command {
     #[argh(
         option,
@@ -8,7 +8,7 @@ pub struct Command {
         long = "config"
     )]
     /// the path to the deployment configuration file
-    pub config_path: std::path::PathBuf,
+    pub config: std::path::PathBuf,
 }
 
 #[derive(Debug, serde::Deserialize)]

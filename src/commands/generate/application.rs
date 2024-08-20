@@ -8,14 +8,14 @@ use rand::seq::{IteratorRandom, SliceRandom};
 
 pub fn generate_application<R: rand::Rng>(
     root: impl AsRef<std::path::Path>,
-    args: &cli::generate::GenerateConfig,
+    args: &cli::generate::Config,
     graph: graph::ColoredGraph,
     rng: &mut R,
 ) -> Result<creo_lib::graph::ApplicationGraph> {
     let root = root.as_ref();
     let service_types = &args.service_types;
 
-    let handler_root_dir = root.join(&args.handler_dir);
+    let handler_root_dir = root.join(creo_lib::HANDLER_FUNCTION_DIR);
     let all_defs =
         crate::io::parse_handler_definitions(handler_root_dir, args.selected_languages.iter())?;
     Ok(generate_application_graph(
@@ -52,10 +52,18 @@ fn generate_application_graph<R: rand::Rng>(
         let resource = creo_lib::selection::select_resource(s_type, rng);
         let handler_definitions = all_defs.get_mut(lang).unwrap();
         handler_definitions.sort_by(|a, b| {
-            let a_utilization = a.utilization.get(&resource.resource).unwrap_or_else(|| panic!("should find a utilization for resource {:?} of definition {:?}",
-                    resource, a));
-            let b_utilization = b.utilization.get(&resource.resource).unwrap_or_else(|| panic!("should find a utilization for resource {:?} of definition {:?}",
-                    resource, b));
+            let a_utilization = a.utilization.get(&resource.resource).unwrap_or_else(|| {
+                panic!(
+                    "should find a utilization for resource {:?} of definition {:?}",
+                    resource, a
+                )
+            });
+            let b_utilization = b.utilization.get(&resource.resource).unwrap_or_else(|| {
+                panic!(
+                    "should find a utilization for resource {:?} of definition {:?}",
+                    resource, b
+                )
+            });
             a_utilization.partial_cmp(b_utilization).unwrap()
         });
         let bucket = creo_lib::selection::select_bucket(handler_definitions, &resource);

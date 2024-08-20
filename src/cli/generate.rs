@@ -5,90 +5,81 @@ use rand::Rng;
 use serde::Deserialize;
 use strum::IntoEnumIterator;
 
+#[derive(argh::FromArgs, PartialEq, Debug)]
+#[argh(subcommand, name = "generate")]
+/// Generate a microservice application with the specified topology and resource usage profiles.
+pub struct Command {
+    #[argh(option, default = "std::path::PathBuf::from(\"config/generate.yml\")")]
+    /// the path to the generation config file (Default: 'config/generate.yml')
+    pub config: std::path::PathBuf,
+}
+
 #[derive(Debug, serde::Deserialize)]
-pub struct GenerateConfig {
-    /// selects the given programming languages as available during generation (comma separated
-    /// list). Allowed values: python
+pub struct Config {
+    /// The programming languages that are available during the generation.
     #[serde(
         alias = "programming_languages",
-        deserialize_with = "unique_languages",
+        deserialize_with = "deserialize_languages",
         default = "select_all_programming_languages"
     )]
     pub selected_languages: Vec<ProgrammingLanguage>,
 
-    /// the name of the generated microservice application
-    pub application_name: String,
+    /// The application name.
+    #[serde(alias = "application_name")]
+    pub app_name: String,
 
-    /// the path to the handler directory. If the given path is relative, it will be relative to
-    /// the current working directory.
-    #[serde(default = "default_handler_dir", alias = "handlers")]
-    pub handler_dir: std::path::PathBuf,
-
-    /// the path to the templates directory. If the given path is relative, it will be relative to
-    /// the current working directory.
-    #[serde(default = "default_templates_dir", alias = "templates")]
-    pub templates_dir: std::path::PathBuf,
-
-    /// the number of endpoints (nodes) to generate
+    /// The number of endpoints (vertices) to generate.
     #[serde(alias = "endpoints")]
     pub number_of_endpoints: usize,
 
-    /// the number of service calls (edges) to generate
+    /// The number of inter-service calls (edges) to generate.
     #[serde(alias = "service_calls", default)]
     pub number_of_service_calls: usize,
 
-    /// the number of services to generate
+    /// The number of services (colors) to generate.
     #[serde(alias = "services")]
     pub number_of_services: usize,
 
-    /// service type definitions
+    /// The service type definitions specifying the resource usage profiles.
     #[serde(alias = "service_types")]
     pub service_types: creo_lib::ServiceTypeVec,
 
-    /// set the random seed (defaults to a random, 16 characters long string)
-    #[serde(default = "create_random_seed")]
+    /// The (optional) seed for the RNG (defaults to a random, 16 characters long string).
+    #[serde(default = "random_seed")]
     pub seed: String,
 
-    /// starting port published by the generated services. Gets incremented for each service.
-    /// (Default = 30100)
+    /// The port the generated services start to publish on. The first service uses this port, while
+    /// each subsequent service uses the next port number after the previous service's port. (Default: 30100)
+    ///
+    /// In other words, the generated application occupies the port range starting from the
+    /// specified port `p` up to the ending port number `p+s-1`, where `s` is the number of
+    /// services of the application.
     #[serde(default = "default_start_port")]
     pub start_port: u32,
 
+    /// A list specifying inter-service calls of the application.
+    ///
+    /// This disables randomly drawing the inter-service call edges and allows to define the edges
+    /// before hand.
     #[serde(alias = "service_call_list", default)]
     pub service_call_list: Vec<(usize, usize)>,
 }
 
-fn default_handler_dir() -> std::path::PathBuf {
-    std::path::PathBuf::from("assets/handlers/")
-}
-
-fn default_templates_dir() -> std::path::PathBuf {
-    std::path::PathBuf::from("assets/templates/")
-}
-
+/// Returns the default port a generated application starts to publish on.
 fn default_start_port() -> u32 {
     30100
 }
 
-#[derive(argh::FromArgs, PartialEq, Debug)]
-#[argh(subcommand, name = "generate")]
-/// The `generate` command allows generating microservices using the given parameters.
-pub struct GenerateCommand {
-    #[argh(
-        option,
-        default = "std::path::PathBuf::from(\"config/generate.yml\")",
-        long = "handlers"
-    )]
-    /// the path to the config file. If the given path is relative, it will be relative to the
-    /// current working directory.
-    pub config: std::path::PathBuf,
-}
-
+/// Selects all programming languages as available during the generation.
 fn select_all_programming_languages() -> Vec<ProgrammingLanguage> {
     ProgrammingLanguage::iter().collect()
 }
 
-fn unique_languages<'de, D>(deserializer: D) -> Result<Vec<ProgrammingLanguage>, D::Error>
+/// Deserializes and validate a list of programming languages.
+///
+/// The list is invalid if it either contains duplicate languages or if it specifies selection
+/// probabilities that do not sum up to `100`.
+fn deserialize_languages<'de, D>(deserializer: D) -> Result<Vec<ProgrammingLanguage>, D::Error>
 where
     D: serde::Deserializer<'de>,
 {
@@ -112,7 +103,8 @@ where
     Ok(langs)
 }
 
-fn create_random_seed() -> String {
+/// Returns a random, 16-character long seed.
+fn random_seed() -> String {
     rand::thread_rng()
         .sample_iter(&rand::distributions::Alphanumeric)
         .take(16)
