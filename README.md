@@ -10,11 +10,10 @@ The framework's key features are:
 ## Getting started
 
 1. [Install](https://www.rust-lang.org/tools/install) the Rust programming language.
-2. Build the project with `cargo` and add the binary to your `PATH`.
+2. Install the project using `cargo`.
 
 ```shell
-$ cargo build --release
-$ export PATH="$PWD/target/release:$PATH"
+$ cargo install --path . --locked
 ```
 
 3. Use `config/generate.yml` to specify the desired application.
