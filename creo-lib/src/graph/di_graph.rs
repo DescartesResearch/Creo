@@ -1,6 +1,6 @@
 use super::{EdgeView, NodeView, Predecessors, Successors};
 
-#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, PartialOrd, Ord)]
 /// A simple identifier type for nodes in a [`DiGraph`].
 pub struct NodeIndex(pub usize);
 
@@ -16,7 +16,7 @@ impl From<NodeIndex> for usize {
     }
 }
 
-#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, PartialOrd, Ord)]
 /// A struct representing a directed edge from a source node to a target node.
 pub struct Edge {
     pub source: NodeIndex,

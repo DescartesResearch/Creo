@@ -4,7 +4,7 @@ use creo_lib::{graph, handler, programming_lanuage::ProgrammingLanguage};
 
 use crate::{cli, Result};
 
-use rand::seq::{IteratorRandom, SliceRandom};
+use rand::seq::IteratorRandom;
 
 pub fn generate_application<R: rand::Rng>(
     root: impl AsRef<std::path::Path>,
@@ -51,26 +51,8 @@ fn generate_application_graph<R: rand::Rng>(
         let s_type = &s_types.0[color.0];
         let resource = creo_lib::selection::select_resource(s_type, rng);
         let handler_definitions = all_defs.get_mut(lang).unwrap();
-        handler_definitions.sort_by(|a, b| {
-            let a_utilization = a.utilization.get(&resource.resource).unwrap_or_else(|| {
-                panic!(
-                    "should find a utilization for resource {:?} of definition {:?}",
-                    resource, a
-                )
-            });
-            let b_utilization = b.utilization.get(&resource.resource).unwrap_or_else(|| {
-                panic!(
-                    "should find a utilization for resource {:?} of definition {:?}",
-                    resource, b
-                )
-            });
-            a_utilization.partial_cmp(b_utilization).unwrap()
-        });
-        let bucket = creo_lib::selection::select_bucket(handler_definitions, &resource);
-        let definition = bucket
-            .choose(rng)
-            .expect("should choose a definition")
-            .clone();
+        let definition =
+            creo_lib::selection::select_definition(handler_definitions, &resource, rng);
         defs.push(definition.directory);
     }
 
