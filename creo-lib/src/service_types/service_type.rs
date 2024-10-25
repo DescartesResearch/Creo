@@ -1,12 +1,18 @@
-use std::collections::HashSet;
+use std::{collections::HashSet, fmt::Display};
 
 use super::Resource;
 
-#[derive(serde::Deserialize, Clone, Debug)]
+#[derive(serde::Deserialize, Clone, Debug, PartialEq, Eq)]
 #[serde(remote = "Self")]
 pub struct ServiceType {
     pub fraction: u8,
     pub resources: Vec<Resource>,
+}
+
+impl Display for ServiceType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "Service Type ({:?}, {}%)", self.resources, self.fraction)
+    }
 }
 
 impl<'de> serde::Deserialize<'de> for ServiceType {

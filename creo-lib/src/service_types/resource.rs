@@ -1,4 +1,4 @@
-use std::hash::Hash;
+use std::{fmt::Display, hash::Hash};
 
 use super::{ResourceIntensity, ResourceType};
 
@@ -39,5 +39,15 @@ impl Eq for Resource {}
 impl Hash for Resource {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.resource.hash(state);
+    }
+}
+
+impl Display for Resource {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{} ({}, {}%)",
+            self.resource, self.intensity, self.fraction
+        )
     }
 }

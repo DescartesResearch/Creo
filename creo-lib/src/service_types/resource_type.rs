@@ -15,13 +15,14 @@ use ResourceType::*;
 
 impl fmt::Display for ResourceType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match *self {
-            Cpu => f.write_str("CPU"),
-            Memory => f.write_str("MEMORY"),
-            NetworkReceive => f.write_str("NETWORK_RECEIVE"),
-            NetworkTransmit => f.write_str("NETWORK_TRANSMIT"),
-            DiskRead => f.write_str("DISK_READ"),
-            DiskWrite => f.write_str("DISK_WRITE"),
-        }
+        let s = match self {
+            Cpu => "CPU",
+            Memory => "MEMORY",
+            NetworkReceive => "NETWORK_RECEIVE",
+            NetworkTransmit => "NETWORK_TRANSMIT",
+            DiskRead => "DISK_READ",
+            DiskWrite => "DISK_WRITE",
+        };
+        f.write_str(s)
     }
 }
