@@ -90,13 +90,15 @@ impl Client {
 
 pub async fn get_auth_method(config: &super::Config) -> Result<async_ssh2_tokio::AuthMethod> {
     let file_pw = if let Some(ref pw_file) = config.password_file {
+        let pw_file = std::path::Path::new(pw_file);
+        log::info!("Reading password from file `{}`", pw_file.display());
         Some(
             tokio::fs::read_to_string(pw_file)
                 .await
                 .map_err(|err| {
                     Error::AuthMethod(format!(
                         "failed to read password file for path {}!\n\tReason: {}",
-                        pw_file,
+                        pw_file.display(),
                         err
                     ))
                 })?
@@ -108,13 +110,20 @@ pub async fn get_auth_method(config: &super::Config) -> Result<async_ssh2_tokio:
     };
     let stdin_pw = read_pw_from_stdin()?;
     if let Some(ref key_file) = config.key_file {
+        let key_file = std::path::Path::new(key_file);
+        log::info!(
+            "Reading SSH private key from key file `{}`",
+            key_file.display()
+        );
         return Ok(async_ssh2_tokio::AuthMethod::with_key_file(
             key_file,
             stdin_pw.or(file_pw).as_deref(),
         ));
     }
     let password = stdin_pw.or(file_pw).ok_or_else(|| {
-        Error::AuthMethod("missing authentication method! Either provide a key file or password".to_string())
+        Error::AuthMethod(
+            "missing authentication method! Either provide a key file or password".to_string(),
+        )
     })?;
 
     Ok(async_ssh2_tokio::AuthMethod::with_password(&password))
@@ -128,7 +137,10 @@ pub fn read_pw_from_stdin() -> Result<Option<String>> {
     match stdin.lock().lines().next() {
         None => Ok(None),
         Some(line) => match line {
-            Ok(pw) => Ok(Some(pw)),
+            Ok(pw) => {
+                log::info!("Read password from stdin");
+                Ok(Some(pw))
+            }
             Err(err) => Err(Error::AuthMethod(format!(
                 "could not read line from stdin!\n\t Reason: {}",
                 err

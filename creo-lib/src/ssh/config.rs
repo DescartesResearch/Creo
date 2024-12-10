@@ -55,18 +55,14 @@ where
     match shellexpand::full(s.as_ref()) {
         Ok(expanded) => Ok(expanded.to_string()),
         Err(err) => match err.cause {
-            std::env::VarError::NotPresent => {
-                Err(serde::de::Error::custom(format!(
-                    "could non-present environment variable {}",
-                    err.var_name
-                )))
-            }
-            std::env::VarError::NotUnicode(_) => {
-                Err(serde::de::Error::custom(format!(
-                    "expected environment variable {} to only contain valid Unicode",
-                    err.var_name
-                )))
-            }
+            std::env::VarError::NotPresent => Err(serde::de::Error::custom(format!(
+                "expected environment variable {}, but was not present",
+                err.var_name
+            ))),
+            std::env::VarError::NotUnicode(_) => Err(serde::de::Error::custom(format!(
+                "expected environment variable {} to only contain valid Unicode",
+                err.var_name
+            ))),
         },
     }
 }
