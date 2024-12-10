@@ -15,6 +15,7 @@ futures = "0.3.31"
 glob = "0.3.1"
 handlebars = { version = "5.0.0", features = ["dir_source"] }
 indexmap = "2.1.0"
+indicatif = { version = "0.17.9", features = ["tokio"] }
 lazy_static = "1.4.0"
 local-encoding = "0.2.0"
 log = "0.4.20"
