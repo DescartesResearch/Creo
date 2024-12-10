@@ -80,7 +80,7 @@ pub fn manual(params: ManualParameters) -> Result<creo_lib::graph::ColoredGraph>
 
 pub struct VertexDefinition<'a> {
     microservice: &'a str,
-    endpoint: &'a str,
+    // endpoint: &'a str,
     key: String,
 }
 
@@ -88,7 +88,6 @@ impl<'a> VertexDefinition<'a> {
     pub fn new(microservice: &'a str, endpoint: &'a str) -> Self {
         Self {
             microservice,
-            endpoint,
             key: format!("{}.{}", microservice, endpoint),
         }
     }
