@@ -86,6 +86,10 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
     master_builder.into_inner().await?;
     log::info!("Finished building master archive");
 
+    log::info!(
+        "Uploading application to worker host `{}`",
+        worker_client.get_connection_ip()
+    );
     creo_lib::remote::upload_and_extract_archive(
         worker_client,
         &remote_worker_path,
@@ -99,6 +103,10 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
         ))
     })?;
 
+    log::info!(
+        "Uploading benchmarking harness to master host `{}`",
+        master_client.get_connection_ip()
+    );
     creo_lib::remote::upload_and_extract_archive(
         master_client,
         &remote_master_path,
