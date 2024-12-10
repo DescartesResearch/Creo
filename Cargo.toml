@@ -4,26 +4,20 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
+exclude = ["assets/handlers/rust/*"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 argh = "0.1.12"
-async-recursion = "1.0.5"
-async-ssh2-tokio = "0.8.5"
 chrono = "0.4.38"
 env_logger = "0.10.1"
-futures = "0.3.30"
-indexmap = "2.1.0"
+futures = "0.3.31"
 log = "0.4.20"
 creo-lib = { path = "creo-lib" }
 rand = "0.8.5"
 rand_seeder = "0.2.3"
-russh = "0.40.2"
-russh-config = "0.7.1"
-russh-sftp = "2.0.0-beta.4"
 serde = { version = "1.0.201", features = ["derive"] }
-serde_yaml = "0.9.34"
 strum = "0.25.0"
 thiserror = "1.0.50"
 tokio = "1.35.1"
