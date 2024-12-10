@@ -28,6 +28,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
         master_client.canonicalize("archive.tar.gz")
     )?;
 
+    log::info!("Building worker archive");
     let local_worker_archive_path = std::env::temp_dir().join("worker-archive.tar.gz");
     let local_worker_archive = tokio::fs::File::create(&local_worker_archive_path).await?;
     let mut worker_builder =
@@ -45,7 +46,9 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
         )
         .await?;
     worker_builder.into_inner().await?;
+    log::info!("Finished building worker archive");
 
+    log::info!("Building master archive");
     let local_master_archive_path = std::env::temp_dir().join("master-archive.tar.gz");
     let local_master_archive = tokio::fs::File::create(&local_master_archive_path).await?;
     let mut master_builder =
@@ -67,6 +70,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
         .append_dir_all("load_generator", &creo_lib::LOAD_GENERATOR_DIR, &[])
         .await?;
     master_builder.into_inner().await?;
+    log::info!("Finished building master archive");
 
     creo_lib::remote::upload_and_extract_archive(
         worker_client,
