@@ -1,18 +1,34 @@
-programming_languages:
-  - rust
-  - python
-application_name: my_microservice_application
-services: 100
-endpoints: 350
-service_calls: 120
-service_types:
-  - fraction: 50
-    resources:
-      - resource: CPU
-        intensity: HIGH
-        fraction: 100
-  - fraction: 50
-    resources:
-      - resource: NETWORK_TRANSMIT
-        intensity: LOW
-        fraction: 100
+# `name` specifies the name of the application.
+# This will be used as the name of the output directory.
+name: my_first_application
+# `mode` specifies the generation mode.
+mode: auto_pilot
+topology:
+  endpoints: 3 # The total number of endpoints in the application
+  inter_service_calls: 2 # The total number of inter-service calls in the application
+  services: 3 # The total number of microservices in the application
+workload:
+  # `programming_languages` specifies the programming languages that may be used for
+  # the microservices of the application.
+  programming_languages: [rust, python]
+  # `service_types` specifies the types of microservices comprising the application.
+  # In this case, we define two service types. The first type defines a microservice,
+  # for which 100% of the microservice's endpoints should consume `HIGH` CPU.
+  # The second type defines a microservice, for which 100% of the microservice's endpoints
+  # should produce a `HIGH` outgoing network usage. Both service types have a probability of
+  # 50% to occur in the application.
+  service_types:
+    # CPU-intensive microservice
+    - fraction: 50 # Probability of this service type to occur in the application
+      properties:
+        - label: CPU
+          fraction: 100 # Probability of an endpoint to exhibit the specified
+          # label-bucket combination, i.e. CPU-HIGH
+          bucket: HIGH
+    # Outgoing network-intensive microservice
+    - fraction: 50 # Probability of this service type to occur in the application
+      properties:
+        - label: NETWORK_TRANSMIT
+          fraction: 100 # Probability of an endpoint to exhibit the specified
+          # label-bucket combination, i.e., NETWORK_TRANSMIT-HIGH
+          bucket: HIGH

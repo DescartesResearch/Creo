@@ -1,20 +1,20 @@
+application: my_first_application
 ssh:
   key_file: ~/.ssh/id_ed25519
+  user_name: creo
   master_hosts:
-    - 1.1.1.1
+    - 10.1.3.49
   worker_hosts:
-    - 2.2.2.2
-  user_name: myuser
-application: my_microservice_application
+    - 10.1.3.32
 benchmark:
-  records: 3000000
-  virtual_user: 450
-  timeout: 3000
-  duration: 600
   warmup:
-    rate: 10
+    rate: 5
     pause: 10
-    duration: 120
+    duration: 30
   intensity:
-    start: 150
-    end: 150
+    start: 25
+    end: 25
+  duration: 60
+  virtual_user: 200
+  timeout: 8000
+  records: 3000000
