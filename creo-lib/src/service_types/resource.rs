@@ -1,16 +1,16 @@
 use std::{fmt::Display, hash::Hash};
 
-use super::{ResourceIntensity, ResourceType};
+use super::{Bucket, Label};
 
 #[derive(serde::Deserialize, Clone, Debug)]
 #[serde(remote = "Self")]
-pub struct Resource {
-    pub resource: ResourceType,
+pub struct Property {
+    pub label: Label,
     pub fraction: u8,
-    pub intensity: ResourceIntensity,
+    pub bucket: Bucket,
 }
 
-impl<'de> serde::Deserialize<'de> for Resource {
+impl<'de> serde::Deserialize<'de> for Property {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -28,26 +28,22 @@ impl<'de> serde::Deserialize<'de> for Resource {
     }
 }
 
-impl PartialEq for Resource {
+impl PartialEq for Property {
     fn eq(&self, other: &Self) -> bool {
-        self.resource == other.resource
+        self.label == other.label
     }
 }
 
-impl Eq for Resource {}
+impl Eq for Property {}
 
-impl Hash for Resource {
+impl Hash for Property {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        self.resource.hash(state);
+        self.label.hash(state);
     }
 }
 
-impl Display for Resource {
+impl Display for Property {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{} ({}, {}%)",
-            self.resource, self.intensity, self.fraction
-        )
+        write!(f, "{} ({}, {}%)", self.label, self.bucket, self.fraction)
     }
 }

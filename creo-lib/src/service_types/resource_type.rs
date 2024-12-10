@@ -2,7 +2,7 @@ use std::fmt;
 
 #[derive(serde::Deserialize, Clone, PartialEq, Eq, Hash, Debug)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum ResourceType {
+pub enum Label {
     Cpu,
     Memory,
     NetworkReceive,
@@ -11,9 +11,9 @@ pub enum ResourceType {
     DiskWrite,
 }
 
-use ResourceType::*;
+use Label::*;
 
-impl fmt::Display for ResourceType {
+impl fmt::Display for Label {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let s = match self {
             Cpu => "CPU",

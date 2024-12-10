@@ -1,13 +1,13 @@
 use std::{collections::HashMap, fmt::Display};
 
-use crate::service_types::{ResourceType, Utilization};
+use crate::service_types::{Label, Utilization};
 
 use super::Function;
 
 #[derive(Clone, Debug)]
 pub struct Definition {
     pub directory: std::path::PathBuf,
-    pub utilization: HashMap<ResourceType, f64>,
+    pub utilization: HashMap<Label, f64>,
 }
 
 impl Definition {
@@ -21,7 +21,7 @@ impl Definition {
     pub fn compare_by_resource_type(
         &self,
         other: &Definition,
-        resource: &ResourceType,
+        resource: &Label,
     ) -> std::cmp::Ordering {
         let self_util = self
             .utilization
@@ -40,7 +40,7 @@ impl Definition {
     }
 }
 
-fn assert_utilization(def: &Definition, resource: &ResourceType) -> ! {
+fn assert_utilization(def: &Definition, resource: &Label) -> ! {
     panic!(
         "expected a utilization for resource {} of definition at path {}",
         resource,
@@ -88,14 +88,14 @@ mod tests {
     fn test_compare_by_resource() {
         let one = Definition {
             directory: std::path::PathBuf::from("test/path/1"),
-            utilization: HashMap::from_iter([(service_types::ResourceType::Cpu, 0.5)]),
+            utilization: HashMap::from_iter([(service_types::Label::Cpu, 0.5)]),
         };
         let two = Definition {
             directory: std::path::PathBuf::from("test/path/2"),
-            utilization: HashMap::from_iter([(service_types::ResourceType::Cpu, 1.5)]),
+            utilization: HashMap::from_iter([(service_types::Label::Cpu, 1.5)]),
         };
 
-        let cmp = one.compare_by_resource_type(&two, &service_types::ResourceType::Cpu);
+        let cmp = one.compare_by_resource_type(&two, &service_types::Label::Cpu);
         assert_eq!(
             cmp,
             std::cmp::Ordering::Less,

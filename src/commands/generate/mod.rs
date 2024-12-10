@@ -1,37 +1,122 @@
+use std::collections::HashMap;
+
 use chrono::Utc;
 use creo_lib::application::get_host;
 use rand_seeder as rng;
 
-use crate::{cli, util::DigitExt, Error, Result};
+use crate::{config, util::DigitExt, Error, Result};
 
 mod application;
 mod graph;
-mod io;
-mod validate;
 
-pub fn generate<P: AsRef<std::path::Path>>(args: &cli::generate::Config, root: P) -> Result<()> {
+pub fn generate<P: AsRef<std::path::Path>>(args: &config::generate::Config, root: P) -> Result<()> {
     let root = root.as_ref();
-    validate::validate_arguments(args)?;
+    let start_port = args.start_port;
 
     let mut rng: rng::SipRng = rng::Seeder::from(&args.seed).make_rng();
     let generation_ts = Utc::now().timestamp();
 
-    let graph = if args.service_call_list.is_empty() {
-        graph::generate_graph(args, &mut rng)?
-    } else {
-        graph::generate_graph_with_edges(args)?
+    let application = match &args.mode {
+        config::generate::Mode::AutoPilot { topology, workload } => {
+            let params = graph::AutoPilotParameters {
+                vertices: topology.number_of_endpoints,
+                edges: topology.number_of_inter_service_calls,
+                colors: topology.number_of_services,
+            };
+            let graph = graph::auto_pilot(params, &mut rng)?;
+            application::auto_pilot(root, workload, graph, start_port, &mut rng)?
+        }
+        config::generate::Mode::Hybrid { topology, workload } => {
+            let mut services = HashMap::with_capacity(topology.services.len());
+            let mut vertices = Vec::default();
+            let mut edges = Vec::default();
+            for (idx, service) in topology.services.iter().enumerate() {
+                services.insert(service.name.as_ref(), idx);
+                for endpoint in service.endpoints.iter() {
+                    vertices.push(graph::VertexDefinition::new(
+                        service.name.as_ref(),
+                        endpoint.name.as_ref(),
+                    ));
+                    for call in endpoint.inter_service_calls.iter() {
+                        // TODO: Error
+                        let (target_service, target_endpoint) = call.split_once(".").unwrap();
+                        let source = graph::VertexDefinition::new(
+                            service.name.as_ref(),
+                            endpoint.name.as_ref(),
+                        );
+                        let target = graph::VertexDefinition::new(target_service, target_endpoint);
+                        edges.push(graph::EdgeDefinition { source, target });
+                    }
+                }
+            }
+            let params = graph::ManualParameters {
+                vertices: &vertices,
+                edges: &edges,
+                services: &services,
+            };
+            let graph = graph::manual(params)?;
+            application::auto_pilot(root, workload, graph, start_port, &mut rng)?
+        }
+        config::generate::Mode::Manual { application } => {
+            let mut services = HashMap::with_capacity(application.services.len());
+            let mut vertices = Vec::default();
+            let mut edges = Vec::default();
+            let mut languages = Vec::with_capacity(application.services.len());
+            let mut definitions = Vec::default();
+            let handler_root = root.join(creo_lib::HANDLER_FUNCTION_DIR);
+            for (idx, service) in application.services.iter().enumerate() {
+                services.insert(service.name.as_ref(), idx);
+                languages.push(service.language);
+                for endpoint in service.endpoints.iter() {
+                    vertices.push(graph::VertexDefinition::new(
+                        service.name.as_ref(),
+                        endpoint.vertex.name.as_ref(),
+                    ));
+                    definitions.push(
+                        handler_root
+                            .join(service.language.as_dir_name())
+                            .join(&endpoint.function),
+                    );
+                    for call in endpoint.vertex.inter_service_calls.iter() {
+                        // TODO: Error
+                        let (target_service, target_endpoint) = call.split_once(".").unwrap();
+                        let source = graph::VertexDefinition::new(
+                            service.name.as_ref(),
+                            endpoint.vertex.name.as_ref(),
+                        );
+                        let target = graph::VertexDefinition::new(target_service, target_endpoint);
+                        edges.push(graph::EdgeDefinition { source, target });
+                    }
+                }
+            }
+            let params = graph::ManualParameters {
+                vertices: &vertices,
+                edges: &edges,
+                services: &services,
+            };
+            let graph = graph::manual(params)?;
+            application::manual(graph, languages, definitions, start_port)?
+        }
     };
-
-    let application = application::generate_application(root, args, graph, &mut rng)?;
 
     // Create output directory (if it does not exist)
     let out_dir = root.join(creo_lib::OUTPUT_DIR);
     crate::io::create_output_directory(&out_dir)?;
 
     // Create application directory
-    let app_dir = out_dir.join(&args.app_name);
+    let app_dir = out_dir.join(args.app_name.as_ref());
     drop(out_dir);
-    crate::io::create_application_directory(&app_dir, args.into())?;
+    crate::io::create_application_directory(
+        &app_dir,
+        creo_lib::io::ApplicationMetaData {
+            application_name: args.app_name.as_ref(),
+            seed: &args.seed,
+            ports: creo_lib::io::Ports {
+                start: start_port.into(),
+                end: u32::from(start_port) + application.service_count() as u32,
+            },
+        },
+    )?;
 
     let digits = application.service_count().digits();
     let registry = crate::io::create_handler_function_registry(&application)?;

@@ -1,6 +1,8 @@
 mod equitable;
 mod error;
 
+use std::fmt::Display;
+
 use crate::graph::DiGraph;
 
 pub use equitable::{equitable_coloring, is_coloring, is_equitable};
@@ -18,6 +20,11 @@ impl From<usize> for ColorIndex {
 impl From<ColorIndex> for usize {
     fn from(value: ColorIndex) -> Self {
         value.0
+    }
+}
+impl Display for ColorIndex {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 

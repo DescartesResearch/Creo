@@ -14,36 +14,39 @@ pub fn select_service_type<R: Rng>(
 
 #[cfg(test)]
 mod tests {
+    use statrs::distribution::ContinuousCDF;
+
     use super::*;
     use crate::service_types;
 
-    const ITER: usize = 10_000;
+    const COUNT: usize = 100_000;
+    const P_VALUE: f64 = 0.05;
 
     #[test]
     fn test_service_type_selection_single() {
-        let cpu_label = service_types::Resource {
-            resource: service_types::ResourceType::Cpu,
+        let cpu_label = service_types::Property {
+            label: service_types::Label::Cpu,
             fraction: 100,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
-        let memory_label = service_types::Resource {
-            resource: service_types::ResourceType::Memory,
+        let memory_label = service_types::Property {
+            label: service_types::Label::Memory,
             fraction: 100,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
         let cpu_service_type = service_types::ServiceType {
             fraction: 100,
-            resources: Vec::from([cpu_label]),
+            properties: Vec::from([cpu_label]),
         };
         let service_types = [
             cpu_service_type.clone(),
             service_types::ServiceType {
                 fraction: 0,
-                resources: Vec::from([memory_label]),
+                properties: Vec::from([memory_label]),
             },
         ];
         let mut rng = rand::thread_rng();
-        for _ in 0..ITER {
+        for _ in 0..COUNT {
             let selection = select_service_type(&service_types, &mut rng);
             assert!(
                 selection == cpu_service_type,
@@ -55,68 +58,52 @@ mod tests {
 
     #[test]
     fn test_service_type_selection_multi() {
-        let cpu_label = service_types::Resource {
-            resource: service_types::ResourceType::Cpu,
+        let cpu_label = service_types::Property {
+            label: service_types::Label::Cpu,
             fraction: 100,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
-        let memory_label = service_types::Resource {
-            resource: service_types::ResourceType::Memory,
+        let memory_label = service_types::Property {
+            label: service_types::Label::Memory,
             fraction: 100,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
         let cpu_service_type = service_types::ServiceType {
-            fraction: 50,
-            resources: Vec::from([cpu_label]),
+            fraction: 80,
+            properties: Vec::from([cpu_label]),
         };
         let memory_service_type = service_types::ServiceType {
-            fraction: 50,
-            resources: Vec::from([memory_label]),
+            fraction: 20,
+            properties: Vec::from([memory_label]),
         };
-        let service_types = [cpu_service_type.clone(), memory_service_type.clone()];
-        let mut cpu_count = 0;
-        let mut memory_count = 0;
+        let types = [cpu_service_type.clone(), memory_service_type.clone()];
+        let mut observations = vec![0_isize; types.len()];
         let mut rng = rand::thread_rng();
-        for _ in 0..ITER {
-            let selection = select_service_type(&service_types, &mut rng);
-            if selection == cpu_service_type {
-                cpu_count += 1;
-                continue;
-            }
-            if selection == memory_service_type {
-                memory_count += 1;
-                continue;
-            }
-            panic!("unexpected service type: {}", selection);
+        for _ in 0..COUNT {
+            let selection = select_service_type(&types, &mut rng);
+            let idx = types
+                .iter()
+                .position(|typ| selection == *typ)
+                .expect("to find a type that matches the selection");
+            observations[idx] += 1;
         }
-        // Maximum allowed difference: 10%
-        let split = ITER / service_types.len();
-        let epsilon = split / 10;
-        let min = split - epsilon;
-        let max = split + epsilon;
+        let expected: Vec<_> = types
+            .iter()
+            .map(|typ| (typ.fraction as f64 / 100.0) * COUNT as f64)
+            .collect();
+        let chi_squared: f64 = observations
+            .iter()
+            .zip(expected)
+            .map(|(got, want)| (got.pow(2) as f64 / want) - COUNT as f64)
+            .sum();
+        let chi_dist = statrs::distribution::ChiSquared::new((types.len() - 1) as f64).unwrap();
+        let p = 1.0 - P_VALUE;
+        let cutoff = chi_dist.inverse_cdf(p);
         assert!(
-            min <= cpu_count,
-            "expected cpu count to be at least {}, but was {}",
-            min,
-            cpu_count
-        );
-        assert!(
-            max >= cpu_count,
-            "expected cpu count to be at most {}, but was {}",
-            max,
-            cpu_count
-        );
-        assert!(
-            min <= memory_count,
-            "expected memory count to be at least {}, but was {}",
-            min,
-            memory_count
-        );
-        assert!(
-            max >= memory_count,
-            "expected memory count to be at most {}, but was {}",
-            max,
-            memory_count
+            chi_squared <= cutoff,
+            "expected {} <= {}",
+            chi_squared,
+            cutoff
         );
     }
 }

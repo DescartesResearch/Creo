@@ -1,10 +1,10 @@
 use rand::{seq::SliceRandom, Rng};
 
-use crate::service_types::{Resource, ServiceType};
+use crate::service_types::{Property, ServiceType};
 
-pub fn select_resource<R: Rng>(service_type: &ServiceType, rng: &mut R) -> Resource {
+pub fn select_resource<R: Rng>(service_type: &ServiceType, rng: &mut R) -> Property {
     service_type
-        .resources
+        .properties
         .choose_weighted(rng, |resource| resource.fraction)
         .expect("should be able to select a resource for a service type")
         .clone()
@@ -19,19 +19,19 @@ mod tests {
 
     #[test]
     fn test_resource_selection_single() {
-        let cpu_label = service_types::Resource {
-            resource: service_types::ResourceType::Cpu,
+        let cpu_label = service_types::Property {
+            label: service_types::Label::Cpu,
             fraction: 100,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
-        let memory_label = service_types::Resource {
-            resource: service_types::ResourceType::Memory,
+        let memory_label = service_types::Property {
+            label: service_types::Label::Memory,
             fraction: 0,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
         let service_type = service_types::ServiceType {
             fraction: 100,
-            resources: Vec::from([cpu_label.clone(), memory_label]),
+            properties: Vec::from([cpu_label.clone(), memory_label]),
         };
         let mut rng = rand::thread_rng();
         for _ in 0..ITER {
@@ -46,19 +46,19 @@ mod tests {
 
     #[test]
     fn test_resource_selection_multi() {
-        let cpu_label = service_types::Resource {
-            resource: service_types::ResourceType::Cpu,
+        let cpu_label = service_types::Property {
+            label: service_types::Label::Cpu,
             fraction: 50,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
-        let memory_label = service_types::Resource {
-            resource: service_types::ResourceType::Memory,
+        let memory_label = service_types::Property {
+            label: service_types::Label::Memory,
             fraction: 50,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
         let service_type = service_types::ServiceType {
             fraction: 100,
-            resources: Vec::from([cpu_label.clone(), memory_label.clone()]),
+            properties: Vec::from([cpu_label.clone(), memory_label.clone()]),
         };
         let mut cpu_count = 0;
         let mut memory_count = 0;
@@ -76,7 +76,7 @@ mod tests {
             panic!("unexpected service type: {}", selection);
         }
         // Maximum allowed difference: 10%
-        let split = ITER / service_type.resources.len();
+        let split = ITER / service_type.properties.len();
         let epsilon = split / 10;
         let min = split - epsilon;
         let max = split + epsilon;

@@ -438,6 +438,7 @@ dependencies = [
  "env_logger",
  "futures",
  "indexmap 2.3.0",
+ "lazy_errors",
  "log 0.4.22",
  "rand 0.8.5",
  "rand_seeder",
@@ -1356,6 +1357,12 @@ dependencies = [
  "winapi 0.2.8",
  "winapi-build",
 ]
+
+[[package]]
+name = "lazy_errors"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b69ca8f5fa5a9d1c884556505ad439e19e2988fdb0e48ac0731b848b7583e85a"
 
 [[package]]
 name = "lazy_static"

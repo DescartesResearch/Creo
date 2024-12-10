@@ -1,13 +1,13 @@
 use crate::{
     handler,
-    service_types::{Resource, ResourceIntensity},
+    service_types::{Bucket, Property},
 };
 
 const N_BUCKETS: usize = 3;
 
 pub fn select_bucket<'a>(
     handler_definitions: &'a [handler::Definition],
-    resource: &Resource,
+    resource: &Property,
 ) -> &'a [handler::Definition] {
     let bucket_boundaries = determine_bucket_boundaries(handler_definitions.len());
     let bucket_index = select_bucket_index(resource);
@@ -29,11 +29,11 @@ fn determine_bucket_boundaries(length: usize) -> [(usize, usize); 3] {
     [(0, low), (low, medium), (medium, high)]
 }
 
-fn select_bucket_index(resource: &Resource) -> usize {
-    match resource.intensity {
-        ResourceIntensity::Low => 0,
-        ResourceIntensity::Medium => 1,
-        ResourceIntensity::High => 2,
+fn select_bucket_index(resource: &Property) -> usize {
+    match resource.bucket {
+        Bucket::Low => 0,
+        Bucket::Medium => 1,
+        Bucket::High => 2,
     }
 }
 
@@ -91,10 +91,10 @@ mod tests {
             });
         }
 
-        let resource = service_types::Resource {
-            resource: service_types::ResourceType::Cpu,
+        let resource = service_types::Property {
+            label: service_types::Label::Cpu,
             fraction: 100,
-            intensity: service_types::ResourceIntensity::Low,
+            bucket: service_types::Bucket::Low,
         };
 
         let bucket = select_bucket(&definitions, &resource);
@@ -128,10 +128,10 @@ mod tests {
             });
         }
 
-        let resource = service_types::Resource {
-            resource: service_types::ResourceType::Cpu,
+        let resource = service_types::Property {
+            label: service_types::Label::Cpu,
             fraction: 100,
-            intensity: service_types::ResourceIntensity::Medium,
+            bucket: service_types::Bucket::Medium,
         };
 
         let bucket = select_bucket(&definitions, &resource);
@@ -165,10 +165,10 @@ mod tests {
             });
         }
 
-        let resource = service_types::Resource {
-            resource: service_types::ResourceType::Cpu,
+        let resource = service_types::Property {
+            label: service_types::Label::Cpu,
             fraction: 100,
-            intensity: service_types::ResourceIntensity::High,
+            bucket: service_types::Bucket::High,
         };
 
         let bucket = select_bucket(&definitions, &resource);

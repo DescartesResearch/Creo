@@ -13,11 +13,14 @@ pub fn select_programming_language<R: Rng>(
 
 #[cfg(test)]
 mod tests {
+    use statrs::distribution::ContinuousCDF;
+
     use crate::programming_lanuage;
 
     use super::*;
 
-    const ITER: usize = 10_000;
+    const COUNT: usize = 100_000;
+    const P_VALUE: f64 = 0.05;
 
     #[test]
     fn test_programming_language_single() {
@@ -26,7 +29,7 @@ mod tests {
 
         let languages = [python, rust];
         let mut rng = rand::thread_rng();
-        for _ in 0..ITER {
+        for _ in 0..COUNT {
             let selection = select_programming_language(&languages, &mut rng);
             assert_eq!(selection, python, "expected Python but found {}", selection);
         }
@@ -34,55 +37,39 @@ mod tests {
 
     #[test]
     fn test_programming_language_multi() {
-        let python = programming_lanuage::ProgrammingLanguage::Python(50);
-        let rust = programming_lanuage::ProgrammingLanguage::Rust(50);
+        let python = programming_lanuage::ProgrammingLanguage::Python(30);
+        let rust = programming_lanuage::ProgrammingLanguage::Rust(70);
 
         let languages = [python, rust];
         let mut rng = rand::thread_rng();
-        let mut py_count = 0;
-        let mut rs_count = 0;
-        for _ in 0..ITER {
+        let mut observations = vec![0_isize; languages.len()];
+        for _ in 0..COUNT {
             let selection = select_programming_language(&languages, &mut rng);
-            if selection == python {
-                py_count += 1;
-                continue;
-            }
-            if selection == rust {
-                rs_count += 1;
-                continue;
-            }
-            panic!("unexpected language: {}", selection);
+            let idx = languages
+                .iter()
+                .position(|lang| *lang == selection)
+                .expect("to find a language that matches the selection");
+            observations[idx] += 1;
         }
 
-        // Maximum allowed difference: 10%
-        let split = ITER / languages.len();
-        let epsilon = split / 10;
-        let min = split - epsilon;
-        let max = split + epsilon;
+        let expected: Vec<_> = languages
+            .iter()
+            .map(|lang| (lang.as_fraction() as f64 / 100.0) * COUNT as f64)
+            .collect();
 
+        let chi_squared: f64 = observations
+            .iter()
+            .zip(expected)
+            .map(|(got, want)| (got.pow(2) as f64 / want) - COUNT as f64)
+            .sum();
+        let chi_dist = statrs::distribution::ChiSquared::new((languages.len() - 1) as f64).unwrap();
+        let p = 1.0 - P_VALUE;
+        let cutoff = chi_dist.inverse_cdf(p);
         assert!(
-            min <= py_count,
-            "expected python count to be at least {}, but was {}",
-            min,
-            py_count
-        );
-        assert!(
-            max >= py_count,
-            "expected python count to be at most {}, but was {}",
-            max,
-            py_count
-        );
-        assert!(
-            min <= rs_count,
-            "expected rust count to be at least {}, but was {}",
-            min,
-            rs_count
-        );
-        assert!(
-            max >= rs_count,
-            "expected rust count to be at most {}, but was {}",
-            max,
-            rs_count
+            chi_squared <= cutoff,
+            "expected {} <= {}",
+            chi_squared,
+            cutoff
         );
     }
 }

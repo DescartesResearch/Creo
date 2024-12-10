@@ -1,17 +1,21 @@
 use std::{collections::HashSet, fmt::Display};
 
-use super::Resource;
+use super::Property;
 
 #[derive(serde::Deserialize, Clone, Debug, PartialEq, Eq)]
 #[serde(remote = "Self")]
 pub struct ServiceType {
     pub fraction: u8,
-    pub resources: Vec<Resource>,
+    pub properties: Vec<Property>,
 }
 
 impl Display for ServiceType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Service Type ({:?}, {}%)", self.resources, self.fraction)
+        write!(
+            f,
+            "Service Type ({:?}, {}%)",
+            self.properties, self.fraction
+        )
     }
 }
 
@@ -22,12 +26,12 @@ impl<'de> serde::Deserialize<'de> for ServiceType {
     {
         let this = Self::deserialize(deserializer)?;
 
-        if this.resources.is_empty() {
+        if this.properties.is_empty() {
             return Err(serde::de::Error::custom("resources list must be non empty"));
         }
 
         let sum: u8 = this
-            .resources
+            .properties
             .iter()
             .map(|resource| resource.fraction)
             .sum();
@@ -38,11 +42,11 @@ impl<'de> serde::Deserialize<'de> for ServiceType {
             )));
         }
         let mut seen = HashSet::new();
-        for resource in &this.resources {
+        for resource in &this.properties {
             if !seen.insert(resource) {
                 return Err(serde::de::Error::custom(format!(
                     "expected resources to be unique, but found duplicate resource {}",
-                    resource.resource
+                    resource.label
                 )));
             }
         }
@@ -52,4 +56,4 @@ impl<'de> serde::Deserialize<'de> for ServiceType {
 }
 
 #[derive(serde::Deserialize, Debug)]
-pub struct ServiceTypeVec(pub Vec<ServiceType>);
+pub struct ServiceTypeVec(pub crate::de::NonEmptyVec<ServiceType>);

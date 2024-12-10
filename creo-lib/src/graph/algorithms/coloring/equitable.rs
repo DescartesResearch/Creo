@@ -13,7 +13,9 @@ pub fn equitable_coloring(graph: &DiGraph, color_count: usize) -> Result<Vec<Col
             expected: maximum_degree + 1,
         });
     }
-    // TODO: Cycle Check
+    if !graph.is_acyclic() {
+        return Err(Error::CyclicGraph);
+    }
 
     let padded_graph = PaddedGraph::new(graph, color_count);
 
@@ -117,20 +119,26 @@ pub fn equitable_coloring(graph: &DiGraph, color_count: usize) -> Result<Vec<Col
     Ok(coloring)
 }
 
-pub fn is_coloring<T>(edges: T, coloring: &[ColorIndex]) -> bool
+pub fn is_coloring<T>(edges: T, coloring: &[ColorIndex]) -> Result<()>
 where
     T: IntoIterator<Item = Edge>,
 {
-    edges
-        .into_iter()
-        .all(|edge| coloring[edge.source.0] != coloring[edge.target.0])
+    edges.into_iter().try_for_each(|edge| {
+        if coloring[edge.source.0] == coloring[edge.target.0] {
+            return Err(Error::InvalidColoring {
+                edge,
+                color: coloring[edge.source.0],
+            });
+        }
+        Ok(())
+    })
 }
 
 pub fn is_equitable<T>(edges: T, coloring: &[ColorIndex], color_count: Option<usize>) -> bool
 where
     T: IntoIterator<Item = Edge>,
 {
-    if !is_coloring(edges, coloring) {
+    if is_coloring(edges, coloring).is_err() {
         return false;
     }
 

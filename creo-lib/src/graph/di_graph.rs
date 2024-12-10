@@ -1,3 +1,5 @@
+use std::{collections::VecDeque, fmt::Display};
+
 use super::{EdgeView, NodeView, Predecessors, Successors};
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, PartialOrd, Ord)]
@@ -23,6 +25,11 @@ pub struct Edge {
     pub target: NodeIndex,
 }
 
+impl Display for Edge {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} -> {}", self.source.0, self.target.0)
+    }
+}
 impl From<(usize, usize)> for Edge {
     fn from(value: (usize, usize)) -> Self {
         Self {
@@ -131,7 +138,33 @@ impl DiGraph {
         degrees.into_iter().max().unwrap_or_default()
     }
 
-    // TODO: is_acyclic() using Kahn's algorithm
+    pub fn is_acyclic(&self) -> bool {
+        let mut in_degrees: Vec<_> = self
+            .iter_nodes()
+            .map(|v| self.predecssors(v).count())
+            .collect();
+        let mut queue = VecDeque::from_iter(
+            in_degrees
+                .iter()
+                .enumerate()
+                .filter(|(_, d)| **d == 0)
+                .map(|(v, _)| NodeIndex(v)),
+        );
+        let mut count = 0;
+        while !queue.is_empty() {
+            let front = queue
+                .pop_front()
+                .expect("non empty queue due to while condition");
+            count += 1;
+            for v in self.successors(front) {
+                in_degrees[v.0] -= 1;
+                if in_degrees[v.0] == 0 {
+                    queue.push_back(v);
+                }
+            }
+        }
+        count == self.node_count()
+    }
 }
 
 #[cfg(test)]
@@ -163,5 +196,6 @@ mod tests {
         assert_eq!(&edges[..], &[e2, e0, e1, e3]);
         let predecessors: Vec<NodeIndex> = graph.predecssors(2.into()).collect();
         assert_eq!(&predecessors[..], &[3.into(), 1.into()]);
+        assert!(graph.is_acyclic());
     }
 }

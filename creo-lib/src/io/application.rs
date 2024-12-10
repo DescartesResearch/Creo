@@ -6,8 +6,6 @@ pub fn create_application_directory(
 
     write_application_meta_data(path.as_ref(), meta_data)?;
 
-    //TODO: docker-compose.yml, load_generator.yml, prometheus.yml, user_request.yml
-
     Ok(())
 }
 

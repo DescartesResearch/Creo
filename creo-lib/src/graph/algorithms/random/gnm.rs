@@ -29,11 +29,15 @@ pub fn random_gnm_graph<R: rand::Rng>(params: &GNMParameters, rng: &mut R) -> gr
             builder = builder.add_edge((source, target).into());
         }
 
+        let graph = builder.build();
+        if !graph.is_acyclic() {
+            continue;
+        }
         match params.maximum_degree {
-            None => break builder.build(),
+            None => break graph,
             Some(maximum_degree) => {
-                if builder.maximum_degree() < maximum_degree {
-                    break builder.build();
+                if graph.maximum_degree() < maximum_degree {
+                    break graph;
                 }
             }
         }

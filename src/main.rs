@@ -1,5 +1,6 @@
 pub mod cli;
 mod commands;
+pub mod config;
 mod error;
 mod io;
 mod util;
@@ -27,13 +28,15 @@ async fn main() -> Result<()> {
     let root = std::env::current_dir().map_err(|err| Error::with_log("failed to locate the current working directory! Make sure the executable has sufficient permissions to access the directory!".into(), err))?;
     match command {
         cli::Commands::Generate(args) => {
-            let config = io::parse_config::<cli::generate::Config>(&args.config)?;
+            let config = io::parse_config::<config::generate::Config>(&args.config)?;
             let result = commands::generate::generate(&config, &root);
             match result {
                 Ok(_) => log::info!("Successfully generated application!"),
                 Err(err) => {
                     log::error!("{}", err);
-                    let app_dir = root.join(creo_lib::OUTPUT_DIR).join(&config.app_name);
+                    let app_dir = root
+                        .join(creo_lib::OUTPUT_DIR)
+                        .join(config.app_name.as_ref());
                     util::cleanup_dir(&app_dir);
                 }
             }

@@ -98,15 +98,6 @@ impl DiGraphBuilder {
         self.edges.len()
     }
 
-    pub fn maximum_degree(&self) -> usize {
-        let mut degrees: Vec<usize> = vec![0; self.nodes.len()];
-        for edge in &self.edges {
-            degrees[edge.source.0] += 1;
-            degrees[edge.target.0] += 1;
-        }
-        degrees.into_iter().max().unwrap_or_default()
-    }
-
     pub fn build(self) -> DiGraph {
         DiGraph {
             nodes: self.nodes,

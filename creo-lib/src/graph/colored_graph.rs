@@ -58,4 +58,8 @@ impl ColoredGraph {
     pub fn iter_nodes_with_colors(&self) -> NodeWithColorView {
         NodeWithColorView::new(self)
     }
+
+    pub fn node_color(&self, node: NodeIndex) -> ColorIndex {
+        self.coloring[node.0]
+    }
 }
