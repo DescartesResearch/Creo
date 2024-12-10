@@ -52,15 +52,26 @@ impl<W: tokio::io::AsyncWrite + Unpin + Send> Builder<W> {
         exclude: &[&str],
     ) -> super::Result<()> {
         if exclude.is_empty() {
-            return Ok(self.w.append_dir_all(path, src).await?);
+            return self
+                .w
+                .append_dir_all(path, src.as_ref())
+                .await
+                .map_err(|err| super::Error::AppendArchive {
+                    source_path: src.as_ref().into(),
+                    source: err,
+                });
         }
         let patterns: super::Result<Vec<_>> = exclude
             .iter()
             .map(|pattern| ExcludePattern::new(pattern))
             .collect();
         let patterns = patterns?;
-        self.append_dir_all_with_exclude(path, &src, &patterns)
+        self.append_dir_all_with_exclude(path, src.as_ref(), &patterns)
             .await
+            .map_err(|err| super::Error::AppendArchive {
+                source_path: src.as_ref().into(),
+                source: err,
+            })
     }
 
     /// Adds a directory and all of its contents not matched by [`Builder::should_exclude`] (recursively) to this archive with the given path
@@ -74,7 +85,7 @@ impl<W: tokio::io::AsyncWrite + Unpin + Send> Builder<W> {
         path: impl AsRef<std::path::Path>,
         src_path: impl AsRef<std::path::Path>,
         exclude: &[ExcludePattern],
-    ) -> super::Result<()> {
+    ) -> std::io::Result<()> {
         let path = path.as_ref();
         let src_path = src_path.as_ref();
         let mut stack = vec![(src_path.to_path_buf(), true, false)];
