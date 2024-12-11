@@ -17,7 +17,7 @@ impl Client {
         username: impl AsRef<str>,
         auth_method: async_ssh2_tokio::client::AuthMethod,
     ) -> Result<Self> {
-        log::info!(
+        log::debug!(
             "Trying to connect to host `{}` on port {port} with username `{}`",
             host.as_ref(),
             username.as_ref()
@@ -97,7 +97,7 @@ impl Client {
 pub async fn get_auth_method(config: &super::Config) -> Result<async_ssh2_tokio::AuthMethod> {
     let file_pw = if let Some(ref pw_file) = config.password_file {
         let pw_file = std::path::Path::new(pw_file);
-        log::info!("Reading password from file `{}`", pw_file.display());
+        log::debug!("Reading password from file `{}`", pw_file.display());
         let password = tokio::fs::read_to_string(pw_file).await.map_err(|err| {
             Error::AuthMethod(format!(
                 "failed to read password file for path {}!\n\tReason: {}",
@@ -105,7 +105,7 @@ pub async fn get_auth_method(config: &super::Config) -> Result<async_ssh2_tokio:
                 err
             ))
         })?;
-        log::info!(
+        log::debug!(
             "Successfully read password from file `{}`",
             pw_file.display()
         );
@@ -116,7 +116,7 @@ pub async fn get_auth_method(config: &super::Config) -> Result<async_ssh2_tokio:
     let stdin_pw = read_pw_from_stdin()?;
     if let Some(ref key_file) = config.key_file {
         let key_file = std::path::Path::new(key_file);
-        log::info!(
+        log::debug!(
             "Reading SSH private key from key file `{}`",
             key_file.display()
         );
