@@ -1,24 +1,23 @@
 # Getting Started
 
 In this document, you will learn how to use Creo by generating a small sample application.
-Please note the following prerequesites:
+Please note the following prerequisitess:
 
-## Prerequesites
+## Prerequisites
 
 1. A working installation of the most recent version of the Rust programming language.
    You can find installation instructions [here](https://www.rust-lang.org/tools/install).
-2. Ensure that `~/.cargo/bin` is added to your `$PATH` environment variable.
+2. A local copy of this repository. You should be in the root directory, while following this guide.
 
 ## Installation
 
-1. Clone this repository to your local machine.
-2. Install the project using `cargo`.
+1. Install the project using `cargo`.
 
 ```bash
 cargo install --path . --locked
 ```
 
-3. Test your installation by checking the version of Creo.
+2. Test your installation by checking the version of Creo.
 
 ```bash
 creo --version
@@ -83,8 +82,8 @@ workload:
 Please note that the `topology` configuration has the following constraints:
 
 1. The number of `inter_service_calls` must be smaller or equal to the product of the number of `endpoints` and the
-   number of `services`, i.e., $\#inter\_service\_calls \le \#endpoints \cdot \#services$
-2. The number of `endpoints` must be at least the number of `services`, i.e. $\#endpoints \ge \#services$
+   number of `services`, i.e., $`\#inter\_service\_calls \le \#endpoints \cdot \#services`$
+2. The number of `endpoints` must be at least the number of `services`, i.e. $`\#endpoints \ge \#services`$
 
 To learn more about how the generation process works in detail, please refer to [here](./architecture.md).
 
@@ -94,7 +93,7 @@ With the above configuration, we can generate our first test application by runn
 creo generate
 ```
 
-If you want to use a configuration that is not stored at the default location (`config/generate.yml`), you can use:
+_Alternately_: If you want to use a configuration that is not stored at the default location (`config/generate.yml`), you can use:
 
 ```bash
 creo generate --config <path-to-the-config>
@@ -106,22 +105,65 @@ With this, you should successfully generate an application and find a new direct
 ## Benchmarking the Application
 
 Now that we generated a microservice application, we can use Creo to conduct experiments with this application.
-In order to conduct experiments, we require the following prerequesites:
+In order to conduct experiments, we require the following prerequisitess:
 
-### Prerequesites
+### Prerequisites
 
 1. Two network-accessible servers running Linux as the operating system (_Note_: The following has been only tested for
-   Ubuntu server)
+   servers running Ubuntu or Debian).
+   One of the servers acts as the master and runs the load generator to send requests to the application.
+   The second server is the worker host running the application using `docker compose`.
 2. User accounts with identical usernames on both servers
-3. SSH access to the servers from the machine running Creo as well as among the servers using SSH-Key authentication
-   with a password-less SSH-Keypair and the user account from Prerequesite 2.
+
+```bash
+# On both servers
+sudo adduser <username>
+```
+
+3. SSH access from the master server to the worker server with a passwordless, SSH key. For instance, execute the
+   following commands on the master server as the user added in the previous step:
+
+```bash
+# On master server
+ssh-keygen -t ed25519
+ssh-copy-id <worker-ip>
+```
+
 4. An installation of [docker](https://www.docker.com/) and [docker compose](https://docs.docker.com/compose/install/)
-   on both servers
-5. Docker CLI access without sudo for the user accounts of prerequesite 2.
+   on both servers. Installation instructions for [Ubuntu](https://docs.docker.com/engine/install/ubuntu/) and
+   [Debian](https://docs.docker.com/engine/install/debian/)
+5. Docker CLI access without sudo for the user accounts of prerequisites 2.
+
+```bash
+# On both servers
+sudo usermod -aG docker <username>
+```
+
 6. An installation of [GNU Screen](https://www.gnu.org/software/screen/) on both servers
 
-One of the servers acts as the master and runs the load generator to send requests to the application.
-The second server is the worker host running the application using `docker compose`.
+```bash
+# On both servers
+sudo apt install screen
+```
+
+7. (Optional, but recommended): SSH access from your local machine with SSH key authentication.
+
+- Linux/Mac
+
+```bash
+# On local machine
+ssh-keygen -t ed25519
+ssh-copy-id <master-ip>
+ssh-copy-id <worker-ip>
+```
+
+- Windows
+
+```powershell
+ssh-keygen -t ed25519
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh <master-ip> "cat >> .ssh/authorized_keys"
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh <worker-ip> "cat >> .ssh/authorized_keys"
+```
 
 ### Execution
 
@@ -137,13 +179,14 @@ Below is an example configuration for benchmarking our previously generated test
 application: my_first_application
 # `ssh` specifies the servers, SSH keyfile, and user name.
 ssh:
-  # Path to the private ssh keyfile (supports tilde/enviroment variable expansion)
-  key_file: ~/.ssh/id_ed25519 # (equivalent: $HOME/.ssh/id_ed25519)
+  key_file: ~/.ssh/id_ed25519
+  # If you didn't setup SSH key authentication (or your SSH key is passphrase protected)
+  # password_file: <path-to-password-file>  # file containing the password/passphrase
   user_name: myserveruser
   master_hosts:
     - 1.1.1.1
   worker_hosts:
-    - 2.2.2.2
+    - 2.2.2.2:22 # port may be specified using `:`. Default SSH port is 22.
 # `benchmark` specifies the properties of the experiment to be conducted
 benchmark:
   # `warmup` specifies the warmup procedure before the experiment
@@ -152,7 +195,7 @@ benchmark:
     duration: 30 # duration of the warmup in seconds
     pause: 10 # duration in seconds to wait between the warmup and experiment
   # `intensity` specifies the starting and ending number of requests per second.
-  # The load generator will linearily interpolate the requests per second for each time step
+  # The load generator will linearly interpolate the requests per second for each time step
   # over the total experiment duration.
   intensity:
     start: 25
