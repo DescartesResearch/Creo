@@ -10,3 +10,8 @@ The framework's key features are:
 ## Getting started
 
 For the quickest way to get started using Creo, please refer to our [Getting Started](./docs/getting_started.md) guide.
+
+## Extending the Framework
+
+A guide on how to extend the framework, such as with new handler functions or programming languages, please refer
+to our [Extension](./docs/extension/README.md) guide.
