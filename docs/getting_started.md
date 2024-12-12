@@ -146,7 +146,7 @@ sudo usermod -aG docker <username>
 sudo apt install screen
 ```
 
-7. (Optional, but recommended): SSH access from your local machine with SSH key authentication.
+7. (Optional, but recommended): Setup SSH access from your local machine with SSH key authentication.
 
 - Linux/Mac
 
