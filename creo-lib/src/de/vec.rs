@@ -37,7 +37,9 @@ impl<T> std::ops::DerefMut for NonEmptyVec<T> {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, serde::Deserialize, serde::Serialize)]
+#[derive(
+    Debug, PartialEq, Eq, PartialOrd, Ord, Hash, serde::Deserialize, serde::Serialize, Default,
+)]
 #[serde(remote = "Self")]
 /// A vector of unique elemets.
 ///

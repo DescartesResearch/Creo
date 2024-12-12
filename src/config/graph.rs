@@ -49,6 +49,7 @@ pub struct VertexDefinition {
     /// The ID of the vertex
     pub name: creo_lib::de::NonEmptyString,
     /// The IDs of the vertices this vertex is connected to
+    #[serde(default)]
     pub inter_service_calls: creo_lib::de::UniqueVec<String>,
 }
 
@@ -126,5 +127,5 @@ pub struct EndpointDefinition {
     /// The vertex definition of the endpoint
     pub vertex: VertexDefinition,
     /// The function directory name of the endpoint
-    pub function: std::ffi::OsString,
+    pub function: String,
 }
