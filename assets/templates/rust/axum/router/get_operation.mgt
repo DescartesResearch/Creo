@@ -1,9 +1,7 @@
 {{#if query_params}}#[derive(serde::Deserialize, serde_valid::Validate)]
-struct QueryParams{{endpoint_index}}{{{{raw}}}} { {{{{/raw}}}}
-{{#each query_params}}    {{>query_param}},
-{{/each}}{{{{raw}}}}
-}
-{{{{/raw}}}}
+struct QueryParams{{endpoint_index}} {{{{raw}}}} { {{{{/raw}}}}
+{{#each query_params}}    {{>query_param}}{{/each}}
+{{{{raw}}}} } {{{{/raw}}}}
 {{/if}}
 {{#if description}}// {{description}}{{/if}}
 async fn {{name}}({{#if query_params}}

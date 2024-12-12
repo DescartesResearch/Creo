@@ -6,4 +6,4 @@
 {{/if}}{{#if max_length}}#[validate(max_length={{this}})]
 {{/if}}{{#if pattern}}#[validate(pattern=r"{{this}}")]
 {{/if}}{{/if}}
-{{name}}: {{param_type}}
+{{name}}: {{param_type}},
