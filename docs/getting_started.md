@@ -126,7 +126,7 @@ sudo adduser <username>
 ```bash
 # On master server
 ssh-keygen -t ed25519
-ssh-copy-id <worker-ip>
+ssh-copy-id "<username>@<worker-ip>"
 ```
 
 4. An installation of [docker](https://www.docker.com/) and [docker compose](https://docs.docker.com/compose/install/)
@@ -136,7 +136,7 @@ ssh-copy-id <worker-ip>
 
 ```bash
 # On both servers
-sudo usermod -aG docker <username>
+sudo usermod -aG docker "<username>"
 ```
 
 6. An installation of [GNU Screen](https://www.gnu.org/software/screen/) on both servers
@@ -153,16 +153,16 @@ sudo apt install screen
 ```bash
 # On local machine
 ssh-keygen -t ed25519
-ssh-copy-id <master-ip>
-ssh-copy-id <worker-ip>
+ssh-copy-id "<username>@<master-ip>"
+ssh-copy-id "<username>@<worker-ip>"
 ```
 
 - Windows
 
 ```powershell
 ssh-keygen -t ed25519
-type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh <master-ip> "cat >> .ssh/authorized_keys"
-type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh <worker-ip> "cat >> .ssh/authorized_keys"
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh "<username>@<master-ip>" "cat >> .ssh/authorized_keys"
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh "<username>@<worker-ip>" "cat >> .ssh/authorized_keys"
 ```
 
 ### Execution
