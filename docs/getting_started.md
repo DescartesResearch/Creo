@@ -13,13 +13,13 @@ Please note the following prerequisitess:
 
 1. Install the project using `cargo`.
 
-```bash
+```sh
 cargo install --path . --locked
 ```
 
 2. Test your installation by checking the version of Creo.
 
-```bash
+```sh
 creo --version
 ```
 
@@ -89,13 +89,13 @@ To learn more about how the generation process works in detail, please refer to 
 
 With the above configuration, we can generate our first test application by running the following command:
 
-```bash
+```sh
 creo generate
 ```
 
 _Alternately_: If you want to use a configuration that is not stored at the default location (`config/generate.yml`), you can use:
 
-```bash
+```sh
 creo generate --config <path-to-the-config>
 ```
 
@@ -115,7 +115,7 @@ In order to conduct experiments, we require the following prerequisitess:
    The second server is the worker host running the application using `docker compose`.
 2. User accounts with identical usernames on both servers
 
-```bash
+```sh
 # On both servers
 sudo adduser <username>
 ```
@@ -123,7 +123,7 @@ sudo adduser <username>
 3. SSH access from the master server to the worker server with a passwordless, SSH key. For instance, execute the
    following commands on the master server as the user added in the previous step:
 
-```bash
+```sh
 # On master server
 ssh-keygen -t ed25519
 ssh-copy-id "<username>@<worker-ip>"
@@ -134,14 +134,14 @@ ssh-copy-id "<username>@<worker-ip>"
    [Debian](https://docs.docker.com/engine/install/debian/)
 5. Docker CLI access without sudo for the user accounts of prerequisites 2.
 
-```bash
+```sh
 # On both servers
 sudo usermod -aG docker "<username>"
 ```
 
 6. An installation of [GNU Screen](https://www.gnu.org/software/screen/) on both servers
 
-```bash
+```sh
 # On both servers
 sudo apt install screen
 ```
@@ -150,7 +150,7 @@ sudo apt install screen
 
 - Linux/Mac
 
-```bash
+```sh
 # On local machine
 ssh-keygen -t ed25519
 ssh-copy-id "<username>@<master-ip>"
@@ -159,7 +159,7 @@ ssh-copy-id "<username>@<worker-ip>"
 
 - Windows
 
-```powershell
+```posh
 ssh-keygen -t ed25519
 type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh "<username>@<master-ip>" "cat >> .ssh/authorized_keys"
 type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh "<username>@<worker-ip>" "cat >> .ssh/authorized_keys"
@@ -217,13 +217,13 @@ benchmark:
 Before we can start a benchmark run, we first have to deploy the application and load generator setup.
 This command uses the server specifications of the above benchmark configuration.
 
-```bash
+```sh
 creo deploy
 ```
 
 Or, if your benchmark configuration is not stored at the default location (`config/benchmark.yml`):
 
-```bash
+```sh
 creo deploy --config <path-to-the-config>
 ```
 
@@ -231,13 +231,13 @@ _Note_: This command may take a while depending on your internet connection spee
 
 After the deployment, we can start a benchmark run with the following command:
 
-```bash
+```sh
 creo benchmark
 ```
 
 Again, we can use `--config` to specify a non-default path.
 
-```bash
+```sh
 creo benchmark --config <path-to-the-config>
 ```
 
@@ -245,7 +245,7 @@ creo benchmark --config <path-to-the-config>
 
 After the benchmark run has finished, we can download the results using:
 
-```bash
+```sh
 creo download
 ```
 
