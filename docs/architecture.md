@@ -30,7 +30,7 @@ aggregating endpoints into microservices. In our model, we represent the endpoin
 graph vertices. That is, in our example we first add 6 vertices to our DAG, since the number of endpoints is 6.
 
 <div align="center">
-  <img src="./graphics/vertices.pdf" />
+  <img src="./graphics/vertices.svg" />
   <p>Figure 1: Generated graph vertices</p>
 </div>
 
@@ -43,7 +43,7 @@ by drawing the desired number of edges from the set of all possible edges. In ou
 possible edges, since each of the 6 endpoints may have an outgoing edge to one of the other 5 vertices.
 
 <div align="center">
-  <img src="./graphics/edges.pdf" />
+  <img src="./graphics/edges.svg" />
   <p>Figure 2: Generated graph edges</p>
 </div>
 
@@ -68,7 +68,7 @@ In our case, we want to generate 3 services according to the provided topology c
 using 3 colors.
 
 <div align="center">
-  <img src="./graphics/colors.pdf" />
+  <img src="./graphics/colors.svg" />
   <p>Figure 3: The colored graph</p>
 </div>
 
