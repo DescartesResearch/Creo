@@ -15,3 +15,7 @@ For the quickest way to get started using Creo, please refer to our [Getting Sta
 
 A guide on how to extend the framework, such as with new handler functions or programming languages, please refer
 to our [Extension](./docs/extension/README.md) guide.
+
+## How it works
+
+To learn more about how the framework works, please refer to our [Architecture and Design](./docs/architecture.md) guide.
