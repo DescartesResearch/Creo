@@ -220,3 +220,4 @@ type specific keywords.
 
 The `utilization` file of a handler function specifies the values of the handler functions labels.
 Currently, Creo supports labels describing the resource usage of the handler function.
+For instructions on how to acquire these labels, please refer to our [profiling](./profiling.md) guide.
