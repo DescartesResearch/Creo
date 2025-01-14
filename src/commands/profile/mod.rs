@@ -123,15 +123,11 @@ pub fn generate(
             )?;
         }
 
-        let (load_generator_file, _) = creo_lib::io::create_load_generator_file(
-            &application,
-            &service,
-            &registry,
-            creo_lib::application::get_host(service.id),
-        );
+        let (load_generator_file, _) =
+            creo_lib::io::create_load_generator_file(&application, &service, &registry);
         creo_lib::io::write_load_generator_file(
             &load_generator_file,
-            service_dir.join("load_generator.yml"),
+            service_dir.join("load_generator.lua"),
         )
         .map_err(|err| {
             Error::new(format!(

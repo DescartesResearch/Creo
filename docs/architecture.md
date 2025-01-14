@@ -81,4 +81,33 @@ is still missing from this representation. Hence, we will assign the workload in
 
 ## Assigning the Application Workload to the Graph
 
-**TODO**
+Lets consider the following service types configuration:
+
+```yaml
+service_types:
+  # CPU-intensive microservice (s1)
+  - fraction: 50
+    properties:
+      - label: CPU
+        fraction: 100
+        bucket: HIGH
+  # Outgoing network-intensive microservice (s2)
+  - fraction: 50
+    properties:
+      - label: NETWORK_TRANSMIT
+        fraction: 100
+        bucket: HIGH
+```
+
+The configuration consists of two service types. The first service type - let's call it $s1$ - represents a
+highly CPU-intensive microservice, while the second service type ($s2$) represents a highly network-intensive
+microservice in terms of outgoing network traffic. In other words, for our application we expect each of the three
+microservices to be either a highly CPU-intensive or a highly outgoing network-intensive microservice. As per the
+configuration, the probability of each service type is $50\%$. To select the service types for each of our three
+microserives, we repeat the following procedure for every service:
+
+### Step 1: Select a Programming Language
+
+### Step 2: Select a Service Types
+
+### Step 3: Select Handler Functions for Endpoints

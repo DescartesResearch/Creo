@@ -6,34 +6,23 @@ USER="$1"
 APP_PATH="$2"
 APPLICATION_DIR="${APP_PATH##*/}"
 WORKER_IP="$3"
-YAML_FILE="output.yml"
+LUA_FILE="output.lua"
 
-BENCHMARK_DURATION="$4"
-START_RPS="$5"
-END_RPS="$6"
-DIRECTOR_THREADS="$7"
-VIRTUAL_USERS="$8"
-TIMEOUT="$9"
+VIRTUAL_USERS="$4"
+TIMEOUT="$5"
 
-WARMUP_PAUSE="${10}"
-WARMUP_DURATION="${11}"
-WARMUP_RPS="${12}"
-RECORDS="${13}"
-PROFILE=""
-if [ "$#" -eq 14 ]; then
-    PROFILE="${14}"
-fi
+WARMUP_PAUSE="$6"
+WARMUP_DURATION="$7"
+WARMUP_RPS="$8"
+RECORDS="$9"
+PROFILE_NAME="${10}"
 
 (
     script_path=$(dirname -- "${BASH_SOURCE[0]}")
     script_path=$(readlink -f -- "${script_path}")
     cd "$script_path"
-    YAML_PATH="$script_path/$YAML_FILE"
-    if [ -z "$PROFILE" ]; then
-        BENCHMARK_RUN="$script_path/benchmarks/$APPLICATION_DIR/$START_RPS-$END_RPS"
-    else
-        BENCHMARK_RUN="$script_path/benchmarks/$APPLICATION_DIR/$PROFILE"
-    fi
+    LUA_PATH="$script_path/$LUA_FILE"
+    BENCHMARK_RUN="$script_path/benchmarks/${PROFILE_NAME::-4}"
     if [ -d "$BENCHMARK_RUN" ]; then
         TS=$(date +%s)
         BACKUP="$BENCHMARK_RUN-bck-$TS"
@@ -44,10 +33,8 @@ fi
     CONFIG_FILE="$BENCHMARK_RUN/config.yml"
     printf "Saving benchmark configuration to %s\n" "$CONFIG_FILE" 1>&2
     touch "$CONFIG_FILE"
-    printf "duration: %s\n" "$BENCHMARK_DURATION" >"$CONFIG_FILE"
+    printf "virtual_users: %d\n" "$VIRTUAL_USERS" >"$CONFIG_FILE"
     {
-        printf "threads: %d\n" "$DIRECTOR_THREADS"
-        printf "virtual_users: %d\n" "$VIRTUAL_USERS"
         printf "timeout: %d\n" "$TIMEOUT"
         printf "warmup_duration: %d\n" "$WARMUP_DURATION"
         printf "warmup_rps: %d\n" "$WARMUP_RPS"
@@ -64,16 +51,12 @@ bash init.sh '"$RECORDS"' init-data'
     echo "[INFO] Successfully started application"
     echo "[INFO] Starting benchmark run"
     cd "../load_generator"
-    if [ -z "$PROFILE" ]; then
-        YAML_PATH="$YAML_PATH" BENCHMARK_RUN="$BENCHMARK_RUN" START_RPS="$START_RPS" END_RPS="$END_RPS" BENCHMARK_DURATION="$BENCHMARK_DURATION" DIRECTOR_THREADS="$DIRECTOR_THREADS" VIRTUAL_USERS="$VIRTUAL_USERS" TIMEOUT="$TIMEOUT" WARMUP_PAUSE="$WARMUP_PAUSE" WARMUP_DURATION="$WARMUP_DURATION" WARMUP_RPS="$WARMUP_RPS" docker compose up --build --abort-on-container-exit --force-recreate
-    else
-        PROFILE="$PWD/profiles/$PROFILE"
-        YAML_PATH="$YAML_PATH" BENCHMARK_RUN="$BENCHMARK_RUN" PROFILE="$PROFILE" THREADS="$DIRECTOR_THREADS" VIRTUAL_USERS="$VIRTUAL_USERS" TIMEOUT="$TIMEOUT" WARMUP_PAUSE="$WARMUP_PAUSE" WARMUP_DURATION="$WARMUP_DURATION" WARMUP_RPS="$WARMUP_RPS" docker compose -f profile-compose.yml up --build --abort-on-container-exit --force-recreate
-    fi
+    PROFILE="$PWD/profiles/$PROFILE_NAME"
+    LUA_PATH="$LUA_PATH" BENCHMARK_RUN="$BENCHMARK_RUN" PROFILE="$PROFILE" VIRTUAL_USERS="$VIRTUAL_USERS" TIMEOUT="$TIMEOUT" WARMUP_PAUSE="$WARMUP_PAUSE" WARMUP_DURATION="$WARMUP_DURATION" WARMUP_RPS="$WARMUP_RPS" docker compose up --build --abort-on-container-exit --force-recreate
     echo "[INFO] Finished benchmark run"
     echo "[INFO] Stopping application"
     ssh "$USER@$WORKER_IP" 'cd '"$APPLICATION_DIR"' && PROMETHEUS_UID="$(id -u)" PROMETHEUS_GID="$(id -g)" docker compose down'
-    rm "$script_path/$YAML_FILE"
+    rm "$script_path/$LUA_FILE"
     echo "[INFO] Saving collected metrics"
     ssh "$USER@$WORKER_IP" 'cd '"$APPLICATION_DIR"' && tar -czf metrics.tar.gz metrics'
     (

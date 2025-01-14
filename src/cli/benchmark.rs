@@ -24,17 +24,10 @@ pub struct Config {
 #[derive(Debug, serde::Deserialize)]
 pub struct Benchmark {
     pub records: u64,
-    #[serde(default = "default_threads")]
-    pub threads: u64,
-    pub duration: u64,
     pub virtual_user: u64,
     pub timeout: u64,
     pub warmup: Warmup,
     pub intensity: Intensity,
-}
-
-pub fn default_threads() -> u64 {
-    256
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -47,6 +40,5 @@ pub struct Warmup {
 #[derive(Debug, serde::Deserialize)]
 #[serde(untagged)]
 pub enum Intensity {
-    LINEAR { start: u64, end: u64 },
     PROFILE { profile: String },
 }

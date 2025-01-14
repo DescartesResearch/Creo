@@ -44,8 +44,8 @@ pub async fn invoke(config: &creo_lib::ssh::Config, app_name: String) -> crate::
                     &[
                         "**/benchmarks/",
                         "**/metrics/",
-                        "**/user_requests.yml",
-                        "**/load_generator.yml",
+                        "**/user_requests.lua",
+                        "**/load_generator.lua",
                     ],
                 )
                 .await?
@@ -89,12 +89,12 @@ pub async fn invoke(config: &creo_lib::ssh::Config, app_name: String) -> crate::
                 let archive_service_dir = archive_worker_path.join(dir_name);
 
                 // Add load generator file
-                let load_file_path = dir.join("load_generator.yml");
+                let load_file_path = dir.join("load_generator.lua");
                 let load_file = tokio::fs::read_to_string(&load_file_path).await?;
                 let load_file = load_file.replace("{{APPLICATION_HOST}}", &worker_ip);
                 master_builder
                     .append_data_as_file(
-                        archive_service_dir.join("load_generator.yml"),
+                        archive_service_dir.join("load_generator.lua"),
                         &mut load_file.as_bytes(),
                         load_file.len() as u64,
                     )

@@ -1,0 +1,43 @@
+services:
+  loadgenerator:
+    build:
+      context: "."
+      dockerfile: loadgenerator.Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  director:
+    build:
+      context: "."
+      dockerfile: director.Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - "${LUA_PATH?No lua path specified}:/opt/load_generator.lua:ro"
+      - "${BENCHMARK_RUN?No experiment output directory defined}:/opt/loadgenerator:rw"
+      - "${PROFILE?No profile defined}:/opt/profile.csv"
+    depends_on:
+      - loadgenerator
+    entrypoint:
+      - "java"
+      - "-jar"
+      - "/opt/httploadgenerator/httploadgenerator.jar"
+      - "director"
+      - "--ip"
+      - "loadgenerator"
+      - "--randomize-users"
+      - "--lua"
+      - "/opt/load_generator.lua"
+      - "--load"
+      - "/opt/profile.csv"
+      - "-o"
+      - "loadgenerator/summary_out.csv"
+      - "-t"
+      - "${VIRTUAL_USERS}"
+      - "--timeout"
+      - "${TIMEOUT}"
+      - "--wp"
+      - "${WARMUP_PAUSE}"
+      - "--wd"
+      - "${WARMUP_DURATION}"
+      - "--wr"
+      - "${WARMUP_RPS}"

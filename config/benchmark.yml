@@ -12,9 +12,7 @@ benchmark:
     pause: 10
     duration: 30
   intensity:
-    start: 25
-    end: 25
-  duration: 60
+    profile: getting_started.csv
   virtual_user: 200
   timeout: 8000
   records: 3000000

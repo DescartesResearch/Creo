@@ -46,8 +46,8 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
             &[
                 "**/benchmarks/",
                 "**/metrics/",
-                "**/user_requests.yml",
-                "**/load_generator.yml",
+                "**/user_requests.lua",
+                "**/load_generator.lua",
             ],
         )
         .await?;
@@ -60,11 +60,11 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
     let mut master_builder =
         creo_lib::remote::archive::Builder::new_compressed(local_master_archive);
     let app_path: PathBuf = name.into();
-    let file_path = src.join("user_requests.yml");
+    let file_path = src.join("user_requests.lua");
     log::debug!("Adding `{}` to the master archive", file_path.display());
     master_builder
         .append_file(
-            app_path.join("user_requests.yml"),
+            app_path.join("user_requests.lua"),
             &mut tokio::fs::File::open(&file_path).await?,
         )
         .await?;

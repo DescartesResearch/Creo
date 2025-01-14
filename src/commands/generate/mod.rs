@@ -183,15 +183,11 @@ pub fn generate<P: AsRef<std::path::Path>>(args: &config::generate::Config, root
         }
         service_compose.push((dir_name, docker_compose));
         depends_on.push(get_host(service.id));
-        let (load_generator_file, user_file) = creo_lib::io::create_load_generator_file(
-            &application,
-            &service,
-            &registry,
-            creo_lib::application::get_host(service.id),
-        );
+        let (load_generator_file, user_file) =
+            creo_lib::io::create_load_generator_file(&application, &service, &registry);
         creo_lib::io::write_load_generator_file(
             &load_generator_file,
-            service_dir.join("load_generator.yml"),
+            service_dir.join("load_generator.lua"),
         )
         .map_err(|err| {
             Error::new(format!(
@@ -200,7 +196,7 @@ pub fn generate<P: AsRef<std::path::Path>>(args: &config::generate::Config, root
                 err
             ))
         })?;
-        creo_lib::io::write_load_generator_file(&user_file, service_dir.join("user_requests.yml"))
+        creo_lib::io::write_load_generator_file(&user_file, service_dir.join("user_requests.lua"))
             .map_err(|err| {
                 Error::new(format!(
                     "failed to write file for path {}!\n\tReason: {}",
@@ -226,7 +222,7 @@ pub fn generate<P: AsRef<std::path::Path>>(args: &config::generate::Config, root
 
     crate::io::write_docker_compose_file(app_dir.join("docker-compose.yml"), &application_compose)?;
     let app_load_file = creo_lib::io::create_application_load_file(load_files);
-    creo_lib::io::write_load_generator_file(&app_load_file, app_dir.join("load_generator.yml"))
+    creo_lib::io::write_load_generator_file(&app_load_file, app_dir.join("load_generator.lua"))
         .map_err(|err| {
             Error::new(format!(
                 "failed to write file for path {}!\n\tReason: {}",
@@ -235,7 +231,7 @@ pub fn generate<P: AsRef<std::path::Path>>(args: &config::generate::Config, root
             ))
         })?;
     let app_user_file = creo_lib::io::create_application_load_file(user_files);
-    creo_lib::io::write_load_generator_file(&app_user_file, app_dir.join("user_requests.yml"))
+    creo_lib::io::write_load_generator_file(&app_user_file, app_dir.join("user_requests.lua"))
         .map_err(|err| {
             Error::new(format!(
                 "failed to write file for path {}!\n\tReason: {}",

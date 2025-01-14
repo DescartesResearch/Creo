@@ -194,14 +194,10 @@ benchmark:
     rate: 5 # requests per second during the warmup
     duration: 30 # duration of the warmup in seconds
     pause: 10 # duration in seconds to wait between the warmup and experiment
-  # `intensity` specifies the starting and ending number of requests per second.
-  # The load generator will linearly interpolate the requests per second for each time step
-  # over the total experiment duration.
+  # `intensity` specifies the request workload
+  # The `profile` key may specify the filename of any `.csv` file in the `assets/load_generator/profiles` directory.
   intensity:
-    start: 25
-    end: 25
-  # `duration` specifies the benchmark duration in seconds
-  duration: 60
+    profile: getting_started.csv
   # `timeout` specifies the number of milliseconds after which a request will timeout.
   # A timeout of `0` means no timeout.
   timeout: 8000
