@@ -7,4 +7,4 @@ name = "seed_invoice"
 description = "Seed the invoice database collection."
 version = "1.0.0"
 requires-python = ">=3.9"
-dependencies = ["pydantic>=2.5.2,<2.6.0", "motor>=3.2.2,<3.3.2"]
+dependencies = ["pydantic>=2.5.2,<2.6.0", "motor==3.6.0"]
