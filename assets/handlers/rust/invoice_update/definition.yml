@@ -31,6 +31,8 @@ signature:
                     type: integer
                     format: int64
                     minimum: 0
+                    maximum: 1000000
+                    exclusiveMaximum: false
                     exclusiveMinimum: true
                   name:
                     type: string
@@ -44,6 +46,8 @@ signature:
                 type: integer
                 format: int64
                 minimum: 0
+                maximum: 10000
+                exclusiveMaximum: false
                 exclusiveMinimum: true
             additionalProperties: false
             required:
@@ -68,6 +72,8 @@ signature:
               type: integer
               format: int64
               minimum: 0
+              maximum: 10000
+              exclusiveMaximum: false
               exclusiveMinimum: true
             zip_code:
               type: integer
@@ -110,6 +116,8 @@ signature:
               type: integer
               format: int64
               minimum: 0
+              maximum: 10000
+              exclusiveMaximum: false
               exclusiveMinimum: true
             zip_code:
               type: integer

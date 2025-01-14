@@ -27,6 +27,8 @@ signature:
                   price_in_cents:
                     type: integer
                     minimum: 0
+                    maximum: 1000000
+                    exclusiveMaximum: false
                     exclusiveMinimum: true
                   name:
                     type: string
@@ -39,6 +41,7 @@ signature:
               quantity:
                 type: integer
                 minimum: 0
+                maximum: 10000
                 exclusiveMinimum: true
             additionalProperties: false
             required:
@@ -61,10 +64,13 @@ signature:
               maxLength: 128
             number:
               type: integer
+              maximum: 10000
               minimum: 0
               exclusiveMinimum: true
             zip_code:
               type: integer
+              minimum: 1000
+              maximum: 99999
             city:
               type: string
             country:
@@ -96,9 +102,12 @@ signature:
             number:
               type: integer
               minimum: 0
+              maximum: 10000
               exclusiveMinimum: true
             zip_code:
               type: integer
+              minimum: 1000
+              maximum: 99999
             city:
               type: string
             country:
