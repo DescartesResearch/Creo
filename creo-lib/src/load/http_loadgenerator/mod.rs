@@ -247,9 +247,9 @@ impl Request {
         let mut src = String::new();
         src.push_str("function ");
         src.push_str(self.as_lua_function().as_str());
-        src.push_str("()\n");
+        src.push_str("()\n  return");
         if self.data.body.is_some() {
-            src.push_str(r#""[POST]".."#);
+            src.push_str(r#" "[POST]".."#);
         }
         let query = self
             .data
@@ -258,9 +258,7 @@ impl Request {
             .map(QueryComponent::as_lua_source)
             .collect::<Vec<_>>()
             .join("..&");
-        src.push_str(
-            format!(r#"  return services[{}].."{}""#, self.service_id, self.path).as_str(),
-        );
+        src.push_str(format!(r#" services[{}].."{}""#, self.service_id, self.path).as_str());
         if !query.is_empty() {
             src.push_str(format!(r#".."?"..{}"#, query).as_str());
         }
