@@ -1,0 +1,29 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "scripts": {
+    "format:check": "prettier --check --single-quote **/*.js",
+    "format:write": "prettier --write --single-quote **/*.js",
+    "test": "node --test **/*.test.js"
+  },
+  "type": "module",
+  "workspaces": [
+    "primes",
+    "user-delete",
+    "user-update",
+    "invoice-read",
+    "invoice-create",
+    "hash",
+    "user-read",
+    "register",
+    "user-create",
+    "matrix",
+    "login",
+    "rng",
+    "invoice-update",
+    "invoice-delete"
+  ],
+  "devDependencies": {
+    "prettier": "^3.4.2"
+  }
+}
