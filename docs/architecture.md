@@ -103,11 +103,79 @@ The configuration consists of two service types. The first service type - let's 
 highly CPU-intensive microservice, while the second service type ($s2$) represents a highly network-intensive
 microservice in terms of outgoing network traffic. In other words, for our application we expect each of the three
 microservices to be either a highly CPU-intensive or a highly outgoing network-intensive microservice. As per the
-configuration, the probability of each service type is $50\%$. To select the service types for each of our three
+configuration, the probability of each service type is $50\\%$. To select the service types for each of our three
 microserives, we repeat the following procedure for every service:
 
 ### Step 1: Select a Programming Language
 
+First, we select a programming language for a particular service. This ensures that we select handler functions
+implemented in the same programming language for each of the service's endpoints. For instance, we might start by
+selecting `Python` for the yellow microservice.
+
 ### Step 2: Select a Service Types
 
+Second, we select a particular service type for the microservice. The `fraction` values of each service type determine
+the probability to select the corresponding service type. As such, the single `fraction` values in the `service_type`
+list must add up to `100`. In our example configuration from above, the two service types in the list have an equal
+chance of `50` percent. Let's assume that we select the CPU-intensive service type for the yellow microservice.
+
 ### Step 3: Select Handler Functions for Endpoints
+
+Now that we selected both the service type and programming language for the microservice, we are able to select the
+specific handler function for each endpoint of the microservice. In our example, we know that for the yellow microservice
+we must select CPU-intensive handler functions implemented in `Python`. Thus, we first gather all `Python` handler
+functions. According to the configuration, `100` percent of endpoints for the yellow microservice should exhibit a high
+CPU usage. We describe the procedure for more complex configurations later. In our simple case, we order the
+gathered `Python` handler functions according to their CPU labels.
+
+<div align="center" >
+
+| Handler Function | CPU-Label |
+| :--------------- | :-------: |
+| matrix           |  1469.83  |
+| hash             |  118.99   |
+| register         |  112.83   |
+| invoice_update   |   21.04   |
+| user_delete      |   17.18   |
+| invoice_delete   |   16.96   |
+
+<p>Table 1: Handler function ordering by CPU label </p>
+</div>
+
+In our example, we consider that we have gathered six `Python` handler functions, namely `matrix`, `hash`, `register`,
+`invoice_update`, `user_delete`, and `invoice_delete`. Table 1 shows the descending ordering of the handler functions
+according to their CPU labels. We can split this ordering into three buckets to distribute the functions into `LOW`,
+`MEDIUM`, and `HIGH` intensities. In our case, the `HIGH` bucket comprises `matrix` and `hash`, the `MEDIUM` bucket
+contains `register` and `invoice_update`, while the `LOW` bucket includes `user_delete` and `invoice_delete`.
+As per the service type configuration, we are interested in functions in the `HIGH` bucket. That is, in our example, we
+uniformly choose a function from the `HIGH` bucket at random for each yellow microservice's endpoints. Note that we
+sample with replacement, i.e., each endpoint's function is chosen independently from the other endpoints.
+
+For simplicity, our example configuration only contains one entry in the `properties` lists of the two service types.
+In the case, a service type specifies multiple `properties` entries, we require one additional step before ordering the
+handler functions. Let's consider the following service type configuration:
+
+```yaml
+service_types:
+  - fraction: 100
+    properties:
+      - label: CPU
+        fraction: 34
+        bucket: HIGH
+      - label: CPU
+        fraction: 33
+        bucket: MEDIUM
+      - label: MEMORY
+        fraction: 33
+        bucket: LOW
+```
+
+When we assign the handler functions to the endpoints of microservice of that service type, we first determine the
+`properties` list entry that we consider for the current endpoint. That is, in this case, the proability for `CPU-HIGH`
+is `34%`, the proability for `CPU-MEDIUM` is `33%`, and the proability for `MEMORY-LOW` is also `33%`. Suppose, this
+configuration applies to the orange microservice. We might choose the `MEMORY-LOW` entry for the first endpoint
+resulting in an ordering by MEMORY label. For the second endpoint, we might select the `CPU-MEDIUM` entry, thus ordering
+the handler functions by CPU label.
+
+Repeating this 3-step process for all microservices and their endpoints, assigns one handler function to each endpoint
+in the graph.
