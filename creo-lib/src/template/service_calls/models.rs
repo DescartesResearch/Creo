@@ -33,7 +33,7 @@ pub struct PropertyFakeFunction {
     pub fake_func: FakeFunction,
     /// flag indicating whether the property is required or not
     pub required: bool,
-    /// the probablity with which to exclude the property if it is not required
+    /// the probability with which to exclude the property if it is not required
     pub exclude_probability: f64,
 }
 
@@ -92,7 +92,7 @@ pub struct QueryParamFakeFunction {
     pub fake_func: FakeFunction,
     /// flag indicating whether the parameter is nullable
     pub nullable: bool,
-    /// the probablity with which to exclude the parameter if it is nullable
+    /// the probability with which to exclude the parameter if it is nullable
     pub exclude_probability: f64,
 }
 
