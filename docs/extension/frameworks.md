@@ -7,13 +7,11 @@ A framework must provide the following requirements:
 - Code for generating fake data based on the signature of called handler functions
 - Docker entrypoint for the Dockerfile
 
-## New language setup
+## New Language Setup
 
 The steps in this section only apply if you add the first framework for a particular programming language.
 If the programming language of your framework already includes other frameworks, this section may be skipped.
 
-Add a `frameworks` directory containing a `mod.rs` file into the respective programming module of the `generator` module
-in the `microgen-lib` library.
 Locate the respective programming language module inside the `generator` module of the `creo-lib` library. Then add
 a `frameworks` directory containing a empty `mod.rs` file to that module. For instance, suppose you added support for
 `Python` and want to add the first framework. In this case, the `mod.rs` file should be located at
