@@ -10,7 +10,7 @@ mod http_method;
 pub mod io;
 mod load;
 pub mod metrics;
-pub mod programming_lanuage;
+pub mod programming_language;
 pub mod remote;
 pub mod schema;
 pub mod selection;

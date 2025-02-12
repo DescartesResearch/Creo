@@ -2,7 +2,7 @@ use creo_lib::Port;
 use lazy_errors::prelude::*;
 use std::collections::HashMap;
 
-use creo_lib::{graph, handler, programming_lanuage::ProgrammingLanguage};
+use creo_lib::{graph, handler, programming_language::ProgrammingLanguage};
 
 use crate::{config, Result};
 

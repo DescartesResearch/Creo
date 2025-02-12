@@ -12,7 +12,7 @@ pub struct SubCommand {
 pub struct Config {
     /// the target programming language of the profiling application
     #[serde(alias = "programming_language")]
-    pub language: creo_lib::programming_lanuage::ProgrammingLanguage,
+    pub language: creo_lib::programming_language::ProgrammingLanguage,
 
     /// The port the generated profiling application start to publish on. The first service uses this port,
     /// while each subsequent service uses the next port number after the previous service's port. (Default: 30100)

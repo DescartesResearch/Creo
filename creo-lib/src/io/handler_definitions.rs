@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::{handler, programming_lanuage::ProgrammingLanguage};
+use crate::{handler, programming_language::ProgrammingLanguage};
 
 pub fn parse_handler_definitions<'a>(
     root_handler_dir: impl AsRef<std::path::Path>,

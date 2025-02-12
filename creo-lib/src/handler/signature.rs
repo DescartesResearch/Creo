@@ -98,7 +98,7 @@ mod tests {
     }
 
     #[test]
-    fn test_signature_with_gap_in_positonal_params() {
+    fn test_signature_with_gap_in_positional_params() {
         const INPUT: &str = "
             function: function_name
             parameters:

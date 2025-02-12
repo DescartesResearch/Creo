@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use creo_lib::{handler, programming_lanuage::ProgrammingLanguage};
+use creo_lib::{handler, programming_language::ProgrammingLanguage};
 
 use crate::{Error, Result};
 

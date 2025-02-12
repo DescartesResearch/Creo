@@ -10,13 +10,13 @@ pub struct AutoPilotConfig {
         default = "select_all_programming_languages"
     )]
     pub programming_languages:
-        creo_lib::de::UniqueVec<creo_lib::programming_lanuage::ProgrammingLanguage>,
+        creo_lib::de::UniqueVec<creo_lib::programming_language::ProgrammingLanguage>,
 }
 
 /// Selects all programming languages as available during the generation.
 fn select_all_programming_languages(
-) -> creo_lib::de::UniqueVec<creo_lib::programming_lanuage::ProgrammingLanguage> {
-    creo_lib::programming_lanuage::ProgrammingLanguage::iter()
+) -> creo_lib::de::UniqueVec<creo_lib::programming_language::ProgrammingLanguage> {
+    creo_lib::programming_language::ProgrammingLanguage::iter()
         .collect::<Vec<_>>()
         .into()
 }
@@ -27,12 +27,12 @@ fn select_all_programming_languages(
 /// probabilities that do not sum up to `100`.
 fn deserialize_languages<'de, D>(
     deserializer: D,
-) -> Result<creo_lib::de::UniqueVec<creo_lib::programming_lanuage::ProgrammingLanguage>, D::Error>
+) -> Result<creo_lib::de::UniqueVec<creo_lib::programming_language::ProgrammingLanguage>, D::Error>
 where
     D: serde::Deserializer<'de>,
 {
     let this =
-        creo_lib::de::UniqueVec::<creo_lib::programming_lanuage::ProgrammingLanguage>::deserialize(
+        creo_lib::de::UniqueVec::<creo_lib::programming_language::ProgrammingLanguage>::deserialize(
             deserializer,
         )?;
     let sum: usize = this.iter().map(|l| l.as_fraction()).sum();

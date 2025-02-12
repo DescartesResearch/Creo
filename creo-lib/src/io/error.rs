@@ -2,7 +2,7 @@
 pub enum Error {
     #[error("invalid yaml file format: {0}")]
     ParsingYaml(#[from] serde_yaml::Error),
-    #[error("invalid josn file format: {0}")]
+    #[error("invalid json file format: {0}")]
     ParsingJson(#[from] serde_json::Error),
 }
 

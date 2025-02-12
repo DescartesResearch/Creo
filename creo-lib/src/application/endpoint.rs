@@ -7,10 +7,10 @@ pub struct Endpoint<'service> {
 }
 
 impl<'service> Endpoint<'service> {
-    pub fn new(id: EndpointIndex, definiton: &'service std::path::PathBuf) -> Self {
+    pub fn new(id: EndpointIndex, definition: &'service std::path::PathBuf) -> Self {
         Self {
             id,
-            handler_dir: definiton,
+            handler_dir: definition,
         }
     }
 }
