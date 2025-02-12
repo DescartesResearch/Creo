@@ -35,9 +35,10 @@ pub(crate) trait SymbolGenerator {
     ///
     /// # Arguments
     ///
-    /// - *file_name* the file name of the service call file
+    /// - *file_path* the file path of the service call file relative to the microservice root
+    ///   directory
     /// - *function_name* the function name to import from the service call file
-    fn generate_service_call_function_import(&self, file_name: &str, function_name: &str)
+    fn generate_service_call_function_import(&self, file_path: &str, function_name: &str)
         -> String;
 
     /// Generates the function import statement for the given handler function.
