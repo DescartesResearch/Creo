@@ -5,21 +5,21 @@ pub struct FileNameGenerator;
 impl core::FileNameGenerator for FileNameGenerator {
     fn generate_router_file_name(&self) -> FileName {
         FileName {
-            name: "src/router",
+            path: "src/router",
             extension: "rs",
         }
     }
 
     fn generate_service_call_file_name(&self) -> FileName {
         FileName {
-            name: "src/service_calls",
+            path: "src/service_calls",
             extension: "rs",
         }
     }
 
     fn generate_main_file_name(&self) -> FileName {
         FileName {
-            name: "src/main",
+            path: "src/main",
             extension: "rs",
         }
     }

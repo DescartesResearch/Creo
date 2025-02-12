@@ -30,7 +30,7 @@ pub fn create_service_folder<R: rand::Rng>(
         registry,
         symbol_generator,
         data_type_mapper,
-        file_name_generator.generate_service_call_file_name().name,
+        file_name_generator.generate_service_call_file_name().path,
     );
     let router_template = framework.to_router_generator().create_router_template();
     template::write_router_file(
