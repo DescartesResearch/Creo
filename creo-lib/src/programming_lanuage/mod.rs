@@ -11,6 +11,7 @@ use std::str::FromStr;
 pub enum ProgrammingLanguage {
     Python(usize),
     Rust(usize),
+    Node(usize),
 }
 
 use ProgrammingLanguage::*;
@@ -22,12 +23,14 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => "python",
             Rust(_) => "rust",
+            Node(_) => "node",
         }
     }
     pub fn as_fraction(&self) -> usize {
         match self {
             Python(f) => *f,
             Rust(f) => *f,
+            Node(f) => *f,
         }
     }
 }
@@ -37,6 +40,7 @@ impl std::fmt::Display for ProgrammingLanguage {
         match self {
             Python(_) => f.write_str("Python"),
             Rust(_) => f.write_str("Rust"),
+            Node(_) => f.write_str("Node.js"),
         }
     }
 }
@@ -55,12 +59,18 @@ impl FromStr for ProgrammingLanguage {
                 return Ok(Rust(
                     fraction.parse::<usize>().map_err(|err| err.to_string())?,
                 ))
+            },
+            Some(("node", fraction)) => {
+                return Ok(Node(
+                    fraction.parse::<usize>().map_err(|err| err.to_string())?,
+                ))
             }
             _ => (),
         }
         match s {
             "python" => Ok(Python(1)),
             "rust" => Ok(Rust(1)),
+            "node" => Ok(Node(1)),
             _ => Err(format!("unknown programming language {}", s)),
         }
     }

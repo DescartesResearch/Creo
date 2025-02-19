@@ -6,6 +6,7 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => Box::new(generator::python::FileNameGenerator),
             Rust(_) => Box::new(generator::rust::FileNameGenerator),
+            Node(_) => Box::new(generator::node::FileNameGenerator),
         }
     }
 }

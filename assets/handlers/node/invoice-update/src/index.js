@@ -8,7 +8,7 @@ import { validate } from './validate.js';
  * @param buffer {Buffer}
  * @returns {Promise<boolean>}
  */
-export async function readInvoiceById(id, buffer) {
+export async function updateInvoice(id, buffer) {
   const invoice = await validate(buffer);
 
   if (invoice) {

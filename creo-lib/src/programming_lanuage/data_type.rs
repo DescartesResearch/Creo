@@ -6,6 +6,7 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => &generator::python::DataTypeMapper,
             Rust(_) => &generator::rust::DataTypeMapper,
+            Node(_) => &generator::node::DataTypeMapper
         }
     }
 }
