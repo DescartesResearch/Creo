@@ -29,9 +29,11 @@ impl<W: tokio::io::AsyncWrite + Unpin + Send> Builder<W> {
         path: P,
         data: R,
         size: u64,
+        mode: u32,
     ) -> super::Result<()> {
         let mut header = tokio_tar::Header::new_gnu();
         header.set_size(size);
+        header.set_mode(mode);
         header.set_cksum();
 
         self.w.append_data(&mut header, path, data).await?;

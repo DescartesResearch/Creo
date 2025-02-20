@@ -28,6 +28,10 @@ set -euo pipefail # abort on nonzero exit status, unbound variable and don't hid
 
 		if [ -d "${dir_path}/benchmarks" ]; then rm -rf "${dir_path}/benchmarks"; fi
 		for rps in {{rps}}; do
+			profile_file=$(mktemp)
+			for ((i = 1; i <= "$benchmark_duration"; i++)); do
+				echo "$i, $rps" >>"$profile_file"
+			done
 			for ((iteration = 1; iteration <= {{iterations}}; iteration++)); do
 				bash "${dir_path}/init.sh" {{records}}
 				echo "Starting application \`${dir_name}\` ..."
@@ -43,7 +47,7 @@ set -euo pipefail # abort on nonzero exit status, unbound variable and don't hid
 				(
 					cd "${script_path}"
 					cd "../load_generator"
-					LUA_PATH=${lua_file} BENCHMARK_RUN=${benchmark_run} START_RPS=$rps END_RPS=$rps BENCHMARK_DURATION=${benchmark_duration} DIRECTOR_THREADS=${director_threads} VIRTUAL_USERS=${virtual_users} TIMEOUT=${timeout} WARMUP_PAUSE=${warmup_pause} WARMUP_DURATION=${warmup_duration} WARMUP_RPS=${warmup_rps} docker compose -p ${dir_name} up --build --abort-on-container-exit --force-recreate
+					LUA_PATH=${lua_file} BENCHMARK_RUN=${benchmark_run} PROFILE="$profile_file" VIRTUAL_USERS=${virtual_users} TIMEOUT=${timeout} WARMUP_PAUSE=${warmup_pause} WARMUP_DURATION=${warmup_duration} WARMUP_RPS=${warmup_rps} docker compose -p ${dir_name} up --build --abort-on-container-exit --force-recreate
 				)
 				echo "[INFO] Finished benchmark run #${iteration} with RPS ${rps} for \`${dir_name}\`!"
 				echo "[INFO] Stopping application \`${dir_name}\` ..."
@@ -59,6 +63,7 @@ set -euo pipefail # abort on nonzero exit status, unbound variable and don't hid
 				)
 				echo "[INFO] Successfully saved collected metrics for application \`${dir_name}\`"
 			done
+			rm "$profile_file"
 		done
 	done
 )

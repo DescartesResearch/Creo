@@ -97,6 +97,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, app_name: String) -> crate::
                         archive_service_dir.join("load_generator.lua"),
                         &mut load_file.as_bytes(),
                         load_file.len() as u64,
+                        0o644,
                     )
                     .await?;
                 let template_path = archive_root.join(dir_name);
@@ -114,6 +115,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, app_name: String) -> crate::
                         archive_service_dir.join("start_application.sh"),
                         start_app_script.as_bytes(),
                         start_app_script.len() as u64,
+                        0o744,
                     )
                     .await?;
 
@@ -124,6 +126,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, app_name: String) -> crate::
                         archive_service_dir.join("stop_application.sh"),
                         stop_app_script.as_bytes(),
                         stop_app_script.len() as u64,
+                        0o744,
                     )
                     .await?;
 
@@ -134,6 +137,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, app_name: String) -> crate::
                         archive_service_dir.join("save_metrics.sh"),
                         save_metrics_script.as_bytes(),
                         save_metrics_script.len() as u64,
+                        0o744,
                     )
                     .await?;
 
@@ -143,6 +147,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, app_name: String) -> crate::
                         archive_service_dir.join("init.sh"),
                         init_script.as_bytes(),
                         init_script.len() as u64,
+                        0o744,
                     )
                     .await?;
             }
