@@ -23,15 +23,13 @@ pub fn create_dir_all(path: impl AsRef<std::path::Path>) -> std::io::Result<()> 
                 }
                 Ok(())
             }
-            std::io::ErrorKind::PermissionDenied => {
-                Err(std::io::Error::new(
-                    std::io::ErrorKind::PermissionDenied,
-                    format!(
-                        "permission denied to create directory at path: {}",
-                        path.as_ref().display()
-                    ),
-                ))
-            }
+            std::io::ErrorKind::PermissionDenied => Err(std::io::Error::new(
+                std::io::ErrorKind::PermissionDenied,
+                format!(
+                    "permission denied to create directory at path: {}",
+                    path.as_ref().display()
+                ),
+            )),
             _ => Err(err),
         },
     }
@@ -88,15 +86,13 @@ pub fn get_supported_file_type<P: AsRef<std::path::Path>>(path: P) -> std::io::R
     match ext {
         _ if ext == "yml" || ext == "yaml" => Ok(FileType::YAML),
         _ if ext == "json" => Ok(FileType::JSON),
-        _ => {
-            Err(std::io::Error::new(
-                std::io::ErrorKind::InvalidInput,
-                format!(
-                    "expected file extension to be `.yaml`, `.yml`, or `.json`, but was .{:?}",
-                    ext
-                ),
-            ))
-        }
+        _ => Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            format!(
+                "expected file extension to be `.yaml`, `.yml`, or `.json`, but was .{:?}",
+                ext
+            ),
+        )),
     }
 }
 

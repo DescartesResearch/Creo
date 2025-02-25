@@ -17,8 +17,8 @@ pub enum ProgrammingLanguage {
 use ProgrammingLanguage::*;
 
 impl ProgrammingLanguage {
-    /// This function should return the directory name of the respective programming language in
-    /// the `handlers` directory.
+    /// Returns the directory name of the respective programming language in
+    /// the `assets/handlers` directory.
     pub fn as_dir_name(&self) -> &'static str {
         match self {
             Python(_) => "python",
@@ -26,6 +26,8 @@ impl ProgrammingLanguage {
             Node(_) => "node",
         }
     }
+
+    /// Returns the fraction weight value of the programming language.
     pub fn as_fraction(&self) -> usize {
         match self {
             Python(f) => *f,
@@ -48,6 +50,10 @@ impl std::fmt::Display for ProgrammingLanguage {
 impl FromStr for ProgrammingLanguage {
     type Err = String;
 
+    /// Parses the given string to a programming language. If the input contains a `:`, the part
+    /// before the `:` should be treated as the programming language name, while the part after the
+    /// `:` should be the fractional weight value. Otherwise, the entire input represents the
+    /// programming language name.
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.split_once(':') {
             Some(("python", fraction)) => {
@@ -59,7 +65,7 @@ impl FromStr for ProgrammingLanguage {
                 return Ok(Rust(
                     fraction.parse::<usize>().map_err(|err| err.to_string())?,
                 ))
-            },
+            }
             Some(("node", fraction)) => {
                 return Ok(Node(
                     fraction.parse::<usize>().map_err(|err| err.to_string())?,

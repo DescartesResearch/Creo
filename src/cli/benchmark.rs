@@ -1,6 +1,6 @@
 #[derive(argh::FromArgs, PartialEq, Debug)]
 #[argh(subcommand, name = "benchmark")]
-/// Start a benchmark for a deployed microservice applicaton.
+/// Start a benchmark for a deployed microservice application.
 pub struct Command {
     #[argh(
         option,

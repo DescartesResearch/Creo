@@ -103,7 +103,7 @@ pub struct MicroserviceDefinition {
     /// The name of the microservice.
     pub name: creo_lib::de::NonEmptyString,
     /// The programming language of the microservice
-    pub language: creo_lib::programming_lanuage::ProgrammingLanguage,
+    pub language: creo_lib::programming_language::ProgrammingLanguage,
     /// The endpoints of the microservice.
     pub endpoints: creo_lib::de::NonEmptyVec<EndpointDefinition>,
 }

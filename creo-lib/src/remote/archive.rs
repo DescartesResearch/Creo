@@ -13,7 +13,7 @@ impl<W: tokio::io::AsyncWrite + Unpin + Send + 'static> Builder<W> {
 }
 
 impl<W: tokio::io::AsyncWrite + Unpin + Send> Builder<W> {
-    /// Adds a file to this archive with thte given path as the name of the file in the archive.
+    /// Adds a file to this archive with the given path as the name of the file in the archive.
     pub async fn append_file(
         &mut self,
         path: impl AsRef<std::path::Path>,
@@ -29,9 +29,11 @@ impl<W: tokio::io::AsyncWrite + Unpin + Send> Builder<W> {
         path: P,
         data: R,
         size: u64,
+        mode: u32,
     ) -> super::Result<()> {
         let mut header = tokio_tar::Header::new_gnu();
         header.set_size(size);
+        header.set_mode(mode);
         header.set_cksum();
 
         self.w.append_data(&mut header, path, data).await?;

@@ -9,13 +9,13 @@ pub trait FileNameGenerator {
 
 pub struct FileName {
     /// The name of the file.
-    pub name: &'static str,
+    pub path: &'static str,
     /// The extension of the file **without** a leading '.', e.g., "py", "rs", or "go".
     pub extension: &'static str,
 }
 
 impl FileName {
     pub fn as_complete_file_name(&self) -> String {
-        format!("{}.{}", self.name, self.extension)
+        format!("{}.{}", self.path, self.extension)
     }
 }

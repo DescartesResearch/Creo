@@ -20,14 +20,14 @@ impl core::SymbolGenerator for SymbolGenerator {
 
     fn generate_service_call_function_import(
         &self,
-        file_name: &str,
+        file_path: &str,
         function_name: &str,
     ) -> String {
-        let split = file_name.rsplit_once('/');
+        let split = file_path.rsplit_once('/');
         let file_name = if let Some(split) = split {
             split.1
         } else {
-            file_name
+            file_path
         };
         format!("from {} import {}", file_name, function_name)
     }

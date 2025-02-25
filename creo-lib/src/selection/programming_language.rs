@@ -1,12 +1,12 @@
 use rand::{seq::SliceRandom, Rng};
 
-use crate::programming_lanuage::ProgrammingLanguage;
+use crate::programming_language::ProgrammingLanguage;
 
 pub fn select_programming_language<R: Rng>(
-    availabe_languages: &[ProgrammingLanguage],
+    available_languages: &[ProgrammingLanguage],
     rng: &mut R,
 ) -> ProgrammingLanguage {
-    *availabe_languages
+    *available_languages
         .choose_weighted(rng, |lang| lang.as_fraction())
         .expect("should be able to choose a random programming language")
 }
@@ -15,7 +15,7 @@ pub fn select_programming_language<R: Rng>(
 mod tests {
     use statrs::distribution::ContinuousCDF;
 
-    use crate::programming_lanuage;
+    use crate::programming_language;
 
     use super::*;
 
@@ -24,8 +24,8 @@ mod tests {
 
     #[test]
     fn test_programming_language_single() {
-        let python = programming_lanuage::ProgrammingLanguage::Python(100);
-        let rust = programming_lanuage::ProgrammingLanguage::Rust(0);
+        let python = programming_language::ProgrammingLanguage::Python(100);
+        let rust = programming_language::ProgrammingLanguage::Rust(0);
 
         let languages = [python, rust];
         let mut rng = rand::thread_rng();
@@ -37,8 +37,8 @@ mod tests {
 
     #[test]
     fn test_programming_language_multi() {
-        let python = programming_lanuage::ProgrammingLanguage::Python(30);
-        let rust = programming_lanuage::ProgrammingLanguage::Rust(70);
+        let python = programming_language::ProgrammingLanguage::Python(30);
+        let rust = programming_language::ProgrammingLanguage::Rust(70);
 
         let languages = [python, rust];
         let mut rng = rand::thread_rng();

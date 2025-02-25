@@ -14,5 +14,5 @@ pub struct Config {
     #[serde(alias = "benchmark")]
     pub benchmark_config: creo_lib::ssh::BenchmarkConfig,
 
-    pub programming_language: creo_lib::programming_lanuage::ProgrammingLanguage,
+    pub programming_language: creo_lib::programming_language::ProgrammingLanguage,
 }

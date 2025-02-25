@@ -2,7 +2,7 @@
 #[derive(serde::Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord, Debug)]
 #[serde(untagged, remote = "Self")]
 pub enum PassingType {
-    /// The Pos variant refers to passing a positonal argument.
+    /// The Pos variant refers to passing a positional argument.
     /// The integer indicates the index of the parameter in the function signature.
     Pos(u32),
     /// The Kw variant refers to passing a keyword argument.

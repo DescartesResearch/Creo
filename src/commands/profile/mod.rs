@@ -1,5 +1,5 @@
 use chrono::Utc;
-use creo_lib::{application::get_host, programming_lanuage::ProgrammingLanguage};
+use creo_lib::{application::get_host, programming_language::ProgrammingLanguage};
 use rand_seeder as rng;
 use std::ffi::OsString;
 

@@ -1,4 +1,4 @@
-use crate::programming_lanuage::ProgrammingLanguage;
+use crate::programming_language::ProgrammingLanguage;
 
 use super::{
     algorithms::coloring::ColorIndex,

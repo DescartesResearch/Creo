@@ -3,12 +3,12 @@ use rand::seq::SliceRandom;
 use crate::{handler, service_types};
 
 pub fn select_definition(
-    definitons: &mut [handler::Definition],
+    definitions: &mut [handler::Definition],
     resource: &service_types::Property,
     rng: &mut impl rand::Rng,
 ) -> handler::Definition {
-    sort_language_definitions_by_resource_type(definitons, &resource.label);
-    let bucket = super::select_bucket(definitons, resource);
+    sort_language_definitions_by_resource_type(definitions, &resource.label);
+    let bucket = super::select_bucket(definitions, resource);
     bucket.choose(rng).expect("non empty bucket").clone()
 }
 
