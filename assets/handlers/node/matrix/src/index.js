@@ -6,7 +6,7 @@ import { random, inv, matrix } from 'mathjs';
  * @returns {Array<Array<number>>}
  */
 export function invertRandomMatrix(size) {
-  if (length < 1) {
+  if (size < 1) {
     throw new Error(
       `Matrix size must be greater or equal to "1", but was ${size}.`,
     );

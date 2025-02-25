@@ -30,7 +30,7 @@ const {{name}}QuerySchema = Joi.object({
         {{/if}}
         {{/if}}
     {{/each}}
-})
+});
 
 router.post('{{path}}', async function {{name}}(req, res) {
     const { value: { {{#each query_params}}  {{this.name}}, {{/each}}}, error } = {{name}}QuerySchema.validate(req.query);
@@ -53,4 +53,4 @@ router.post('{{path}}', async function {{name}}(req, res) {
     {{/if}}
 
     {{#if has_return_type}}return res.status(200).json(result){{/if}}{{#unless has_return_type}}return res.status(200).send(){{/unless}};
-})
+});
