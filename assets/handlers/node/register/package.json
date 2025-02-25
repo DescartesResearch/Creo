@@ -1,0 +1,11 @@
+{
+  "name": "register",
+  "version": "1.0.0",
+  "main": "src/create-user.js",
+  "type": "module",
+  "dependencies": {
+    "argon2": "^0.41.1",
+    "joi": "^17.13.3",
+    "mongodb": "^6.12.0"
+  }
+}

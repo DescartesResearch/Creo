@@ -1,0 +1,11 @@
+{
+  "name": "invoice-create",
+  "version": "1.0.0",
+  "description": "Simple CRUD operations for an invoice entity",
+  "type": "module",
+  "main": "src/index.js",
+  "dependencies": {
+    "joi": "^17.13.3",
+    "mongodb": "^6.12.0"
+  }
+}
