@@ -1,12 +1,15 @@
-FROM python:3.10-slim
+FROM node:22.13.1-bookworm-slim
 
-ENV VENV_PATH=/opt/venv
-RUN python -m venv ${VENV_PATH}
-ENV PATH="${VENV_PATH}/bin:$PATH"
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-WORKDIR /seed
-COPY pyproject.toml pyproject.toml
-COPY src src
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -e .
-ENTRYPOINT [ "python", "src/seed_login/main.py" ]
+WORKDIR /home/node/app
+
+COPY package.json ./
+
+RUN npm install
+
+USER node
+
+COPY --chown=node:node src src
+
+ENTRYPOINT ["node", "src/index.js"]
