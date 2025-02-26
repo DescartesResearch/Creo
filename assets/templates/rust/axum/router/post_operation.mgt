@@ -1,7 +1,6 @@
 {{#if query_params}}#[derive(serde::Deserialize, serde_valid::Validate)]
 struct QueryParams{{endpoint_index}} {
-{{#each query_params}}    {{>query_param}},
-{{/each}}
+{{#each query_params}}    {{>query_param}}{{/each}}
 }
 {{/if}}
 {{#if description}}// {{description}}{{/if}}
