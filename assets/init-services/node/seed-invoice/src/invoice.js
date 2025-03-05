@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-import {ObjectId} from "mongodb";
 
 function randomAddress() {
     return {
@@ -29,7 +28,7 @@ function randomOrderItem() {
 
 export function randomInvoice(id) {
     return {
-        _id: new ObjectId(id),
+        _id: id,
         items: Array.from({ length: faker.number.int({ min: 1, max: 100 }) }).map(randomOrderItem),
         billing_address: randomAddress(),
         shipping_address: randomAddress(),

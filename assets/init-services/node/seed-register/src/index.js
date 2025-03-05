@@ -24,7 +24,8 @@ async function main() {
 
 try {
     await main();
-    console.log('Seeded register db.')
+    console.log('Seeded register db.');
+    process.exit(0);
 } catch (e) {
     console.error('Failed to seed register db.')
     console.log(e);

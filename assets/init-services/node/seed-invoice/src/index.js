@@ -23,6 +23,7 @@ async function main() {
 try {
     await main();
     console.log('Seeded invoice db.')
+    process.exit(0);
 } catch (e) {
     console.error('Failed to seed invoice db.')
     console.log(e);

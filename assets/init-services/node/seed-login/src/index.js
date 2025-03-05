@@ -26,6 +26,7 @@ async function main() {
 try {
     await main();
     console.log('Seeded login db.')
+    process.exit(0);
 } catch (e) {
     console.error('Failed to seed login db.')
     console.log(e);
