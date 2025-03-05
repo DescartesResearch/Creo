@@ -1,0 +1,30 @@
+import { faker } from '@faker-js/faker';
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+faker.seed(getRandomInt(0, 9999));
+
+{{#each object_fake_functions}}
+{{>object_fake_function}}
+
+
+{{/each}}
+{{#each array_fake_functions}}
+{{>array_fake_function}}
+
+
+{{/each}}
+{{#each query_data_functions}}
+{{>query_data_function}}
+
+
+{{/each}}
+{{#each service_call_functions}}
+{{>service_call_function}}
+
+
+{{/each}}

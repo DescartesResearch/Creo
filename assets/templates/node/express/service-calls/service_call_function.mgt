@@ -1,0 +1,21 @@
+{{#each post_service_calls}}
+{{>post_service_call}}
+
+
+{{/each}}
+{{#each get_service_calls}}
+{{>get_service_call}}
+
+
+{{/each}}
+
+export async function {{name}}() {
+    await Promise.all([
+        {{#each post_service_calls}}
+        {{name}}(),
+        {{/each}}
+        {{#each get_service_calls}}
+        {{name}}(),
+        {{/each}}
+    ])
+}
