@@ -1,5 +1,4 @@
 import { userCollection } from './db.js';
-import { userSchema } from './schemas.js';
 
 /**
  *
@@ -17,7 +16,7 @@ async function readUserByKey(key, value) {
   user['id'] = user._id.toString();
   delete user._id;
 
-  return await userSchema.validateAsync(user);
+  return user;
 }
 
 /**
