@@ -30,4 +30,5 @@ try {
 } catch (e) {
     console.error('Failed to seed login db.')
     console.log(e);
+    process.exit(1);
 }

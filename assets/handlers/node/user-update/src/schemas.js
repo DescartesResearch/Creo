@@ -4,11 +4,11 @@ import { hashPassword } from './hash.js';
 export const userSchema = Joi.object({
   username: Joi.string().min(3).max(64),
   email: Joi.string().min(3).max(64),
-  password_hash: Joi.binary().min(32).max(128),
+  password: Joi.string().min(6).max(48),
 });
 
 userSchema.external(async (user) => {
-  user.password_hash = Buffer.from(await hashPassword(user.password_hash));
+  user.password = Buffer.from(await hashPassword(user.password));
 
   return user;
 });

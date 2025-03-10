@@ -15,7 +15,7 @@ export async function loginWithUsernameOrEmail(usernameOrEmail, password) {
     ? await readUserByEmail(usernameOrEmail)
     : await readUserByUsername(usernameOrEmail);
 
-  if (user && (await verify(user.password_hash, password))) {
+  if (user && (await verify(user.password, password))) {
     return await createSession(user.id);
   }
 

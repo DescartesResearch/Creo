@@ -8,7 +8,7 @@ import { userSchema } from './schemas.js';
  * @returns {Promise<any | undefined>}
  */
 async function readUserByKey(key, value) {
-  const user = await userCollection.findOne({ key: value });
+  const user = await userCollection.findOne({ [key]: value });
 
   if (!user) {
     return undefined;
@@ -17,7 +17,7 @@ async function readUserByKey(key, value) {
   user['id'] = user._id.toString();
   delete user._id;
 
-  return await userSchema.validateAsync(user);
+  return user;
 }
 
 /**

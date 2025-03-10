@@ -13,7 +13,7 @@ export async function updateInvoice(id, buffer) {
 
   if (invoice) {
     const updateResult = await invoiceCollection.updateOne(
-      { _id: new ObjectId(id) },
+      { _id: id },
       {
         $set: invoice,
       },

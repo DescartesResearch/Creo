@@ -13,7 +13,7 @@ export async function updateUserById(id, buffer) {
 
   if (user) {
     const updateResult = await userCollection.updateOne(
-      { _id: new ObjectId(id) },
+      { _id: id },
       {
         $set: user,
       },
