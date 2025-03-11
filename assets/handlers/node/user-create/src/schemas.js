@@ -5,7 +5,7 @@ export const userSchema = Joi.object({
   username: Joi.string().min(3).max(64),
   email: Joi.string().min(3).max(64),
   password: Joi.string().min(6).max(48),
-  created_at: Joi.date().default(Date.now),
+  created_at: Joi.number().default(Date.now),
 });
 
 userSchema.external(async (user) => {
