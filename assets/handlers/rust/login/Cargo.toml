@@ -17,4 +17,3 @@ regex = "1.10.5"
 serde = { version = "1.0.204", features = ["derive"] }
 serde_valid = "0.24.0"
 tokio = "1.38.0"
-

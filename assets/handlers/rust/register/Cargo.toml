@@ -13,4 +13,3 @@ mongodb = "3.0.1"
 serde = { version = "1.0.204", features = ["derive"] }
 serde_valid = "0.24.0"
 tokio = "1.38.0"
-

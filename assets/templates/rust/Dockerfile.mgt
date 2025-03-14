@@ -2,13 +2,17 @@ FROM rust:1.85 AS builder
 ARG TARGET=/usr/src/service
 WORKDIR ${TARGET}
 COPY . .
-RUN cargo build --release
+RUN --mount=type=cache,target=/usr/local/cargo/git \
+    --mount=type=cache,target=/usr/local/cargo/registry\
+    --mount=type=cache,sharing=private,target=${TARGET}/target \
+    cargo build --release && \
+    cp target/release/service service
 
 FROM debian:12-slim
 ARG TARGET=/usr/src/service
 
 WORKDIR ${TARGET}
-COPY --from=builder ${TARGET}/target/release/service service
+COPY --from=builder ${TARGET}/service service
 COPY lib lib
 EXPOSE 80
 ENTRYPOINT ["./service"]
