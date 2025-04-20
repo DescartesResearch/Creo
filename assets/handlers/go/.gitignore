@@ -13,9 +13,6 @@
 /bin/
 /dist/
 
-# Vendor directory (if not using Go modules)
-vendor/
-
 # Dependency directories (Go modules)
 go.sum
 
