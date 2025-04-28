@@ -1,3 +1,3 @@
-module handlers/go/rng
+module rng
 
 go 1.24.1

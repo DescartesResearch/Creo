@@ -2,7 +2,7 @@ package random
 
 import (
 	"errors"
-	"math/rand"
+	random "math/rand"
 	"time"
 )
 
@@ -10,7 +10,7 @@ import (
 // and sends them to the provided channel. Using a
 // goroutine and a Go channel for asynchronous number production.
 // See: https://go.dev/ref/spec#Channel_types
-func yieldRandomNumber(min, max int, ch chan int, randGen *rand.Rand) {
+func yieldRandomNumber(min, max int, ch chan int, randGen *random.Rand) {
 	for {
 		ch <- randGen.Intn(max-min+1) + min
 	}
@@ -28,7 +28,7 @@ func GenerateRandomNumbers(n, min, max int) ([]int, error) {
 	}
 
 	// Create a random number generator
-	randGen := rand.New(rand.NewSource(time.Now().UnixNano()))
+	randGen := random.New(random.NewSource(time.Now().UnixNano()))
 
 	// Create a channel to receive random numbers
 	ch := make(chan int)

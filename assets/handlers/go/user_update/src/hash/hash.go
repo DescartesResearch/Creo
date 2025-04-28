@@ -6,6 +6,7 @@ import (
 	argon2 "github.com/alexedwards/argon2id"
 )
 
+// Custom hashing parameters
 const (
 	TIME_COST   = 1
 	MEMORY_COST = 6144
@@ -19,13 +20,12 @@ const (
 // - password {string}: The password to be hashed
 //
 // Returns:
-// - map[string]string: A map containing the hashed password
+// - string: A string containing the hashed password
 //
 // Example:
 // hashedPassword := HashPassword("password")
-func HashPassword(password string) map[string]string {
+func HashPassword(password string) string {
 	// Define custom Argon2id parameters
-	// Using this package to avoid low level salt creation etc.
 	params := &argon2.Params{
 		Memory:      MEMORY_COST * 1024,
 		Iterations:  TIME_COST,
@@ -34,10 +34,11 @@ func HashPassword(password string) map[string]string {
 		KeyLength:   KEY_LEN,
 	}
 
-	hash, err := argon2.CreateHash(password, params)
+	// Hash the password using argon2 with custom parameters
+	hashPassword, err := argon2.CreateHash(password, params)
 	if err != nil {
 		panic(err)
 	}
 
-	return map[string]string{"hash": hash}
+	return hashPassword
 }

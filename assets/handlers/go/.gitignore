@@ -16,6 +16,11 @@
 # Dependency directories (Go modules)
 go.sum
 
+# Environments
+.env
+env/
+
+
 # IDE/editor files
 .vscode/
 .idea/

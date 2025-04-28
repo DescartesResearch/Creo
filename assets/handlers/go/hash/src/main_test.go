@@ -2,18 +2,19 @@ package hash
 
 import (
 	"testing"
+
+	log "fmt"
 )
 
 // Tests the HashPassword function.
 func TestHashPassword(t *testing.T) {
 	password := "password"
 
-	// Call the HashPassword function
 	hashedPassword := HashPassword(password)
 
+	log.Println(hashedPassword)
 	hash := hashedPassword["hash"]
 
-	// Check if the hashed password is not the same as the input password
 	if hash == password {
 		t.Errorf("Password is not hashed correctly. Expected a hashed value.")
 	}

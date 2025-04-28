@@ -6,7 +6,7 @@ import (
 )
 
 func TestGenerateRandomNumbers(t *testing.T) {
-	// Simple valid test case
+	// Valid case
 	n, min, max := 5, 1, 10
 	numbers, err := GenerateRandomNumbers(n, min, max)
 
@@ -27,6 +27,6 @@ func TestGenerateRandomNumbers(t *testing.T) {
 		}
 	}
 
-		// Print the generated numbers
-		fmt.Println("Random generated numbers:", numbers)
+	// Print the generated numbers
+	fmt.Println("Random generated numbers:", numbers)
 }
