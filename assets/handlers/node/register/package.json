@@ -1,7 +1,7 @@
 {
   "name": "register",
   "version": "1.0.0",
-  "main": "src/create-user.js",
+  "main": "src/index.js",
   "type": "module",
   "dependencies": {
     "argon2": "^0.41.1",

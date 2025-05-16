@@ -114,8 +114,12 @@ signature:
               maximum: 99999
             city:
               type: string
+              minLength: 3
+              maxLength: 64
             country:
               type: string
+              minLength: 3
+              maxLength: 64
           additionalProperties: false
           required:
             - first_name

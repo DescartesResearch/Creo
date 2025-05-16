@@ -11,5 +11,5 @@ const client = new MongoClient(url);
 
 await client.connect();
 
-export const userDb = client.db('user_db');
-export const userCollection = userDb.collection('user_collection');
+export const registerDb = client.db('register_db');
+export const registerCollection = registerDb.collection('register_collection');

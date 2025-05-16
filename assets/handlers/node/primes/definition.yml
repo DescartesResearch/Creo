@@ -9,5 +9,5 @@ signature:
       type: integer
       minimum: 1
       exclusiveMinimum: false
-      maximum: 100
+      maximum: 10000
       exclusiveMaximum: false

@@ -28,7 +28,7 @@ const {{name}}QuerySchema = Joi.object({
         {{#if pattern}}
         .pattern(/{{this}}/)
         {{/if}}
-        {{/if}}
+        {{/if}},
     {{/each}}
 });
 

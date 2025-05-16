@@ -5,7 +5,7 @@ export function randomUser(id) {
         _id: id,
         username: faker.string.alphanumeric({ length: { min: 3, max: 64 } }),
         email: faker.string.alphanumeric({ length: { min: 3, max: 64 } }),
-        password_hash: Buffer.from(faker.string.alphanumeric({ length: 97 })),
+        password: Buffer.from(faker.string.alphanumeric({ length: 97 })),
         created_at: Date.now(),
     }
 }

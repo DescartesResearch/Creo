@@ -1,4 +1,4 @@
-import { uid } from 'uid-safe';
+import uid from 'uid-safe';
 import { sessionResponseSchema, sessionSchema } from './schemas.js';
 
 const sessions = new Map();

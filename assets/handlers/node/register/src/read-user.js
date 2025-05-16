@@ -1,4 +1,4 @@
-import { userCollection } from './db.js';
+import { registerCollection } from './db.js';
 
 /**
  *
@@ -7,7 +7,7 @@ import { userCollection } from './db.js';
  * @returns {Promise<any | undefined>}
  */
 async function readUserByKey(key, value) {
-  const user = await userCollection.findOne({ key: value });
+  const user = await registerCollection.findOne({ key: value });
 
   if (!user) {
     return undefined;

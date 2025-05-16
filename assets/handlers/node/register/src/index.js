@@ -10,13 +10,13 @@ import { createUser } from './create-user.js';
 export async function registerUser(buffer) {
   const user = await validate(buffer);
 
-  if (await readUserByEmail(user.email)) {
-    return undefined;
-  }
-
-  if (await readUserByUsername(user.username)) {
-    return undefined;
-  }
+  // if (await readUserByEmail(user.email)) {
+  //   return undefined;
+  // }
+  //
+  // if (await readUserByUsername(user.username)) {
+  //   return undefined;
+  // }
 
   return await createUser(user);
 }

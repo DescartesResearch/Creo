@@ -1,4 +1,4 @@
-import { userCollection } from './db.js';
+import { registerCollection } from './db.js';
 
 /**
  *
@@ -6,7 +6,7 @@ import { userCollection } from './db.js';
  * @returns {Promise<string>}
  */
 export async function createUser(user) {
-  const insertResult = await userCollection.insertOne(user);
+  const insertResult = await registerCollection.insertOne(user);
 
   return insertResult.insertedId.toString();
 }

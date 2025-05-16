@@ -1,5 +1,4 @@
 import { userCollection } from './db.js';
-import { userSchema } from './schemas.js';
 
 /**
  *
