@@ -257,7 +257,7 @@ impl Request {
             .iter()
             .map(QueryComponent::as_lua_source)
             .collect::<Vec<_>>()
-            .join("..&");
+            .join(r#".."&".."#);
         src.push_str(format!(r#" services[{}].."{}""#, self.service_id, self.path).as_str());
         if !query.is_empty() {
             src.push_str(format!(r#".."?"..{}"#, query).as_str());
