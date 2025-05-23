@@ -1,8 +1,7 @@
 @router.get("{{path}}"{{#if description}},
              description="{{description}}"{{/if}})
 {{#if is_async}}async {{else}}{{#if has_service_calls}}async {{/if}}{{/if}}def {{name}}(
-{{#each query_params}}    {{>query_param}},
-{{/each}}
+{{#each query_params}}    {{>query_param}}{{/each}}
 {{#if has_service_calls}}    client = Depends(get_async_http_client),
 {{/if}}
 ) -> {{#if has_return_type}}JSONResponse{{/if}}{{#unless has_return_type}}None{{/unless}}:

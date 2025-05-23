@@ -234,7 +234,30 @@ pub async fn test_load_level(
                 ])
                 .build()
                 .unwrap();
-            let response = client.execute(request).await.unwrap();
+            let mut retries = 3;
+            let response = loop {
+                if retries == 0 {
+                    break None;
+                }
+                match client
+                    .execute(request.try_clone().expect("Failed to clone request"))
+                    .await
+                {
+                    Ok(response) => break Some(response),
+                    Err(e) => {
+                        eprintln!(
+                            "Request failed: {}. Retrying... ({} retries left)",
+                            e,
+                            retries - 1
+                        );
+                        retries -= 1;
+                        if retries > 0 {
+                            tokio::time::sleep(std::time::Duration::from_millis(500)).await;
+                        }
+                    }
+                }
+            };
+            let response = response.expect("Maximum retries for API request");
             let mut data: PrometheusAPIResponse = response.json().await.unwrap();
             assert_eq!(data.status, "success");
             if metric.is_required() {
