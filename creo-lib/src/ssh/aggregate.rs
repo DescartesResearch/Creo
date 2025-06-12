@@ -199,6 +199,8 @@ pub async fn test_load_level(
             "-e",
             "TZ=UTC",
             "--rm",
+            "--user",
+            "0:0",
             "--detach",
             "prom/prometheus:v2.49.1",
         ]);
