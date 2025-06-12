@@ -177,11 +177,9 @@ pub async fn test_load_level(
         let mut rdr = tokio::io::BufReader::new(summary_file);
         rdr.read_line(&mut first_line).await?;
         let (_, time) = first_line.rsplit_once(",").expect("comma");
-        let mut time = time.chars();
-        for _ in 0..4 {
-            time.next_back();
-        }
-        let time = time.as_str();
+        const TIME_STR_LEN: usize = "01.01.1970;00:00:00".len();
+        log::debug!("Expected time str len: {TIME_STR_LEN}");
+        let time = &time[..TIME_STR_LEN];
         let dt = NaiveDateTime::parse_from_str(time, "%d.%m.%Y;%H:%M:%S")
             .expect("date time")
             .and_utc();
