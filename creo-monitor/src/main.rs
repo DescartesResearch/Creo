@@ -14,7 +14,7 @@ use creo_monitor::stats::CollectedStats;
 async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
 
-    let socket_path = Path::new("/var/run/containerd.sock");
+    let socket_path = Path::new("/var/run/containerd/containerd.sock");
     let channel = creo_monitor::grpc::channel_for_unix_socket(&socket_path).await?;
     let mut client = EventsClient::new(channel);
 
