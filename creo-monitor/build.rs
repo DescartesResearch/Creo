@@ -1,0 +1,15 @@
+fn main() -> std::io::Result<()> {
+    tonic_build::configure()
+        .build_server(false)
+        .build_client(true)
+        .compile_protos(
+            &[
+                "vendor/containerd/api/services/containers/v1/containers.proto",
+                "vendor/containerd/api/services/events/v1/events.proto",
+                "vendor/containerd/api/events/container.proto",
+            ],
+            &["vendor/containerd"],
+        )?;
+
+    Ok(())
+}
