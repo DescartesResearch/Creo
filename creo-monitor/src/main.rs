@@ -1,14 +1,46 @@
+use std::any::Any;
 use std::path::Path;
 use std::sync::Arc;
 
 use creo_monitor::api::APIServer;
 use creo_monitor::cgroup::{self, ContainerScanner};
 use creo_monitor::container::ContainerDMetaDataProvider;
-use creo_monitor::containerd::services::events::v1::SubscribeRequest;
-use creo_monitor::containerd::services::events::v1::events_client::EventsClient;
+use creo_monitor::containerd::{
+    events::{ContainerCreate, ContainerDelete, ContainerUpdate},
+    events::{TaskCreate, TaskDelete, TaskExit, TaskStart},
+    services::events::v1::{SubscribeRequest, events_client::EventsClient},
+};
 use creo_monitor::error::{Error, Result};
 use creo_monitor::persistence::Persister;
 use creo_monitor::stats::CollectedStats;
+use prost::Message;
+use prost_types::Any;
+
+fn decode_event(event: &dyn Any) {
+    println!("{:?}", event.type_id());
+    // if let Ok(container_created) = event.to_msg::<ContainerCreate>() {
+    //     println!("Container Created: {:?}", container_created);
+    // }
+    //
+    // if let Ok(container_deleted) = event.to_msg::<ContainerDelete>() {
+    //     println!("Container Deleted: {:?}", container_deleted);
+    // }
+    // if let Ok(container_updated) = event.to_msg::<ContainerUpdate>() {
+    //     println!("Container Deleted: {:?}", container_updated);
+    // }
+    // if let Ok(task_created) = event.to_msg::<TaskCreate>() {
+    //     println!("Task Created: {:?}", task_created);
+    // }
+    // if let Ok(task_deleted) = event.to_msg::<TaskDelete>() {
+    //     println!("Task Deleted: {:?}", task_deleted);
+    // }
+    // if let Ok(task_exited) = event.to_msg::<TaskExit>() {
+    //     println!("Task Exited: {:?}", task_exited);
+    // }
+    // if let Ok(task_started) = event.to_msg::<TaskStart>() {
+    //     println!("Task Started: {:?}", task_started);
+    // }
+}
 
 #[tokio::main]
 async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
@@ -24,7 +56,14 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         .into_inner();
 
     while let Some(message) = stream.message().await? {
-        println!("Received event: {:?}", message);
+        println!(
+            "Received event: topic={}, namespace={}, timestamp={:?}",
+            message.topic, message.namespace, message.timestamp
+        );
+        match message.event {
+            Some(ref event) => decode_event(event),
+            None => println!("No event attached"),
+        };
     }
 
     Ok(())

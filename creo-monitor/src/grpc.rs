@@ -37,7 +37,7 @@ pub async fn channel_for_unix_socket(
     path: impl AsRef<Path>,
 ) -> Result<Channel, tonic::transport::Error> {
     let path = path.as_ref();
-    log::debug!("Connecting to {}", path.display());
+    log::debug!("Connecting to {}...", path.display());
     let connector = UnixConnector {
         path: path.to_path_buf(),
     };
@@ -45,7 +45,7 @@ pub async fn channel_for_unix_socket(
     let channel = Endpoint::from_static("http://[::]:50051")
         .connect_with_connector(connector)
         .await?;
-    log::debug!("Created channel for {}", path.display());
+    log::debug!("Created channel for {}.", path.display());
 
     Ok(channel)
 }
