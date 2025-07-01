@@ -16,25 +16,23 @@ use prost::Message;
 use prost_types::Any;
 
 fn decode_event(event: &Any) {
-    println!("{:?}", event.type_url);
-
     match event.type_url.as_str() {
         "containerd.events.ContainerCreate" => {
             match ContainerCreate::decode(event.value.as_slice()) {
                 Ok(container_event) => println!("Container Create: {:?}", container_event),
-                Err(err) => eprint!("Failed to decode ContainerCreate: {err}"),
+                Err(err) => eprintln!("Failed to decode ContainerCreate: {err}"),
             }
         }
         "containerd.events.ContainerDelete" => {
             match ContainerDelete::decode(event.value.as_slice()) {
                 Ok(container_event) => println!("Container Delete: {:?}", container_event),
-                Err(err) => eprint!("Failed to decode ContainerDelete: {err}"),
+                Err(err) => eprintln!("Failed to decode ContainerDelete: {err}"),
             }
         }
         "containerd.events.ContainerUpdate" => {
             match ContainerUpdate::decode(event.value.as_slice()) {
                 Ok(container_event) => println!("Container Update: {:?}", container_event),
-                Err(err) => eprint!("Failed to decode ContainerUpdate: {err}"),
+                Err(err) => eprintln!("Failed to decode ContainerUpdate: {err}"),
             }
         }
         "containerd.events.TaskCreate" => match TaskCreate::decode(event.value.as_slice()) {
@@ -43,17 +41,17 @@ fn decode_event(event: &Any) {
         },
         "containerd.events.TaskDelete" => match TaskDelete::decode(event.value.as_slice()) {
             Ok(task_event) => println!("Task Delete: {:?}", task_event),
-            Err(err) => eprint!("Failed to decode TaskDelete: {err}"),
+            Err(err) => eprintln!("Failed to decode TaskDelete: {err}"),
         },
         "containerd.events.TaskStart" => match TaskStart::decode(event.value.as_slice()) {
             Ok(task_event) => println!("Task Start: {:?}", task_event),
-            Err(err) => eprint!("Failed to decode TaskStart: {err}"),
+            Err(err) => eprintln!("Failed to decode TaskStart: {err}"),
         },
         "containerd.events.TaskExit" => match TaskExit::decode(event.value.as_slice()) {
             Ok(task_event) => println!("Task Exit: {:?}", task_event),
-            Err(err) => eprint!("Failed to decode TaskExit: {err}"),
+            Err(err) => eprintln!("Failed to decode TaskExit: {err}"),
         },
-        e => eprint!("Unknown event type: {e}"),
+        e => eprintln!("Unknown event type: {e}"),
     }
 }
 
