@@ -1,4 +1,3 @@
-use std::any::Any;
 use std::path::Path;
 use std::sync::Arc;
 
@@ -16,8 +15,9 @@ use creo_monitor::stats::CollectedStats;
 use prost::Message;
 use prost_types::Any;
 
-fn decode_event(event: &dyn Any) {
-    println!("{:?}", event.type_id());
+fn decode_event(event: &Any) {
+    println!("{:?}", event.type_url);
+
     // if let Ok(container_created) = event.to_msg::<ContainerCreate>() {
     //     println!("Container Created: {:?}", container_created);
     // }
