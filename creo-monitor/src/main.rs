@@ -1,9 +1,12 @@
+use std::borrow::Cow;
 use std::path::Path;
 use std::sync::Arc;
 
 use creo_monitor::api::APIServer;
 use creo_monitor::cgroup::{self, ContainerScanner};
 use creo_monitor::container::ContainerDMetaDataProvider;
+use creo_monitor::containerd::services::containers::v1::ListContainersRequest;
+use creo_monitor::containerd::services::containers::v1::containers_client::ContainersClient;
 use creo_monitor::containerd::{
     events::{ContainerCreate, ContainerDelete, ContainerUpdate},
     events::{TaskCreate, TaskDelete, TaskExit, TaskStart},
@@ -14,6 +17,7 @@ use creo_monitor::persistence::Persister;
 use creo_monitor::stats::CollectedStats;
 use prost::Message;
 use prost_types::Any;
+use tonic::metadata::MetadataValue;
 
 fn decode_event(event: &Any) {
     match event.type_url.as_str() {
@@ -69,7 +73,45 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
     let socket_path = Path::new("/var/run/containerd/containerd.sock");
     let channel = creo_monitor::grpc::channel_for_unix_socket(&socket_path).await?;
-    let mut client = EventsClient::new(channel);
+    let mut client = EventsClient::new(channel.clone());
+
+    let mut c_client = ContainersClient::new(channel);
+
+    let mut request = tonic::Request::new(ListContainersRequest { filters: vec![] });
+    request
+        .metadata_mut()
+        .insert("containerd-namespace", MetadataValue::from_static("k8s.io"));
+    match c_client.list_stream(request).await {
+        Ok(r) => {
+            let mut stream = r.into_inner();
+            while let Some(container_msg) = stream.message().await.ok().flatten() {
+                if let Some(container) = container_msg.container {
+                    println!(
+                        "Container: id={}, runtime={:?}, spec=(type_url={}, value={}),",
+                        container.id,
+                        container.runtime,
+                        {
+                            if let Some(spec) = &container.spec {
+                                &spec.type_url
+                            } else {
+                                "None"
+                            }
+                        },
+                        {
+                            if let Some(spec) = &container.spec {
+                                String::from_utf8_lossy(&spec.value)
+                            } else {
+                                Cow::from("None")
+                            }
+                        }
+                    )
+                }
+            }
+        }
+        Err(err) => {
+            log::error!("failed to request containers list: {err}")
+        }
+    };
 
     let mut stream = client
         .subscribe(SubscribeRequest { filters: vec![] })
