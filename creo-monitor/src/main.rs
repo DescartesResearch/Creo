@@ -85,6 +85,9 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             Some(ref event) => decode_event(event),
             None => println!("No event attached"),
         };
+
+        println!();
+        println!();
     }
 
     Ok(())
