@@ -7,8 +7,8 @@ use creo_monitor::cgroup::{self, ContainerScanner};
 use creo_monitor::container::ContainerDMetaDataProvider;
 use creo_monitor::containerd::services::containers::v1::ListContainersRequest;
 use creo_monitor::containerd::services::containers::v1::containers_client::ContainersClient;
-use creo_monitor::containerd::services::tasks::v1::ListPidsRequest;
 use creo_monitor::containerd::services::tasks::v1::tasks_client::TasksClient;
+use creo_monitor::containerd::services::tasks::v1::{GetRequest, ListPidsRequest};
 use creo_monitor::containerd::{
     events::{ContainerCreate, ContainerDelete, ContainerUpdate},
     events::{TaskCreate, TaskDelete, TaskExit, TaskStart},
@@ -91,34 +91,23 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             while let Some(container_msg) = stream.message().await.ok().flatten() {
                 if let Some(container) = container_msg.container {
                     println!("Container: id={}", container.id);
-                    let mut request = tonic::Request::new(ListPidsRequest {
+                    let mut request = tonic::Request::new(GetRequest {
                         container_id: container.id,
+                        ..Default::default()
                     });
                     request
                         .metadata_mut()
                         .insert("containerd-namespace", MetadataValue::from_static("k8s.io"));
-                    match t_client.list_pids(request).await {
-                        Err(err) => eprintln!("Failed to fetch PIDs: {err}"),
-                        Ok(pids_response) => {
-                            let pids = pids_response.into_inner();
-                            for pid in &pids.processes {
-                                let (type_url, value) = match pid.info {
-                                    Some(ref info) => (
-                                        info.type_url.as_str(),
-                                        String::from_utf8_lossy(&info.value),
-                                    ),
-                                    None => ("None", Cow::from("None")),
-                                };
-                                println!(
-                                    "pid={}, info={{ type_url={}, value={} }}",
-                                    pid.pid, type_url, value
-                                )
-                            }
+                    match t_client.get(request).await {
+                        Err(err) => eprintln!("Failed to fetch Task: {err}"),
+                        Ok(get_response) => {
+                            println!("Get Task Metadata: {:?}", get_response.metadata());
                         }
                     }
                 }
             }
         }
+
         Err(err) => {
             log::error!("failed to request containers list: {err}")
         }
