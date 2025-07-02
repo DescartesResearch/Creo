@@ -91,12 +91,13 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             while let Some(container_msg) = stream.message().await.ok().flatten() {
                 if let Some(container) = container_msg.container {
                     println!("Container: id={}", container.id);
-                    match t_client
-                        .list_pids(ListPidsRequest {
-                            container_id: container.id,
-                        })
-                        .await
-                    {
+                    let mut request = tonic::Request::new(ListPidsRequest {
+                        container_id: container.id,
+                    });
+                    request
+                        .metadata_mut()
+                        .insert("containerd-namespace", MetadataValue::from_static("k8s.io"));
+                    match t_client.list_pids(request).await {
                         Err(err) => eprintln!("Failed to fetch PIDs: {err}"),
                         Ok(pids_response) => {
                             let pids = pids_response.into_inner();
