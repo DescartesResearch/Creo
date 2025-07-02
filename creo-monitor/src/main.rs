@@ -97,8 +97,9 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                                 print!("options={{ type_url={}, ", options.type_url);
                                 match options.type_url.as_str() {
                                     "containerd.runc.v1.Options" => {
-                                        match containerd::runc::v1::Options::decode(&options.value)
-                                        {
+                                        match containerd::runc::v1::Options::decode(
+                                            options.value.as_slice(),
+                                        ) {
                                             Ok(opts) => println!("value={:?} }}", opts),
                                             Err(err) => println!("value={err} }}"),
                                         }
