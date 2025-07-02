@@ -12,6 +12,11 @@ pub const CGROUP_ROOT: &str = "/sys/fs/cgroup";
 pub const ROOT: &str = "/rootfs";
 
 pub mod containerd {
+    pub mod runc {
+        pub mod v1 {
+            tonic::include_proto!("containerd.runc.v1");
+        }
+    }
     pub mod v1 {
         pub mod types {
             tonic::include_proto!("containerd.v1.types");

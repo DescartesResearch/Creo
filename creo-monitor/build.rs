@@ -9,6 +9,7 @@ fn main() -> std::io::Result<()> {
                 "vendor/containerd/api/services/tasks/v1/tasks.proto",
                 "vendor/containerd/api/events/container.proto",
                 "vendor/containerd/api/events/task.proto",
+                "vendor/containerd/api/types/runc/options/oci.proto",
             ],
             &["vendor/containerd"],
         )?;

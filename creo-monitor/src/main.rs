@@ -5,6 +5,7 @@ use std::sync::Arc;
 use creo_monitor::api::APIServer;
 use creo_monitor::cgroup::{self, ContainerScanner};
 use creo_monitor::container::ContainerDMetaDataProvider;
+use creo_monitor::containerd;
 use creo_monitor::containerd::services::containers::v1::ListContainersRequest;
 use creo_monitor::containerd::services::containers::v1::containers_client::ContainersClient;
 use creo_monitor::containerd::services::tasks::v1::tasks_client::TasksClient;
@@ -90,17 +91,26 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                 if let Some(container) = container_msg.container {
                     println!("Container: id={}", container.id);
                     if let Some(runtime) = container.runtime {
-                        let (type_url, value) = match runtime.options {
-                            Some(ref options) => (
-                                options.type_url.as_str(),
-                                String::from_utf8_lossy(&options.value),
-                            ),
-                            None => ("None", Cow::from("None")),
+                        print!("runtime={{ name={}, ", runtime.name);
+                        match runtime.options {
+                            Some(ref options) => {
+                                print!("options={{ type_url={}, ", options.type_url);
+                                match options.type_url.as_str() {
+                                    "containerd.runc.v1.Options" => {
+                                        match containerd::runc::v1::Options::decode(&options.value)
+                                        {
+                                            Ok(opts) => println!("value={:?} }}", opts),
+                                            Err(err) => println!("value={err} }}"),
+                                        }
+                                    }
+                                    _ => println!(
+                                        "value={} }}",
+                                        String::from_utf8_lossy(&options.value)
+                                    ),
+                                }
+                            }
+                            None => println!("options=None }}"),
                         };
-                        println!(
-                            "runtime={{ name={}, options={{ type_url={}, value={} }}}}",
-                            runtime.name, type_url, value
-                        )
                     }
                     if let Some(spec) = container.spec {
                         println!(
@@ -110,7 +120,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                         )
                     }
                     println!("labels={:?}", container.labels);
-                    println!("extensions={:?}", container.extensions);
+                    // println!("extensions={:?}", container.extensions);
                 }
             }
         }
