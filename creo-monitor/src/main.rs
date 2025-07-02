@@ -101,7 +101,11 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                     match t_client.get(request).await {
                         Err(err) => eprintln!("Failed to fetch Task: {err}"),
                         Ok(get_response) => {
-                            println!("Get Task Metadata: {:?}", get_response.metadata());
+                            let get = get_response.into_inner();
+                            match get.process {
+                                None => println!("Process is None"),
+                                Some(process) => println!("Process={:?}", process),
+                            }
                         }
                     }
                 }
