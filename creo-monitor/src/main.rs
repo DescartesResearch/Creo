@@ -79,8 +79,6 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
     let mut c_client = ContainersClient::new(channel.clone());
 
-    let mut t_client = TasksClient::new(channel);
-
     let mut request = tonic::Request::new(ListContainersRequest { filters: vec![] });
     request
         .metadata_mut()
@@ -91,23 +89,28 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             while let Some(container_msg) = stream.message().await.ok().flatten() {
                 if let Some(container) = container_msg.container {
                     println!("Container: id={}", container.id);
-                    let mut request = tonic::Request::new(GetRequest {
-                        container_id: container.id,
-                        ..Default::default()
-                    });
-                    request
-                        .metadata_mut()
-                        .insert("containerd-namespace", MetadataValue::from_static("k8s.io"));
-                    match t_client.get(request).await {
-                        Err(err) => eprintln!("Failed to fetch Task: {err}"),
-                        Ok(get_response) => {
-                            let get = get_response.into_inner();
-                            match get.process {
-                                None => println!("Process is None"),
-                                Some(process) => println!("Process={:?}", process),
-                            }
-                        }
+                    if let Some(runtime) = container.runtime {
+                        let (type_url, value) = match runtime.options {
+                            Some(ref options) => (
+                                options.type_url.as_str(),
+                                String::from_utf8_lossy(&options.value),
+                            ),
+                            None => ("None", Cow::from("None")),
+                        };
+                        println!(
+                            "runtime={{ name={}, options={{ type_url={}, value={} }}}}",
+                            runtime.name, type_url, value
+                        )
                     }
+                    if let Some(spec) = container.spec {
+                        println!(
+                            "spec={{ type_url={}, value={} }}",
+                            spec.type_url,
+                            String::from_utf8_lossy(&spec.value)
+                        )
+                    }
+                    println!("labels={:?}", container.labels);
+                    println!("extensions={:?}", container.extensions);
                 }
             }
         }
