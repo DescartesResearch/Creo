@@ -19,7 +19,9 @@ fn decode_event(event: &Any) {
     match event.type_url.as_str() {
         "containerd.events.ContainerCreate" => {
             match ContainerCreate::decode(event.value.as_slice()) {
-                Ok(container_event) => println!("Container Create: {:?}", container_event),
+                Ok(container_event) => {
+                    println!("Container Create: {:?}", container_event)
+                }
                 Err(err) => eprintln!("Failed to decode ContainerCreate: {err}"),
             }
         }
@@ -36,7 +38,9 @@ fn decode_event(event: &Any) {
             }
         }
         "containerd.events.TaskCreate" => match TaskCreate::decode(event.value.as_slice()) {
-            Ok(task_event) => println!("Task Create: {:?}", task_event),
+            Ok(task_event) => {
+                println!("Task Create: {:?}", task_event)
+            }
             Err(err) => eprint!("Failed to decode TaskCreate: {err}"),
         },
         "containerd.events.TaskDelete" => match TaskDelete::decode(event.value.as_slice()) {
@@ -51,7 +55,11 @@ fn decode_event(event: &Any) {
             Ok(task_event) => println!("Task Exit: {:?}", task_event),
             Err(err) => eprintln!("Failed to decode TaskExit: {err}"),
         },
-        e => eprintln!("Unknown event type: {e}"),
+        e => eprintln!(
+            "Unknown event type: type_url={}, value={}",
+            e,
+            String::from_utf8_lossy(&event.value)
+        ),
     }
 }
 
