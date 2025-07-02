@@ -7,6 +7,8 @@ use creo_monitor::cgroup::{self, ContainerScanner};
 use creo_monitor::container::ContainerDMetaDataProvider;
 use creo_monitor::containerd::services::containers::v1::ListContainersRequest;
 use creo_monitor::containerd::services::containers::v1::containers_client::ContainersClient;
+use creo_monitor::containerd::services::tasks::v1::ListPidsRequest;
+use creo_monitor::containerd::services::tasks::v1::tasks_client::TasksClient;
 use creo_monitor::containerd::{
     events::{ContainerCreate, ContainerDelete, ContainerUpdate},
     events::{TaskCreate, TaskDelete, TaskExit, TaskStart},
@@ -75,7 +77,9 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     let channel = creo_monitor::grpc::channel_for_unix_socket(&socket_path).await?;
     let mut client = EventsClient::new(channel.clone());
 
-    let mut c_client = ContainersClient::new(channel);
+    let mut c_client = ContainersClient::new(channel.clone());
+
+    let mut t_client = TasksClient::new(channel);
 
     let mut request = tonic::Request::new(ListContainersRequest { filters: vec![] });
     request
@@ -86,25 +90,31 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             let mut stream = r.into_inner();
             while let Some(container_msg) = stream.message().await.ok().flatten() {
                 if let Some(container) = container_msg.container {
-                    println!(
-                        "Container: id={}, runtime={:?}, spec=(type_url={}, value={}),",
-                        container.id,
-                        container.runtime,
-                        {
-                            if let Some(spec) = &container.spec {
-                                &spec.type_url
-                            } else {
-                                "None"
-                            }
-                        },
-                        {
-                            if let Some(spec) = &container.spec {
-                                String::from_utf8_lossy(&spec.value)
-                            } else {
-                                Cow::from("None")
+                    println!("Container: id={}", container.id);
+                    match t_client
+                        .list_pids(ListPidsRequest {
+                            container_id: container.id,
+                        })
+                        .await
+                    {
+                        Err(err) => eprintln!("Failed to fetch PIDs: {err}"),
+                        Ok(pids_response) => {
+                            let pids = pids_response.into_inner();
+                            for pid in &pids.processes {
+                                let (type_url, value) = match pid.info {
+                                    Some(ref info) => (
+                                        info.type_url.as_str(),
+                                        String::from_utf8_lossy(&info.value),
+                                    ),
+                                    None => ("None", Cow::from("None")),
+                                };
+                                println!(
+                                    "pid={}, info={{ type_url={}, value={} }}",
+                                    pid.pid, type_url, value
+                                )
                             }
                         }
-                    )
+                    }
                 }
             }
         }

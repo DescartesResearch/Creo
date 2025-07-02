@@ -12,6 +12,11 @@ pub const CGROUP_ROOT: &str = "/sys/fs/cgroup";
 pub const ROOT: &str = "/rootfs";
 
 pub mod containerd {
+    pub mod v1 {
+        pub mod types {
+            tonic::include_proto!("containerd.v1.types");
+        }
+    }
     pub mod types {
         tonic::include_proto!("containerd.types");
     }
@@ -27,6 +32,11 @@ pub mod containerd {
         pub mod events {
             pub mod v1 {
                 tonic::include_proto!("containerd.services.events.v1");
+            }
+        }
+        pub mod tasks {
+            pub mod v1 {
+                tonic::include_proto!("containerd.services.tasks.v1");
             }
         }
     }
