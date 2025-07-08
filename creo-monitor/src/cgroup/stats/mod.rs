@@ -49,26 +49,14 @@ pub use memory::{MemoryLimit, MemoryStat, MemoryUsage};
 pub use net::NetworkStat;
 pub use parser::{KeyValueStat, SingleLineStat};
 
-use crate::container::{ContainerMeta, PodMeta};
+use crate::container::ContainerID;
 
 #[derive(Debug, Clone)]
-pub enum CollectedStats {
-    Standalone {
-        /// Timestamp (in UNIX epoch seconds)
-        timestamp: u64,
-        container_id: super::container::ContainerID,
-        stats: ContainerStats,
-        metadata: Option<ContainerMeta>,
-    },
-    Pod {
-        /// Timestamp (in UNIX epoch seconds)
-        timestamp: u64,
-        container_id: super::container::ContainerID,
-        pod_id: super::container::PodID,
-        stats: ContainerStats,
-        container_metadata: Option<ContainerMeta>,
-        pod_metadata: Option<PodMeta>,
-    },
+pub struct ContainerStatsEntry {
+    /// Timestamp (in UNIX epoch seconds)
+    timestamp: u64,
+    container_id: ContainerID,
+    stats: CgroupStats,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -77,43 +65,31 @@ pub enum Error {
     MissingContainerError,
 }
 
-impl CollectedStats {
-    pub fn new_standalone(
-        timestamp: u64,
-        container_id: super::container::ContainerID,
-        stats: ContainerStats,
-        metadata: Option<ContainerMeta>,
-    ) -> Self {
-        Self::Standalone {
+impl ContainerStatsEntry {
+    pub fn new(timestamp: u64, container_id: ContainerID, stats: CgroupStats) -> Self {
+        Self {
             timestamp,
             container_id,
             stats,
-            metadata,
         }
     }
 
-    pub fn new_pod(
-        timestamp: u64,
-        container_id: super::container::ContainerID,
-        pod_id: super::container::PodID,
-        stats: ContainerStats,
-        container_metadata: Option<ContainerMeta>,
-        pod_metadata: Option<PodMeta>,
-    ) -> Self {
-        Self::Pod {
-            timestamp,
-            container_id,
-            pod_id,
-            stats,
-            container_metadata,
-            pod_metadata,
-        }
+    pub fn timestamp(&self) -> u64 {
+        self.timestamp
+    }
+
+    pub fn container_id(&self) -> ContainerID {
+        self.container_id
+    }
+
+    pub fn stats(&self) -> &CgroupStats {
+        &self.stats
     }
 }
 
 /// Represents a full set of resource usage stats for a container, collected from cgroup files.
 #[derive(Debug, Clone)]
-pub struct ContainerStats {
+pub struct CgroupStats {
     /// CPU usage statistics from `cpu.stat`.
     cpu_stat: Option<CpuStat>,
     /// CPU limits from `cpu.max`.
@@ -130,7 +106,7 @@ pub struct ContainerStats {
     network_stat: Option<NetworkStat>,
 }
 
-impl ContainerStats {
+impl CgroupStats {
     pub fn new(
         cpu_stat: Option<CpuStat>,
         cpu_limit: Option<CpuLimit>,

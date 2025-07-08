@@ -53,9 +53,7 @@ use std::collections::HashMap;
 use std::io::BufRead;
 use std::sync::LazyLock;
 
-use crate::stats::parser::KeyValueStat;
-
-use super::SingleLineStat;
+use super::{KeyValueStat, SingleLineStat};
 
 /// Represents parsed data from a cgroup `cpu.stat` file.
 ///
@@ -217,8 +215,7 @@ impl SingleLineStat for CpuLimit {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::stats::StatParseError;
-    use crate::stats::error::extract_stat_parse_error;
+    use crate::cgroup::stats::error::{StatParseError, extract_stat_parse_error};
 
     #[test]
     fn test_parse_empty_cpu_stat() {

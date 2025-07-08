@@ -59,16 +59,6 @@ impl std::ops::AddAssign for NetworkStat {
     }
 }
 
-impl std::iter::Sum for NetworkStat {
-    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
-        let mut s = Self::default();
-        for i in iter {
-            s += i;
-        }
-        s
-    }
-}
-
 const IGNORED_INTERFACES: [&str; 4] = ["lo", "veth", "docker", "nerdctl"];
 
 /// Parses a single line of network interface data from `/proc/net/dev`.

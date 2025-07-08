@@ -1,32 +1,4 @@
-use std::io::{BufRead, Seek, SeekFrom};
-
-/// Collects exactly `N` items from an iterator into an array.
-pub(super) fn create_array_from_iter<T, const N: usize>(
-    iter: impl Iterator<Item = T>,
-) -> Option<[T; N]>
-where
-    T: Copy + Sized,
-{
-    let mut out: [std::mem::MaybeUninit<T>; N] = [const { std::mem::MaybeUninit::uninit() }; N];
-    let mut iter = iter.into_iter();
-    for elem in out.iter_mut() {
-        let val = iter.next()?;
-        elem.write(val);
-    }
-
-    if iter.next().is_some() {
-        return None;
-    }
-
-    // SAFETY: We initialized the entire array with elements from the iterator and ensured the
-    // iterator and the array have the same length.
-    let out = unsafe {
-        let ptr = &out as *const _ as *const [T; N];
-        ptr.read()
-    };
-
-    Some(out)
-}
+use std::io::{BufRead, BufReader, Seek, SeekFrom};
 
 /// Reads from a file, applies the given reader function, and rewinds the file cursor to the start.
 ///
@@ -52,7 +24,7 @@ where
 /// Returns `Ok(None)` if the list of files is empty.
 pub fn read_all_and_rewind<T, F, R>(files: &mut [R], reader: F) -> std::io::Result<Option<T>>
 where
-    T: std::iter::Sum<T>,
+    T: std::ops::AddAssign + Default,
     F: Fn(&mut R) -> std::io::Result<T>,
     R: BufRead + Seek,
 {
@@ -60,13 +32,18 @@ where
         return Ok(None);
     }
 
-    let mut results = Vec::with_capacity(files.len());
+    let mut sum = T::default();
 
-    for f in files {
-        let value = reader(f)?;
-        f.seek(SeekFrom::Start(0))?;
-        results.push(value);
+    for file in files {
+        let value = reader(file)?;
+        file.seek(SeekFrom::Start(0))?;
+        sum += value;
     }
 
-    Ok(Some(results.into_iter().sum()))
+    Ok(Some(sum))
+}
+
+#[inline]
+pub fn open_file(path: impl AsRef<std::path::Path>) -> Option<BufReader<std::fs::File>> {
+    Some(BufReader::new(std::fs::File::open(path).ok()?))
 }

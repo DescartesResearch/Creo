@@ -84,6 +84,8 @@ spec:
         - name: creo-monitor
           image: lubasyannik/creo-monitor:1.0
           imagePullPolicy: Always
+          securityContext:
+            privileged: true
           env:
             - name: DATABASE_URL
               value: mysql://creo:creopassword@mariadb.monitoring.svc.cluster.local:3306/stats
@@ -100,7 +102,7 @@ spec:
             - name: root-fs
               mountPath: /rootfs
               readOnly: true
-            - name: var-run/containerd
+            - name: var-run-containerd
               mountPath: /var/run/containerd
               readOnly: true
       volumes:

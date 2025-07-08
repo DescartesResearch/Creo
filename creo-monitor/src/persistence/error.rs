@@ -8,8 +8,6 @@ pub enum Error {
     SetupError(#[source] sqlx::Error),
     #[error("failed to insert stats: {0}")]
     InsertError(#[source] sqlx::Error),
-    #[error("failed to read stats: {0}")]
-    ReadError(#[source] sqlx::Error),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

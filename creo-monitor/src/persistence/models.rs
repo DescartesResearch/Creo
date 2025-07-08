@@ -1,15 +1,98 @@
-#[derive(Debug, Clone, sqlx::FromRow, serde::Serialize)]
+use sqlx::{
+    Decode, Type,
+    error::BoxDynError,
+    mysql::{MySql, MySqlTypeInfo, MySqlValueRef},
+};
+
+use crate::container;
+
+#[derive(Debug, Clone, serde::Serialize, Copy)]
+pub struct MachineID(pub [u8; 16]);
+
+impl MachineID {
+    pub fn as_slice(&self) -> &[u8] {
+        self.0.as_slice()
+    }
+}
+
+impl From<MachineID> for String {
+    fn from(value: MachineID) -> Self {
+        String::from_utf8_lossy(value.as_slice()).to_string()
+    }
+}
+
+impl From<container::MachineID> for MachineID {
+    fn from(value: container::MachineID) -> Self {
+        Self(value.as_raw())
+    }
+}
+
+impl Type<MySql> for MachineID {
+    fn type_info() -> MySqlTypeInfo {
+        <&[u8] as Type<MySql>>::type_info()
+    }
+
+    fn compatible(ty: &MySqlTypeInfo) -> bool {
+        <Vec<u8> as Type<MySql>>::compatible(ty)
+    }
+}
+
+impl<'r> Decode<'r, MySql> for MachineID {
+    fn decode(value: MySqlValueRef<'r>) -> Result<Self, BoxDynError> {
+        let slice = <&'r [u8] as Decode<MySql>>::decode(value)?;
+        let id_bytes: [u8; 16] = slice
+            .try_into()
+            .map_err(|_| "Invalid length for MachineId")?;
+        Ok(MachineID(id_bytes))
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ContainerID(pub [u8; 64]);
+
+impl ContainerID {
+    pub fn as_slice(&self) -> &[u8] {
+        self.0.as_slice()
+    }
+}
+
+impl From<ContainerID> for String {
+    fn from(value: ContainerID) -> Self {
+        String::from_utf8_lossy(value.as_slice()).to_string()
+    }
+}
+
+impl From<container::ContainerID> for ContainerID {
+    fn from(value: container::ContainerID) -> Self {
+        Self(value.as_raw())
+    }
+}
+
+impl Type<MySql> for ContainerID {
+    fn type_info() -> MySqlTypeInfo {
+        <&[u8] as Type<MySql>>::type_info()
+    }
+
+    fn compatible(ty: &MySqlTypeInfo) -> bool {
+        <Vec<u8> as Type<MySql>>::compatible(ty)
+    }
+}
+
+impl<'r> Decode<'r, MySql> for ContainerID {
+    fn decode(value: MySqlValueRef<'r>) -> Result<Self, BoxDynError> {
+        let slice = <&'r [u8] as Decode<MySql>>::decode(value)?;
+        let id_bytes: [u8; 64] = slice
+            .try_into()
+            .map_err(|_| "Invalid length for MachineId")?;
+        Ok(ContainerID(id_bytes))
+    }
+}
+
+#[derive(Debug, Clone, sqlx::FromRow)]
 pub struct ContainerStats {
     pub timestamp: u64,
-    pub container_id: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub container_name: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub pod_id: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub pod_name: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub pod_namespace: Option<String>,
+    pub container_id: ContainerID,
+    pub machine_id: MachineID,
     pub cpu_usage_usec: Option<u64>,
     pub cpu_user_usec: Option<u64>,
     pub cpu_system_usec: Option<u64>,
@@ -46,11 +129,8 @@ impl ContainerStats {
     ) -> sqlx::query::Query<'q, sqlx::MySql, sqlx::mysql::MySqlArguments> {
         query
             .bind(self.timestamp)
-            .bind(&self.container_id)
-            .bind(&self.container_name)
-            .bind(&self.pod_id)
-            .bind(&self.pod_name)
-            .bind(&self.pod_namespace)
+            .bind(self.container_id.as_slice())
+            .bind(self.machine_id.as_slice())
             .bind(self.cpu_usage_usec)
             .bind(self.cpu_user_usec)
             .bind(self.cpu_system_usec)
@@ -81,32 +161,11 @@ impl ContainerStats {
     }
 }
 
-impl From<&crate::stats::CollectedStats> for ContainerStats {
-    fn from(value: &crate::stats::CollectedStats) -> Self {
-        let (timestamp, container_id, pod_id, stats, container_meta, pod_meta) = match value {
-            crate::stats::CollectedStats::Standalone {
-                timestamp,
-                container_id,
-                stats: metrics,
-                metadata,
-            } => (*timestamp, container_id, None, metrics, metadata, &None),
-            crate::stats::CollectedStats::Pod {
-                timestamp,
-                container_id,
-                pod_id,
-                stats: metrics,
-                container_metadata,
-                pod_metadata,
-            } => (
-                *timestamp,
-                container_id,
-                Some(pod_id),
-                metrics,
-                container_metadata,
-                pod_metadata,
-            ),
-        };
-
+impl From<(MachineID, &crate::cgroup::stats::ContainerStatsEntry)> for ContainerStats {
+    fn from(
+        (machine_id, stats_entry): (MachineID, &crate::cgroup::stats::ContainerStatsEntry),
+    ) -> Self {
+        let stats = stats_entry.stats();
         let cpu_stat = stats.cpu_stat();
         let cpu_limit = stats.cpu_limit();
         let memory_stat = stats.memory_stat();
@@ -116,18 +175,9 @@ impl From<&crate::stats::CollectedStats> for ContainerStats {
         let net_stat = stats.network_stat();
 
         Self {
-            timestamp,
-            container_id: container_id.to_string(),
-            container_name: container_meta
-                .as_ref()
-                .and_then(|m| m.name().map(|n| n.to_owned())),
-            pod_id: pod_id.map(|p| p.to_string()),
-            pod_name: pod_meta
-                .as_ref()
-                .and_then(|m| m.name().map(|n| n.to_owned())),
-            pod_namespace: pod_meta
-                .as_ref()
-                .and_then(|m| m.namespace().map(|n| n.to_owned())),
+            timestamp: stats_entry.timestamp(),
+            container_id: stats_entry.container_id().into(),
+            machine_id,
             cpu_usage_usec: cpu_stat.map(|c| c.usage_usec),
             cpu_user_usec: cpu_stat.map(|c| c.user_usec),
             cpu_system_usec: cpu_stat.map(|c| c.system_usec),
@@ -157,4 +207,13 @@ impl From<&crate::stats::CollectedStats> for ContainerStats {
             net_tx_packets: net_stat.map(|n| n.tx_packets),
         }
     }
+}
+
+#[derive(Debug, Clone, sqlx::FromRow)]
+pub struct ContainerMetadata {
+    pub container_id: ContainerID,
+    pub machine_id: MachineID,
+    pub hostname: String,
+    pub key: String,
+    pub value: String,
 }

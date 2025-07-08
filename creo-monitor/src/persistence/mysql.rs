@@ -1,31 +1,24 @@
-use sqlx::{MySqlPool, mysql::MySqlPoolOptions};
+use sqlx::MySqlPool;
 
-use super::{Error, Persister, Result, models};
+use super::models::MachineID;
+use super::{Error, Result, StatsPersister, models};
 
 #[derive(Debug, Clone)]
-pub struct MySqlPersister {
+pub struct MySqlStatsPersister {
     db: MySqlPool,
+    machine_id: MachineID,
 }
 
-impl MySqlPersister {
-    pub async fn new(url: &str) -> Result<Self> {
-        let db = MySqlPoolOptions::new()
-            .acquire_timeout(std::time::Duration::from_secs(10))
-            .max_connections(10)
-            .connect(url)
-            .await
-            .map_err(Error::ConnectionError)?;
-
-        sqlx::migrate!()
-            .run(&db)
-            .await
-            .map_err(Error::MigrationError)?;
-
-        Ok(Self { db })
+impl MySqlStatsPersister {
+    pub fn new(db: MySqlPool, machine_id: crate::container::MachineID) -> Self {
+        Self {
+            db,
+            machine_id: machine_id.into(),
+        }
     }
 }
 
-impl Persister for MySqlPersister {
+impl StatsPersister for MySqlStatsPersister {
     /// Inserts a list of collected container or pod statistics into the database.
     ///
     /// This function wraps the insertions in a single transaction. If any insert fails,
@@ -40,10 +33,13 @@ impl Persister for MySqlPersister {
     /// # Errors
     ///
     /// Returns an `Error::InsertError` if the database transaction or any insert query fails.
-    async fn persist_stats(&self, stats: &[crate::stats::CollectedStats]) -> Result<()> {
+    async fn persist_stats(
+        &self,
+        stats: &[crate::cgroup::stats::ContainerStatsEntry],
+    ) -> Result<()> {
         const INSERT_QUERY: &str = r#"
 INSERT INTO container_stats (
-    timestamp, container_id, container_name, pod_id, pod_name, pod_namespace,
+    timestamp, container_id, machine_id,
     cpu_usage_usec, cpu_user_usec, cpu_system_usec,
     cpu_nr_periods, cpu_nr_throttled, cpu_throttled_usec,
     cpu_nr_bursts, cpu_burst_usec,
@@ -55,7 +51,7 @@ INSERT INTO container_stats (
     io_rbytes, io_wbytes, io_rios, io_wios,
     net_rx_bytes, net_rx_packets, net_tx_bytes, net_tx_packets
 ) VALUES (
-    ?, ?, ?, ?, ?, ?,
+    ?, ?, ?,
     ?, ?, ?,
     ?, ?, ?,
     ?, ?,
@@ -72,7 +68,7 @@ INSERT INTO container_stats (
             self.db.begin().await.map_err(Error::InsertError)?;
 
         for stat in stats {
-            let flat_stat: models::ContainerStats = stat.into();
+            let flat_stat: models::ContainerStats = (self.machine_id, stat).into();
 
             let query = sqlx::query(INSERT_QUERY);
             let query = flat_stat.bind_all(query);
@@ -82,23 +78,57 @@ INSERT INTO container_stats (
 
         Ok(())
     }
+}
 
-    async fn query_stats_by_time_range(
+#[derive(Debug, Clone)]
+pub struct MySqlMetadataPersister {
+    db: MySqlPool,
+    machine_id: MachineID,
+    hostname: String,
+}
+
+impl MySqlMetadataPersister {
+    // TODO: maybe split host metadata such as hostname into own table?
+    pub fn new(db: MySqlPool, machine_id: crate::container::MachineID, hostname: String) -> Self {
+        Self {
+            db,
+            machine_id: machine_id.into(),
+            hostname,
+        }
+    }
+}
+
+impl super::MetadataPersister for MySqlMetadataPersister {
+    async fn persist_metadata(
         &self,
-        from: u64,
-        to: u64,
-    ) -> Result<Vec<models::ContainerStats>> {
-        let stats = sqlx::query_as::<_, models::ContainerStats>(
-            r#"
-            SELECT * FROM container_stats WHERE timestamp BETWEEN ? and ? ORDER BY timestamp
-        "#,
-        )
-        .bind(from)
-        .bind(to)
-        .fetch_all(&self.db)
-        .await
-        .map_err(Error::ReadError)?;
+        (container_id, labels): (
+            crate::container::ContainerID,
+            std::collections::HashMap<String, String>,
+        ),
+    ) -> Result<()> {
+        const INSERT_QUERY: &str = r#"
+INSERT INTO container_metadata (
+    container_id, machine_id, hostname, key, value,
+) VALUES (
+    ?, ?, ?, ?,
+)
+"#;
+        let mut tx: sqlx::Transaction<'_, sqlx::MySql> =
+            self.db.begin().await.map_err(Error::InsertError)?;
 
-        Ok(stats)
+        for (key, value) in labels {
+            let query = sqlx::query(INSERT_QUERY);
+            let c_id: super::models::ContainerID = container_id.into();
+            let query = query
+                .bind(c_id.as_slice())
+                .bind(self.machine_id.as_slice())
+                .bind(&self.hostname)
+                .bind(key)
+                .bind(value);
+            query.execute(&mut *tx).await.map_err(Error::InsertError)?;
+        }
+        tx.commit().await.map_err(Error::InsertError)?;
+
+        Ok(())
     }
 }

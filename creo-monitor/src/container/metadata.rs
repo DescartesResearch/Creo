@@ -108,7 +108,7 @@ impl ContainerDMetaDataProvider {
             let response = client
                 .get(request)
                 .await
-                .map_err(Error::ContainerDRequestError)?
+                .map_err(|source| Error::ContainerDRequestError(Box::new(source)))?
                 .into_inner();
 
             match response.container {

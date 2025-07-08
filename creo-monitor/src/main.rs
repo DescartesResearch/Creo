@@ -1,218 +1,125 @@
-use std::borrow::Cow;
-use std::path::Path;
+use std::collections::HashMap;
+use std::env;
+use std::path::PathBuf;
+use std::str::FromStr;
 use std::sync::Arc;
 
 use creo_monitor::api::APIServer;
-use creo_monitor::cgroup::{self, ContainerScanner};
-use creo_monitor::container::ContainerDMetaDataProvider;
-use creo_monitor::containerd;
-use creo_monitor::containerd::services::containers::v1::ListContainersRequest;
-use creo_monitor::containerd::services::containers::v1::containers_client::ContainersClient;
-use creo_monitor::containerd::services::tasks::v1::tasks_client::TasksClient;
-use creo_monitor::containerd::services::tasks::v1::{GetRequest, ListPidsRequest};
-use creo_monitor::containerd::{
-    events::{ContainerCreate, ContainerDelete, ContainerUpdate},
-    events::{TaskCreate, TaskDelete, TaskExit, TaskStart},
-    services::events::v1::{SubscribeRequest, events_client::EventsClient},
-};
-use creo_monitor::error::{Error, Result};
-use creo_monitor::persistence::Persister;
-use creo_monitor::stats::CollectedStats;
-use prost::Message;
-use prost_types::Any;
-use tonic::metadata::MetadataValue;
+use creo_monitor::cgroup;
+use creo_monitor::cgroup::stats::ContainerStatsEntry;
+use creo_monitor::container::ContainerID;
+use creo_monitor::persistence::{MetadataPersister, StatsPersister};
+use sqlx::mysql::MySqlPoolOptions;
 
-fn decode_event(event: &Any) {
-    match event.type_url.as_str() {
-        "containerd.events.ContainerCreate" => {
-            match ContainerCreate::decode(event.value.as_slice()) {
-                Ok(container_event) => {
-                    println!("Container Create: {:?}", container_event)
-                }
-                Err(err) => eprintln!("Failed to decode ContainerCreate: {err}"),
-            }
-        }
-        "containerd.events.ContainerDelete" => {
-            match ContainerDelete::decode(event.value.as_slice()) {
-                Ok(container_event) => println!("Container Delete: {:?}", container_event),
-                Err(err) => eprintln!("Failed to decode ContainerDelete: {err}"),
-            }
-        }
-        "containerd.events.ContainerUpdate" => {
-            match ContainerUpdate::decode(event.value.as_slice()) {
-                Ok(container_event) => println!("Container Update: {:?}", container_event),
-                Err(err) => eprintln!("Failed to decode ContainerUpdate: {err}"),
-            }
-        }
-        "containerd.events.TaskCreate" => match TaskCreate::decode(event.value.as_slice()) {
-            Ok(task_event) => {
-                println!("Task Create: {:?}", task_event)
-            }
-            Err(err) => eprint!("Failed to decode TaskCreate: {err}"),
-        },
-        "containerd.events.TaskDelete" => match TaskDelete::decode(event.value.as_slice()) {
-            Ok(task_event) => println!("Task Delete: {:?}", task_event),
-            Err(err) => eprintln!("Failed to decode TaskDelete: {err}"),
-        },
-        "containerd.events.TaskStart" => match TaskStart::decode(event.value.as_slice()) {
-            Ok(task_event) => println!("Task Start: {:?}", task_event),
-            Err(err) => eprintln!("Failed to decode TaskStart: {err}"),
-        },
-        "containerd.events.TaskExit" => match TaskExit::decode(event.value.as_slice()) {
-            Ok(task_event) => println!("Task Exit: {:?}", task_event),
-            Err(err) => eprintln!("Failed to decode TaskExit: {err}"),
-        },
-        e => eprintln!(
-            "Unknown event type: type_url={}, value={}",
-            e,
-            String::from_utf8_lossy(&event.value)
-        ),
-    }
-}
+// TODO: check if anything different from /rootfs/sys/fs/cgroup and /sys/fs/cgroup
+// TODO: check if I can use /rootfs/var/run/containerd/containerd.sock
 
 #[tokio::main]
 async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
 
-    let socket_path = Path::new("/var/run/containerd/containerd.sock");
-    let channel = creo_monitor::grpc::channel_for_unix_socket(&socket_path).await?;
-    let mut client = EventsClient::new(channel.clone());
-
-    let mut c_client = ContainersClient::new(channel.clone());
-
-    let mut request = tonic::Request::new(ListContainersRequest { filters: vec![] });
-    request
-        .metadata_mut()
-        .insert("containerd-namespace", MetadataValue::from_static("k8s.io"));
-    match c_client.list_stream(request).await {
-        Ok(r) => {
-            let mut stream = r.into_inner();
-            while let Some(container_msg) = stream.message().await.ok().flatten() {
-                if let Some(container) = container_msg.container {
-                    println!("Container: id={}", container.id);
-                    if let Some(runtime) = container.runtime {
-                        print!("runtime={{ name={}, ", runtime.name);
-                        match runtime.options {
-                            Some(ref options) => {
-                                print!("options={{ type_url={}, ", options.type_url);
-                                match options.type_url.as_str() {
-                                    "containerd.runc.v1.Options" => {
-                                        match containerd::runc::v1::Options::decode(
-                                            options.value.as_slice(),
-                                        ) {
-                                            Ok(opts) => println!("value={:?} }}", opts),
-                                            Err(err) => println!("value={err} }}"),
-                                        }
-                                    }
-                                    _ => println!(
-                                        "value={} }}",
-                                        String::from_utf8_lossy(&options.value)
-                                    ),
-                                }
-                            }
-                            None => println!("options=None }}"),
-                        };
-                    }
-                    if let Some(spec) = container.spec {
-                        println!(
-                            "spec={{ type_url={}, value={} }}",
-                            spec.type_url,
-                            String::from_utf8_lossy(&spec.value)
-                        )
-                    }
-                    println!("labels={:?}", container.labels);
-                    // println!("extensions={:?}", container.extensions);
-                }
-            }
-        }
-
-        Err(err) => {
-            log::error!("failed to request containers list: {err}")
-        }
+    let rootfs = match env::var_os("ROOTFS_MOUNT_PATH") {
+        Some(path) => PathBuf::from(&path),
+        None => PathBuf::from("/rootfs"),
     };
 
-    let mut stream = client
-        .subscribe(SubscribeRequest { filters: vec![] })
-        .await?
-        .into_inner();
-
-    while let Some(message) = stream.message().await? {
-        println!(
-            "Received event: topic={}, namespace={}, timestamp={:?}",
-            message.topic, message.namespace, message.timestamp
-        );
-        match message.event {
-            Some(ref event) => decode_event(event),
-            None => println!("No event attached"),
-        };
-
-        println!();
-        println!();
+    let runtime_env = creo_monitor::detect_runtime_environment(&rootfs);
+    if matches!(runtime_env, creo_monitor::RuntimeEnvironment::Container) && !rootfs.exists() {
+        // TODO: handle as error
+        panic!("Detected container runtime environment, but missing host root mount!")
     }
 
-    Ok(())
+    let rootfs = match runtime_env {
+        creo_monitor::RuntimeEnvironment::Container => rootfs,
+        creo_monitor::RuntimeEnvironment::Host => PathBuf::from("/"),
+    };
+    // TODO: check if this needs to be changed based on runtime env
+    let cgroup_root = creo_monitor::detect_cgroup_root("/proc/self/mountinfo")?;
 
-    // let mut monitor = cgroup::Monitor::default();
-    // let root_path: &std::path::Path = std::path::Path::new(creo_monitor::CGROUP_ROOT);
-    //
-    // let db_url =
-    //     std::env::var("DATABASE_URL").expect("environment variable `DATABASE_URL` must be set");
-    //
-    // let db = Arc::new(
-    //     creo_monitor::persistence::MySqlPersister::new(&db_url)
-    //         .await
-    //         .expect("failed to initialize persister"),
-    // );
-    // {
-    //     let db = Arc::clone(&db);
-    //     tokio::spawn(async move {
-    //         let api = APIServer::new(db).await;
-    //         api.listen("0.0.0.0:3000").await
-    //     });
-    // }
-    // let (tx, mut rx) = tokio::sync::mpsc::channel::<Vec<CollectedStats>>(10);
-    // {
-    //     let db = Arc::clone(&db);
-    //     tokio::spawn(async move {
-    //         while let Some(stats) = rx.recv().await {
-    //             if let Err(err) = db.persist_stats(&stats).await {
-    //                 log::error!("{}", err);
-    //             }
-    //         }
-    //     });
-    // }
-    //
-    // let is_v2 = root_path.join("cgroup.controllers").exists();
-    // let discoverer = if is_v2 {
-    //     creo_monitor::cgroup::v2::Scanner {}
-    // } else {
-    //     panic!("cgroup v1 not supported yet!")
-    // };
-    //
-    // let mut containerd_meta_provider = ContainerDMetaDataProvider::new().await;
-    //
-    // loop {
-    //     let start = std::time::SystemTime::now();
-    //     let timestamp = start
-    //         .duration_since(std::time::UNIX_EPOCH)
-    //         .expect("time to be later than UNIX EPOCH")
-    //         .as_secs();
-    //     log::info!("Finding containers@{timestamp}");
-    //     discoverer
-    //         .scan_path(root_path, &mut monitor, &mut containerd_meta_provider)
-    //         .await
-    //         .map_err(Error::DiscoverContainersError)?;
-    //
-    //     monitor.collect_stats(timestamp);
-    //     let stats = monitor.drain_stats();
-    //     tx.send(stats).await.unwrap();
-    //
-    //     let sleep = std::time::Duration::from_secs(1)
-    //         - std::time::SystemTime::now()
-    //             .duration_since(start)
-    //             .expect("time to move forward");
-    //
-    //     log::debug!("Sleeping for {} ns", sleep.as_nanos());
-    //     std::thread::sleep(sleep);
-    // }
+    let monitor = Arc::new(cgroup::Monitor::default());
+    let mut discoverer = creo_monitor::discovery::containerd::Discoverer::new(
+        rootfs.join("var/run/containerd/containerd.sock"),
+    );
+
+    let machine_id = {
+        let machine_id_str = std::fs::read_to_string(rootfs.join("etc/machine-id"))?;
+        creo_monitor::container::MachineID::from_str(machine_id_str.trim())?
+    };
+    let hostname = {
+        let hostname_str = std::fs::read_to_string(rootfs.join("etc/hostname"))?;
+        hostname_str.trim().to_owned()
+    };
+    let (metadata_tx, mut metadata_rx) =
+        tokio::sync::mpsc::channel::<(ContainerID, HashMap<String, String>)>(15);
+
+    let db_url =
+        std::env::var("DATABASE_URL").expect("environment variable `DATABASE_URL` must be set");
+
+    let db = MySqlPoolOptions::new()
+        .acquire_timeout(std::time::Duration::from_secs(10))
+        .max_connections(10)
+        .connect(&db_url)
+        .await?;
+
+    sqlx::migrate!().run(&db).await?;
+
+    let metadata_persister =
+        creo_monitor::persistence::MySqlMetadataPersister::new(db.clone(), machine_id, hostname);
+    tokio::spawn(async move {
+        while let Some(metadata) = metadata_rx.recv().await {
+            match metadata_persister.persist_metadata(metadata).await {
+                Ok(_) => {}
+                Err(err) => log::error!("failed to persist metadata: {}", err),
+            }
+        }
+    });
+
+    discoverer
+        .start(Arc::clone(&monitor), rootfs, cgroup_root, metadata_tx)
+        .await?;
+
+    let stats_persister =
+        creo_monitor::persistence::MySqlStatsPersister::new(db.clone(), machine_id);
+    {
+        let db = creo_monitor::api::DB::new(db);
+        tokio::spawn(async move {
+            let api = APIServer::new(db).await;
+            api.listen("0.0.0.0:3000").await
+        });
+    }
+    let (tx, mut rx) = tokio::sync::mpsc::channel::<Vec<ContainerStatsEntry>>(10);
+    {
+        tokio::spawn(async move {
+            while let Some(stats) = rx.recv().await {
+                if let Err(err) = stats_persister.persist_stats(&stats).await {
+                    log::error!("failed to persist stats: {}", err);
+                }
+            }
+        });
+    }
+
+    let mut interval = tokio::time::interval(std::time::Duration::from_secs(1));
+    loop {
+        interval.tick().await;
+        let timestamp = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .expect("time to be later than UNIX EPOCH")
+            .as_secs();
+        log::info!("Finding containers@{timestamp}");
+
+        let monitor = Arc::clone(&monitor);
+
+        let out = tokio::task::spawn_blocking(move || {
+            let mut out = Vec::with_capacity(monitor.size());
+            let before = std::time::Instant::now();
+            monitor.collect_stats(timestamp, &mut out);
+            let took = before.elapsed();
+            log::debug!("collect_stats() took {} nanoseconds", took.as_nanos());
+            out
+        })
+        .await
+        .expect("spawn_blocking panicked");
+
+        tx.send(out).await.expect("Reader side to still exist");
+    }
 }

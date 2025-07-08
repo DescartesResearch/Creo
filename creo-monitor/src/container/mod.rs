@@ -20,23 +20,27 @@
 //! # Examples
 //!
 //! ```
-//! use creo_monitor::container::{ContainerID, PodID};
+//! use creo_monitor::container::{ContainerID, PodID, MachineID};
 //!
 //! let container_id = ContainerID::new(*b"abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abcd").unwrap();
 //! assert_eq!(container_id.as_str(), "abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abcd");
 //!
 //! let pod_id = PodID::new(*b"abc123abc123abc123abc123abc123ab").unwrap();
 //! assert_eq!(pod_id.as_str(), "abc123abc123abc123abc123abc123ab");
+//!
+//! let machine_id = MachineID::new(*b"abc123abc123abc1").unwrap();
+//! assert_eq!(machine_id.as_str(), "abc123abc123abc1");
 //! ```
 
 use std::fmt;
+use std::str::FromStr;
 
 mod error;
-mod metadata;
+// mod metadata;
 mod utils;
 
 pub use error::{Error, Result};
-pub use metadata::{ContainerDMetaDataProvider, ContainerMeta, PodMeta};
+// pub use metadata::{ContainerDMetaDataProvider, ContainerMeta, PodMeta};
 
 /// A validated container identifier consisting of exactly 64 lowercase ASCII alphanumeric bytes.
 ///
@@ -52,7 +56,7 @@ pub use metadata::{ContainerDMetaDataProvider, ContainerMeta, PodMeta};
 /// let container_id = ContainerID::new(raw_id).unwrap();
 /// assert_eq!(container_id.as_str(), "abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abcd");
 /// ```
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct ContainerID([u8; 64]);
 
 impl ContainerID {
@@ -102,6 +106,25 @@ impl ContainerID {
     pub fn as_str(&self) -> &str {
         // SAFETY: we check in `new()` that all bytes are lowercase ascii characters or ascii digits
         unsafe { std::str::from_utf8_unchecked(&self.0) }
+    }
+
+    pub fn as_raw(&self) -> [u8; 64] {
+        self.0
+    }
+}
+
+impl FromStr for ContainerID {
+    type Err = Error;
+
+    /// Attempts to parse a `ContainerID` from a string slice.
+    ///
+    /// Returns an error if the input is not exactly 64 characters long
+    /// or contains characters other than lowercase letters (`a-z`) or digits (`0-9`).
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let bytes: [u8; 64] = utils::create_array_from_iter(s.as_bytes().iter().copied())
+            .ok_or_else(|| Error::InvalidContainerID(s.to_owned()))?;
+
+        ContainerID::new(bytes)
     }
 }
 
@@ -178,6 +201,65 @@ impl PodID {
 }
 
 impl fmt::Display for PodID {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct MachineID([u8; 16]);
+
+impl MachineID {
+    pub fn new(src: [u8; 16]) -> Result<Self> {
+        if !utils::is_hex(&src) {
+            return Err(Error::InvalidMachineID(
+                String::from_utf8_lossy(&src).to_string(),
+            ));
+        }
+
+        Ok(Self(src))
+    }
+
+    /// Returns the machine ID as a UTF-8 string slice.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use creo_monitor::container::MachineID;
+    /// let raw = *b"abc123abc123abc1";
+    /// let id = MachineID::new(raw).unwrap();
+    /// assert_eq!(id.as_str(), "abc123abc123abc1");
+    /// ```
+    pub fn as_str(&self) -> &str {
+        // SAFETY: we check in `new()` that all bytes are lowercase ascii characters or ascii digits
+        unsafe { std::str::from_utf8_unchecked(&self.0) }
+    }
+
+    pub fn as_raw(&self) -> [u8; 16] {
+        self.0
+    }
+}
+
+impl FromStr for MachineID {
+    type Err = Error;
+
+    /// Attempts to parse a `MachineID` from a string slice.
+    ///
+    /// Returns an error if the input is not exactly  characters long
+    /// or contains characters other than lowercase letters (`a-z`) or digits (`0-9`).
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let bytes: [u8; 16] = utils::create_array_from_iter(
+            (0..s.len())
+                .step_by(2)
+                .map(|i| u8::from_str_radix(&s[i..i + 2], 16).unwrap()),
+        )
+        .ok_or_else(|| Error::InvalidMachineID(s.to_owned()))?;
+
+        MachineID::new(bytes)
+    }
+}
+
+impl fmt::Display for MachineID {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(self.as_str())
     }

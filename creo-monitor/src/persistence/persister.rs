@@ -1,14 +1,19 @@
+use std::collections::HashMap;
+
+use crate::container::ContainerID;
+
 use super::{Result, models};
 
-pub trait Persister {
+pub trait StatsPersister {
     fn persist_stats(
         &self,
-        stats: &[crate::stats::CollectedStats],
+        stats: &[crate::cgroup::stats::ContainerStatsEntry],
     ) -> impl std::future::Future<Output = Result<()>> + Send;
+}
 
-    fn query_stats_by_time_range(
+pub trait MetadataPersister {
+    fn persist_metadata(
         &self,
-        from: u64,
-        to: u64,
-    ) -> impl std::future::Future<Output = Result<Vec<models::ContainerStats>>> + Send;
+        metadata: (ContainerID, HashMap<String, String>),
+    ) -> impl std::future::Future<Output = Result<()>> + Send;
 }

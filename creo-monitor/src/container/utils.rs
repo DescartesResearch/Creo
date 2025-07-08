@@ -17,6 +17,14 @@ pub(super) fn is_lowercase_alpha_numeric(src: &[u8]) -> bool {
         .all(|b| b.is_ascii_digit() || b.is_ascii_lowercase())
 }
 
+pub(super) fn is_hex(src: &[u8]) -> bool {
+    src.iter().all(|b| {
+        matches!(b,
+            b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F'
+        )
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -35,4 +43,34 @@ mod tests {
         let empty: &[u8] = b"";
         assert!(is_lowercase_alpha_numeric(empty));
     }
+}
+
+/// Collects exactly `N` items from an iterator into an array.
+///
+/// Returns None if the iterator did not yield exactly `N` elements.
+pub(super) fn create_array_from_iter<T, const N: usize>(
+    iter: impl Iterator<Item = T>,
+) -> Option<[T; N]>
+where
+    T: Copy + Sized,
+{
+    let mut out: [std::mem::MaybeUninit<T>; N] = [const { std::mem::MaybeUninit::uninit() }; N];
+    let mut iter = iter.into_iter();
+    for elem in out.iter_mut() {
+        let val = iter.next()?;
+        elem.write(val);
+    }
+
+    if iter.next().is_some() {
+        return None;
+    }
+
+    // SAFETY: We initialized the entire array with elements from the iterator and ensured the
+    // iterator and the array have the same length.
+    let out = unsafe {
+        let ptr = &out as *const _ as *const [T; N];
+        ptr.read()
+    };
+
+    Some(out)
 }

@@ -1,6 +1,6 @@
 mod dependencies;
 use creo_monitor::container::{ContainerID, PodID};
-use creo_monitor::persistence::{MySqlPersister, Persister};
+use creo_monitor::persistence::{MySqlStatsPersister, StatsPersister};
 use creo_monitor::stats::CpuStat;
 use testcontainers::{ContainerAsync, GenericImage};
 
@@ -9,9 +9,9 @@ fn make_collected_stats(
     container_id: [u8; 64],
     pod_id: Option<[u8; 32]>,
     cpu_stat: Option<CpuStat>,
-) -> creo_monitor::stats::CollectedStats {
+) -> creo_monitor::stats::ContainerStatsEntry {
     if let Some(pod) = pod_id {
-        creo_monitor::stats::CollectedStats::Pod {
+        creo_monitor::stats::ContainerStatsEntry::Pod {
             timestamp,
             container_id: ContainerID::new(container_id).unwrap(),
             pod_id: PodID::new(pod).unwrap(),
@@ -22,7 +22,7 @@ fn make_collected_stats(
             pod_metadata: None,
         }
     } else {
-        creo_monitor::stats::CollectedStats::Standalone {
+        creo_monitor::stats::ContainerStatsEntry::Standalone {
             timestamp,
             container_id: ContainerID::new(container_id).unwrap(),
             stats: creo_monitor::stats::ContainerStats::new(
@@ -34,14 +34,14 @@ fn make_collected_stats(
 }
 
 async fn setup_persister()
--> Result<(MySqlPersister, ContainerAsync<GenericImage>), Box<dyn std::error::Error>> {
+-> Result<(MySqlStatsPersister, ContainerAsync<GenericImage>), Box<dyn std::error::Error>> {
     let mysql_node = dependencies::start_mysql().await;
     let db_url = format!(
         "mysql://creo:creopassword@{}:{}/stats",
         mysql_node.get_host().await?,
         mysql_node.get_host_port_ipv4(3306).await?
     );
-    Ok((MySqlPersister::new(&db_url).await?, mysql_node))
+    Ok((MySqlStatsPersister::new(&db_url).await?, mysql_node))
 }
 
 fn container_id_from_str(s: &str) -> [u8; 64] {
@@ -50,7 +50,7 @@ fn container_id_from_str(s: &str) -> [u8; 64] {
     buf
 }
 
-fn make_simple_stat(timestamp: u64, id_str: &str) -> creo_monitor::stats::CollectedStats {
+fn make_simple_stat(timestamp: u64, id_str: &str) -> creo_monitor::stats::ContainerStatsEntry {
     make_collected_stats(timestamp, container_id_from_str(id_str), None, None)
 }
 

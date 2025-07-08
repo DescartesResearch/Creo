@@ -1,11 +1,7 @@
--- Add migration script here
 CREATE TABLE IF NOT EXISTS container_stats (
     timestamp  BIGINT UNSIGNED NOT NULL,
-    container_name VARCHAR(255),
-    container_id VARCHAR(64) NOT NULL,
-    pod_id VARCHAR(32),
-    pod_name VARCHAR(255),
-    pod_namespace VARCHAR(63),
+    container_id BINARY(64) NOT NULL,
+    machine_id BINARY(16) NOT NULL,
     cpu_usage_usec BIGINT UNSIGNED,
     cpu_user_usec BIGINT UNSIGNED,
     cpu_system_usec BIGINT UNSIGNED,
@@ -33,6 +29,6 @@ CREATE TABLE IF NOT EXISTS container_stats (
     net_rx_packets BIGINT UNSIGNED,
     net_tx_bytes BIGINT UNSIGNED,
     net_tx_packets BIGINT UNSIGNED,
-    PRIMARY KEY (timestamp, container_id)
+
+    PRIMARY KEY (timestamp, container_id, machine_id)
 );
-CREATE INDEX IF NOT EXISTS idx_pod_id ON container_stats(pod_id);
