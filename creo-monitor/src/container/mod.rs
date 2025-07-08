@@ -211,28 +211,7 @@ pub struct MachineID([u8; 16]);
 
 impl MachineID {
     pub fn new(src: [u8; 16]) -> Result<Self> {
-        if !utils::is_hex(&src) {
-            return Err(Error::InvalidMachineID(
-                String::from_utf8_lossy(&src).to_string(),
-            ));
-        }
-
         Ok(Self(src))
-    }
-
-    /// Returns the machine ID as a UTF-8 string slice.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// # use creo_monitor::container::MachineID;
-    /// let raw = *b"abc123abc123abc1";
-    /// let id = MachineID::new(raw).unwrap();
-    /// assert_eq!(id.as_str(), "abc123abc123abc1");
-    /// ```
-    pub fn as_str(&self) -> &str {
-        // SAFETY: we check in `new()` that all bytes are lowercase ascii characters or ascii digits
-        unsafe { std::str::from_utf8_unchecked(&self.0) }
     }
 
     pub fn as_raw(&self) -> [u8; 16] {
@@ -248,12 +227,14 @@ impl FromStr for MachineID {
     /// Returns an error if the input is not exactly  characters long
     /// or contains characters other than lowercase letters (`a-z`) or digits (`0-9`).
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        let bytes: [u8; 16] = utils::create_array_from_iter(
-            (0..s.len())
-                .step_by(2)
-                .map(|i| u8::from_str_radix(&s[i..i + 2], 16).unwrap()),
-        )
-        .ok_or_else(|| Error::InvalidMachineID(s.to_owned()))?;
+        if s.len() != 32 {
+            return Err(Error::InvalidMachineID(s.to_owned()));
+        }
+        let mut bytes = [0u8; 16];
+        for i in (0..s.len()).step_by(2) {
+            bytes[i / 2] = u8::from_str_radix(&s[i..i + 2], 16)
+                .map_err(|_| Error::InvalidMachineID(s.to_owned()))?;
+        }
 
         MachineID::new(bytes)
     }
@@ -261,6 +242,9 @@ impl FromStr for MachineID {
 
 impl fmt::Display for MachineID {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.write_str(self.as_str())
+        for b in &self.0 {
+            write!(f, "{:02x}", b)?;
+        }
+        Ok(())
     }
 }

@@ -18,11 +18,7 @@ pub(super) fn is_lowercase_alpha_numeric(src: &[u8]) -> bool {
 }
 
 pub(super) fn is_hex(src: &[u8]) -> bool {
-    src.iter().all(|b| {
-        matches!(b,
-            b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F'
-        )
-    })
+    src.iter().all(u8::is_ascii_hexdigit)
 }
 
 #[cfg(test)]
