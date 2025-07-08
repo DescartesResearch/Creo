@@ -33,8 +33,10 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         creo_monitor::RuntimeEnvironment::Container => rootfs,
         creo_monitor::RuntimeEnvironment::Host => PathBuf::from("/"),
     };
+    log::debug!("Final rootfs: {}", rootfs.display());
     // TODO: check if this needs to be changed based on runtime env
     let cgroup_root = creo_monitor::detect_cgroup_root("/proc/self/mountinfo")?;
+    log::debug!("Cgroup Root: {}", cgroup_root.display());
 
     let monitor = Arc::new(cgroup::Monitor::default());
     let mut discoverer = creo_monitor::discovery::containerd::Discoverer::new(
@@ -43,6 +45,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
     let machine_id = {
         let machine_id_str = std::fs::read_to_string(rootfs.join("etc/machine-id"))?;
+        log::debug!("Read machine id from file: {}", &machine_id_str);
         creo_monitor::container::MachineID::from_str(machine_id_str.trim())?
     };
     let hostname = {

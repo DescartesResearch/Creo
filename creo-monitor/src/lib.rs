@@ -240,6 +240,7 @@ pub enum MountInfoError {
 fn extract_cgroup_v2_mount_point(line: &str) -> std::result::Result<Option<&str>, MountInfoError> {
     // MountInfo Layout
     // <mount-id> <parent-id> <major>:<minor> <root> <mount-point> <optional-fields> - <fs-type> <source> <super-options>
+    // 2475 2352 0:68 / /var/run/containerd/io.containerd.runtime.v2.task/k8s.io/d44720bc8888ccf977cb9bad199f31404ebc782f617288fd56c1ac113d89615e/rootfs/rootfs/home/seadmin/kubelet/pods/e2eae861-a06f-4190-815e-51bfc9279c9b/volumes/kubernetes.io~projected/kube-api-access-mv87d rw,relatime - tmpfs tmpfs rw,size=32618244k,inode64
     let parts = match line.split_once("-") {
         None => {
             return Err(MountInfoError::MissingSeparatorInLine(line.to_owned()));
@@ -249,23 +250,15 @@ fn extract_cgroup_v2_mount_point(line: &str) -> std::result::Result<Option<&str>
 
     let fields = parts.0;
     let info = parts.1;
-    let mut it = fields.split_whitespace().take(6);
+    let mut it = fields.split_whitespace().take(5);
 
-    for _ in 0..3 {
+    for _ in 0..4 {
         it.next()
             .ok_or_else(|| MountInfoError::NotEnoughPreSeparatorFields(line.to_owned()))?;
     }
     let mount_point = it
         .next()
         .ok_or_else(|| MountInfoError::NotEnoughPreSeparatorFields(line.to_owned()))?;
-
-    if it.count() < 2 {
-        return Err(MountInfoError::NotEnoughPreSeparatorFields(line.to_owned()));
-    }
-
-    if fields.split_whitespace().take(6).count() < 6 {
-        return Err(MountInfoError::NotEnoughPreSeparatorFields(line.to_owned()));
-    }
 
     let mut it = info.split_whitespace();
     let fs_type = it
