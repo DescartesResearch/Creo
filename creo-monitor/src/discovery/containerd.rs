@@ -18,6 +18,7 @@ use crate::containerd::services::events::v1::events_client::EventsClient;
 use crate::containerd::services::namespaces::v1::ListNamespacesRequest;
 use crate::containerd::services::namespaces::v1::namespaces_client::NamespacesClient;
 use crate::containerd::services::tasks::v1::tasks_client::TasksClient;
+use crate::containerd::v1::types::Status;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -232,7 +233,11 @@ fn parse_cgroup_line(line: &str) -> Result<CgroupLine<'_>, CgroupLineError> {
     let controller_list = it
         .next()
         .ok_or_else(|| CgroupLineError::InvalidFormat(line.to_owned()))?;
-    let controller_list: Vec<&str> = controller_list.split(",").collect();
+    let controller_list: Vec<&str> = if controller_list.is_empty() {
+        Vec::default()
+    } else {
+        controller_list.split(",").collect()
+    };
     let cgroup_path = it
         .next()
         .ok_or_else(|| CgroupLineError::InvalidFormat(line.to_owned()))?;
@@ -394,7 +399,7 @@ async fn existing_containers_task(
                             }
                         },
                         Err(err) => {
-                            log::error!(
+                            log::warn!(
                                 "failed to request task details for containerID `{}`: {}",
                                 c_id.as_str(),
                                 err
@@ -402,11 +407,9 @@ async fn existing_containers_task(
                             continue;
                         }
                     };
-
-                    log::debug!("task.id={}", &task.id);
-                    log::debug!("task.container_id={}", &task.container_id);
-                    log::debug!("task.status={}", task.status);
-                    log::debug!("task.pid={}", task.pid);
+                    if task.status() != Status::Running {
+                        continue;
+                    }
 
                     tasks.insert(c_id, task.pid);
                     metadata.push((c_id, container.labels));
