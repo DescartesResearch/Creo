@@ -321,6 +321,9 @@ async fn existing_containers_task(
                     .into_iter()
                     .filter_map(|task| {
                         log::debug!("task.id={}", &task.id);
+                        log::debug!("task.container_id={}", &task.container_id);
+                        log::debug!("task.status={}", task.status);
+                        log::debug!("task.pid={}", task.pid);
                         if !task.id.is_empty() {
                             return None;
                         }
