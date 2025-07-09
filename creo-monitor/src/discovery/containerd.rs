@@ -320,9 +320,11 @@ async fn existing_containers_task(
                 let running_root_tasks = tasks
                     .into_iter()
                     .filter_map(|task| {
+                        log::debug!("task.id={}", &task.id);
                         if !task.id.is_empty() {
                             return None;
                         }
+                        log::debug!("task.status={}", &task.status);
                         if task.status() != Status::Running {
                             return None;
                         }
