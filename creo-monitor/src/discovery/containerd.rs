@@ -396,15 +396,18 @@ async fn events_task(
     let mut stream = match client
         .subscribe(SubscribeRequest {
             filters: vec![
-                r#"topic=="/tasks/start""#.to_owned(),
-                r#"topic=="/tasks/delete""#.to_owned(),
-                r#"topic=="/containers/update""#.to_owned(),
+                // r#"topic=="/tasks/start""#.to_owned(),
+                // r#"topic=="/tasks/delete""#.to_owned(),
+                // r#"topic=="/containers/update""#.to_owned(),
             ],
         })
         .await
         .map_err(|err| Error::Subscribe(Box::new(err)))
     {
-        Ok(response) => response.into_inner(),
+        Ok(response) => {
+            log::debug!("Received subscription response");
+            response.into_inner()
+        }
         Err(err) => {
             log::error!("{}", err);
             return Err(err);
