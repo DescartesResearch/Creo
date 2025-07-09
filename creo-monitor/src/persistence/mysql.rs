@@ -108,7 +108,7 @@ impl super::MetadataPersister for MySqlMetadataPersister {
     ) -> Result<()> {
         const INSERT_QUERY: &str = r#"
 INSERT INTO container_metadata (
-    container_id, machine_id, hostname, key, value,
+    container_id, machine_id, hostname, label_key, label_value,
 ) VALUES (
     ?, ?, ?, ?,
 )

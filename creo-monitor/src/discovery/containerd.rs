@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -18,7 +18,7 @@ use crate::containerd::services::events::v1::events_client::EventsClient;
 use crate::containerd::services::namespaces::v1::ListNamespacesRequest;
 use crate::containerd::services::namespaces::v1::namespaces_client::NamespacesClient;
 use crate::containerd::services::tasks::v1::ListTasksRequest;
-use crate::containerd::services::tasks::v1::tasks_client::{self, TasksClient};
+use crate::containerd::services::tasks::v1::tasks_client::TasksClient;
 use crate::error::ResultOkLogExt;
 
 #[derive(Debug, thiserror::Error)]
@@ -71,12 +71,14 @@ impl Discoverer {
             })?;
         let notify = Arc::new(tokio::sync::Notify::new());
         let (container_tx, rx) = tokio::sync::mpsc::channel::<ContainerTask>(10);
+        log::debug!("Starting `add_container_task`");
         self.join_handles.push(tokio::spawn(add_container_task(
             rx,
             rootfs,
             cgroup_root,
             Arc::clone(&monitor),
         )));
+        log::debug!("Starting `events_task`");
         self.join_handles.push({
             let client = EventsClient::new(channel.clone());
             let container_tx = container_tx.clone();
@@ -89,6 +91,7 @@ impl Discoverer {
                 metadata_tx,
             ))
         });
+        log::debug!("Starting `existing_containers_task`");
         self.join_handles.push({
             let namespace_client = NamespacesClient::new(channel.clone());
             let tasks_client = TasksClient::new(channel.clone());
@@ -103,6 +106,7 @@ impl Discoverer {
                 metadata_tx,
             ))
         });
+        log::debug!("Started all tasks");
 
         Ok(())
     }
@@ -122,6 +126,7 @@ async fn add_container_task(
     cgroup_root: PathBuf,
     monitor: Arc<cgroup::Monitor>,
 ) -> Result<(), Error> {
+    log::debug!("`add_container_task` started");
     let mut line = String::with_capacity(255);
     while let Some(container_task) = rx.recv().await {
         line.clear();
@@ -148,6 +153,7 @@ async fn add_container_task(
                                 );
                                 continue;
                             }
+                            log::debug!("cgroup_path={}", cgl.cgroup_path);
                             let mut builder = cgroup::CollectorBuilder::default();
                             builder.set_cpu_stat_file(
                                 cgroup_root.join(format!("{}/cpu.stat", cgl.cgroup_path)),
@@ -170,6 +176,8 @@ async fn add_container_task(
                             builder.set_network_stat_files(&[
                                 rootfs.join(format!("proc/{}/net/dev", container_task.pid))
                             ]);
+
+                            log::debug!("{:?}", builder);
 
                             monitor.register_container(
                                 container_task.id,
@@ -250,10 +258,12 @@ async fn existing_containers_task(
     container_tx: tokio::sync::mpsc::Sender<ContainerTask>,
     metadata_tx: tokio::sync::mpsc::Sender<(ContainerID, HashMap<String, String>)>,
 ) -> Result<(), Error> {
+    log::debug!("`existing_containers_task` started");
     // Wait for event task notification for successful event subscription.
     // This is done, so no new containers between registering to the events API and listing
     // all running tasks is lost.
     notify.notified().await;
+    log::debug!("Received notification from events task");
 
     match namespace_client
         .list(ListNamespacesRequest {
@@ -263,6 +273,7 @@ async fn existing_containers_task(
     {
         Ok(response) => {
             let namespaces = response.into_inner();
+            log::debug!("Found {} namespaces", namespaces.namespaces.len());
             for namespace in namespaces.namespaces {
                 log::debug!(
                     "Requesting running tasks for namespace `{}`",
@@ -376,19 +387,26 @@ async fn events_task(
     container_tx: tokio::sync::mpsc::Sender<ContainerTask>,
     metadata_tx: tokio::sync::mpsc::Sender<(ContainerID, HashMap<String, String>)>,
 ) -> Result<(), Error> {
-    let mut stream = client
+    log::debug!("`events_task` started");
+    let mut stream = match client
         .subscribe(SubscribeRequest {
             filters: vec![
-                "topic==/tasks/start".to_owned(),
-                "topic==/tasks/delete".to_owned(),
-                "topic==/containers/update".to_owned(),
+                r#"topic=="/tasks/start""#.to_owned(),
+                r#"topic=="/tasks/delete""#.to_owned(),
+                r#"topic=="/containers/update""#.to_owned(),
             ],
         })
         .await
         .map_err(|err| Error::Subscribe(Box::new(err)))
-        .inspect_err(|err| log::error!("{}", err))?
-        .into_inner();
+    {
+        Ok(response) => response.into_inner(),
+        Err(err) => {
+            log::error!("{}", err);
+            return Err(err);
+        }
+    };
 
+    log::debug!("Subscribed to events API! Notifying running container task");
     // Notify the existing_containers_task that we successfully registered for the event API,
     // so it knows that it can start finding all existing containers, while we track newly
     // created containers.

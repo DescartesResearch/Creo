@@ -133,7 +133,7 @@ impl DB {
     ) -> Result<HashMap<models::ContainerIdentifier, models::ContainerMetadata>> {
         let metadata = sqlx::query_as::<_, persistence::ContainerMetadata>(
             r#"
-SELECT (container_id, machine_id, hostname, key, value)
+SELECT (container_id, machine_id, hostname, label_key, label_value)
 FROM container_metadata
 WHERE container_id IN (
     SELECT DISTINCT container_id FROM container_stats
@@ -161,7 +161,7 @@ ORDER BY container_id, machine_id
                     labels: HashMap::default(),
                 })
                 .labels
-                .insert(meta.key, meta.value);
+                .insert(meta.label_key, meta.label_value);
         }
 
         Ok(out)

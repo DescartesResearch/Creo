@@ -34,24 +34,25 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         creo_monitor::RuntimeEnvironment::Host => PathBuf::from("/"),
     };
     log::debug!("Final rootfs: {}", rootfs.display());
-    // TODO: check if this needs to be changed based on runtime env
-    let cgroup_root = creo_monitor::detect_cgroup_root("/proc/self/mountinfo")?;
-    log::debug!("Cgroup Root: {}", cgroup_root.display());
+    let cgroup_root = creo_monitor::detect_cgroup_root(rootfs.join("proc/1/mountinfo"))?;
+    log::debug!("Final Cgroup Root: {}", cgroup_root.display());
 
     let monitor = Arc::new(cgroup::Monitor::default());
-    let mut discoverer = creo_monitor::discovery::containerd::Discoverer::new(
-        rootfs.join("var/run/containerd/containerd.sock"),
-    );
+    let mut discoverer = creo_monitor::discovery::containerd::Discoverer::new(PathBuf::from(
+        "/var/run/containerd/containerd.sock",
+    ));
 
     let machine_id = {
         let machine_id_str = std::fs::read_to_string(rootfs.join("etc/machine-id"))?;
+        let machine_id_str = machine_id_str.trim();
         log::debug!("Read machine id from file: {}", &machine_id_str);
-        creo_monitor::container::MachineID::from_str(machine_id_str.trim())?
+        creo_monitor::container::MachineID::from_str(machine_id_str)?
     };
     let hostname = {
         let hostname_str = std::fs::read_to_string(rootfs.join("etc/hostname"))?;
         hostname_str.trim().to_owned()
     };
+    log::debug!("Hostname: {}", &hostname);
     let (metadata_tx, mut metadata_rx) =
         tokio::sync::mpsc::channel::<(ContainerID, HashMap<String, String>)>(15);
 
@@ -100,6 +101,8 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             }
         });
     }
+
+    tokio::time::sleep(std::time::Duration::from_secs(3600)).await;
 
     let mut interval = tokio::time::interval(std::time::Duration::from_secs(1));
     loop {

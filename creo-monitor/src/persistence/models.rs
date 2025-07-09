@@ -17,7 +17,12 @@ impl MachineID {
 
 impl From<MachineID> for String {
     fn from(value: MachineID) -> Self {
-        String::from_utf8_lossy(value.as_slice()).to_string()
+        let mut s = String::with_capacity(32);
+        for byte in value.0 {
+            use std::fmt::Write;
+            write!(s, "{:02x}", byte).expect("write!() into String to never fail");
+        }
+        s
     }
 }
 
@@ -214,6 +219,6 @@ pub struct ContainerMetadata {
     pub container_id: ContainerID,
     pub machine_id: MachineID,
     pub hostname: String,
-    pub key: String,
-    pub value: String,
+    pub label_key: String,
+    pub label_value: String,
 }

@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::container::ContainerID;
 
-use super::{Result, models};
+use super::Result;
 
 pub trait StatsPersister {
     fn persist_stats(

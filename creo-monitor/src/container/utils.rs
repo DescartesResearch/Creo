@@ -17,30 +17,6 @@ pub(super) fn is_lowercase_alpha_numeric(src: &[u8]) -> bool {
         .all(|b| b.is_ascii_digit() || b.is_ascii_lowercase())
 }
 
-pub(super) fn is_hex(src: &[u8]) -> bool {
-    src.iter().all(u8::is_ascii_hexdigit)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_is_lowercase_alpha_numeric() {
-        let valid = b"abc123";
-        assert!(is_lowercase_alpha_numeric(valid));
-
-        let with_upper = b"abcXYZ123";
-        assert!(!is_lowercase_alpha_numeric(with_upper));
-
-        let with_symbol = b"abc_123";
-        assert!(!is_lowercase_alpha_numeric(with_symbol));
-
-        let empty: &[u8] = b"";
-        assert!(is_lowercase_alpha_numeric(empty));
-    }
-}
-
 /// Collects exactly `N` items from an iterator into an array.
 ///
 /// Returns None if the iterator did not yield exactly `N` elements.
@@ -69,4 +45,24 @@ where
     };
 
     Some(out)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_is_lowercase_alpha_numeric() {
+        let valid = b"abc123";
+        assert!(is_lowercase_alpha_numeric(valid));
+
+        let with_upper = b"abcXYZ123";
+        assert!(!is_lowercase_alpha_numeric(with_upper));
+
+        let with_symbol = b"abc_123";
+        assert!(!is_lowercase_alpha_numeric(with_symbol));
+
+        let empty: &[u8] = b"";
+        assert!(is_lowercase_alpha_numeric(empty));
+    }
 }
