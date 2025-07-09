@@ -18,12 +18,12 @@ pub struct ExportParams {
 }
 
 async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Response {
-    let mut body: HashMap<String, serde_value::Value> = HashMap::default();
+    let mut body: HashMap<&'static str, serde_json::Value> = HashMap::default();
     match db.query_stats_by_time_range(params.from, params.to).await {
         Ok(stats) => {
             body.insert(
-                "stats".to_owned(),
-                serde_value::to_value(stats).expect("serialization failed"),
+                "stats",
+                serde_json::to_value(stats).expect("serialization failed"),
             );
             log::debug!("Inserted stats");
         }
@@ -42,8 +42,8 @@ async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Resp
     {
         Ok(metadata) => {
             body.insert(
-                "metadata".to_owned(),
-                serde_value::to_value(metadata).expect("serialization failed"),
+                "metadata",
+                serde_json::to_value(metadata).expect("serialization failed"),
             );
             log::debug!("Inserted metadata");
         }
