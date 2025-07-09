@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS container_metadata (
     label_key VARCHAR(255) NOT NULL,
     label_value VARCHAR(255) NOT NULL,
 
-    PRIMARY KEY (container_id, machine_id)
+    PRIMARY KEY (container_id, machine_id, label_key)
 )
