@@ -92,27 +92,27 @@ impl Discoverer {
                 metadata_tx,
             ))
         });
-        log::debug!("Starting `existing_containers_task`");
-        self.join_handles.push({
-            let channel = crate::grpc::channel_for_unix_socket(&self.socket_path)
-                .await
-                .map_err(|source| Error::SocketConnect {
-                    path: self.socket_path.clone(),
-                    source,
-                })?;
-            let namespace_client = NamespacesClient::new(channel.clone());
-            let tasks_client = TasksClient::new(channel.clone());
-            let containers_client = ContainersClient::new(channel);
-
-            tokio::spawn(existing_containers_task(
-                notify,
-                namespace_client,
-                tasks_client,
-                containers_client,
-                container_tx,
-                metadata_tx,
-            ))
-        });
+        // log::debug!("Starting `existing_containers_task`");
+        // self.join_handles.push({
+        //     let channel = crate::grpc::channel_for_unix_socket(&self.socket_path)
+        //         .await
+        //         .map_err(|source| Error::SocketConnect {
+        //             path: self.socket_path.clone(),
+        //             source,
+        //         })?;
+        //     let namespace_client = NamespacesClient::new(channel.clone());
+        //     let tasks_client = TasksClient::new(channel.clone());
+        //     let containers_client = ContainersClient::new(channel);
+        //
+        //     tokio::spawn(existing_containers_task(
+        //         notify,
+        //         namespace_client,
+        //         tasks_client,
+        //         containers_client,
+        //         container_tx,
+        //         metadata_tx,
+        //     ))
+        // });
         log::debug!("Started all tasks");
 
         Ok(())
