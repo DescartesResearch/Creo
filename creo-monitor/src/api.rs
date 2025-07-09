@@ -25,6 +25,7 @@ async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Resp
                 "stats",
                 serde_value::to_value(stats).expect("serialization failed"),
             );
+            log::debug!("Inserted stats");
         }
         Err(err) => {
             log::error!("Failed to query container stats: {}", err);
@@ -44,6 +45,7 @@ async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Resp
                 "metadata",
                 serde_value::to_value(metadata).expect("serialization failed"),
             );
+            log::debug!("Inserted metadata");
         }
         Err(err) => {
             log::error!("Failed to query container metadata: {}", err);
@@ -55,6 +57,7 @@ async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Resp
         }
     }
 
+    log::debug!("Returning response");
     (axum::http::StatusCode::OK, Json(body)).into_response()
 }
 
