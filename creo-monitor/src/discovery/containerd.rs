@@ -154,9 +154,9 @@ async fn add_container_task(
                             let mut builder = cgroup::CollectorBuilder::default();
                             let cgroup_path =
                                 cgl.cgroup_path.strip_prefix("/").unwrap_or(cgl.cgroup_path);
-                            log::debug!("cgroup_path={}", cgroup_path);
+                            log::trace!("cgroup_path={}", cgroup_path);
                             let cgroup_prefix = cgroup_root.join(cgroup_path);
-                            log::debug!("cgroup_prefix={}", cgroup_prefix.display());
+                            log::trace!("cgroup_prefix={}", cgroup_prefix.display());
 
                             builder.set_cpu_stat_file(cgroup_prefix.join("cpu.stat"));
                             builder.set_cpu_limit_file(cgroup_prefix.join("cpu.max"));
@@ -167,8 +167,6 @@ async fn add_container_task(
                             builder.set_network_stat_files(&[
                                 rootfs.join(format!("proc/{}/net/dev", container_task.pid))
                             ]);
-
-                            log::debug!("{:?}", builder);
 
                             monitor.register_container(
                                 container_task.id,
