@@ -17,10 +17,7 @@ use crate::containerd::services::events::v1::SubscribeRequest;
 use crate::containerd::services::events::v1::events_client::EventsClient;
 use crate::containerd::services::namespaces::v1::ListNamespacesRequest;
 use crate::containerd::services::namespaces::v1::namespaces_client::NamespacesClient;
-use crate::containerd::services::tasks::v1::ListTasksRequest;
 use crate::containerd::services::tasks::v1::tasks_client::TasksClient;
-use crate::containerd::v1::types::Status;
-use crate::error::ResultOkLogExt;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -297,47 +294,47 @@ async fn existing_containers_task(
                         continue;
                     }
                 };
-                let mut request = tonic::Request::new(ListTasksRequest {
-                    // filter: "status==running".to_owned(),
-                    filter: String::new(),
-                });
-                request
-                    .metadata_mut()
-                    .insert("containerd-namespace", namespace_value.clone());
-                let tasks = match task_client.list(request).await {
-                    Ok(response) => response.into_inner().tasks,
-                    Err(err) => {
-                        log::error!(
-                            "failed to list running tasks for namespace `{}`: {}",
-                            &namespace.name,
-                            err
-                        );
-                        continue;
-                    }
-                };
-                log::debug!("Found {} existing tasks", tasks.len());
-
-                let running_root_tasks = tasks
-                    .into_iter()
-                    .filter_map(|task| {
-                        log::debug!("task.id={}", &task.id);
-                        log::debug!("task.container_id={}", &task.container_id);
-                        log::debug!("task.status={}", task.status);
-                        log::debug!("task.pid={}", task.pid);
-                        if !task.id.is_empty() {
-                            return None;
-                        }
-                        log::debug!("task.status={}", &task.status);
-                        if task.status() != Status::Running {
-                            return None;
-                        }
-
-                        let c_id = ContainerID::from_str(&task.container_id).ok_log()?;
-
-                        Some((task.container_id, (c_id, task.pid)))
-                    })
-                    .collect::<HashMap<_, _>>();
-                log::debug!("Found {} running root tasks", running_root_tasks.len());
+                // let mut request = tonic::Request::new(ListTasksRequest {
+                //     // filter: "status==running".to_owned(),
+                //     filter: String::new(),
+                // });
+                // request
+                //     .metadata_mut()
+                //     .insert("containerd-namespace", namespace_value.clone());
+                // let tasks = match task_client.list(request).await {
+                //     Ok(response) => response.into_inner().tasks,
+                //     Err(err) => {
+                //         log::error!(
+                //             "failed to list running tasks for namespace `{}`: {}",
+                //             &namespace.name,
+                //             err
+                //         );
+                //         continue;
+                //     }
+                // };
+                // log::debug!("Found {} existing tasks", tasks.len());
+                //
+                // let running_root_tasks = tasks
+                //     .into_iter()
+                //     .filter_map(|task| {
+                //         log::debug!("task.id={}", &task.id);
+                //         log::debug!("task.container_id={}", &task.container_id);
+                //         log::debug!("task.status={}", task.status);
+                //         log::debug!("task.pid={}", task.pid);
+                //         if !task.id.is_empty() {
+                //             return None;
+                //         }
+                //         log::debug!("task.status={}", &task.status);
+                //         if task.status() != Status::Running {
+                //             return None;
+                //         }
+                //
+                //         let c_id = ContainerID::from_str(&task.container_id).ok_log()?;
+                //
+                //         Some((task.container_id, (c_id, task.pid)))
+                //     })
+                //     .collect::<HashMap<_, _>>();
+                // log::debug!("Found {} running root tasks", running_root_tasks.len());
                 let mut request = tonic::Request::new(
                     crate::containerd::services::containers::v1::ListContainersRequest {
                         filters: Vec::default(),
@@ -345,7 +342,7 @@ async fn existing_containers_task(
                 );
                 request
                     .metadata_mut()
-                    .insert("containerd-namespace", namespace_value);
+                    .insert("containerd-namespace", namespace_value.clone());
                 let containers = match container_client.list(request).await {
                     Ok(response) => response.into_inner().containers,
                     Err(err) => {
@@ -358,26 +355,72 @@ async fn existing_containers_task(
                     }
                 };
                 log::debug!("Found {} existing containers", containers.len());
-                let containers = containers
-                    .into_iter()
-                    .filter(|c| running_root_tasks.contains_key(&c.id))
-                    .map(|c| {
-                        (
-                            ContainerID::from_str(&c.id).expect("valid container id"),
-                            c.labels,
-                        )
-                    })
-                    .collect::<Vec<_>>();
-                log::debug!("Found {} running containers", containers.len());
-
+                // let containers = containers
+                //     .into_iter()
+                //     .filter_map(|container| {
+                //         let c_id = ContainerID::from_str(&container.id).ok_log()?;
+                //
+                //         Some((c_id, container.labels))
+                //     })
+                //     .collect::<Vec<_>>();
+                let mut tasks = HashMap::with_capacity(containers.len());
+                let mut metadata = Vec::with_capacity(containers.len());
                 for container in containers {
+                    let c_id = match ContainerID::from_str(&container.id) {
+                        Ok(id) => id,
+                        Err(err) => {
+                            log::error!("failed to parse ContainerID: {}", err);
+                            continue;
+                        }
+                    };
+                    let mut request =
+                        tonic::Request::new(crate::containerd::services::tasks::v1::GetRequest {
+                            container_id: container.id,
+                            exec_id: String::new(),
+                        });
+                    request
+                        .metadata_mut()
+                        .insert("containerd-namespace", namespace_value.clone());
+
+                    let task = match task_client.get(request).await {
+                        Ok(response) => match response.into_inner().process {
+                            Some(task) => task,
+                            None => {
+                                log::warn!(
+                                    "Received empty task for containerID `{}`",
+                                    c_id.as_str()
+                                );
+                                continue;
+                            }
+                        },
+                        Err(err) => {
+                            log::error!(
+                                "failed to request task details for containerID `{}`: {}",
+                                c_id.as_str(),
+                                err
+                            );
+                            continue;
+                        }
+                    };
+
+                    log::debug!("task.id={}", &task.id);
+                    log::debug!("task.container_id={}", &task.container_id);
+                    log::debug!("task.status={}", task.status);
+                    log::debug!("task.pid={}", task.pid);
+
+                    tasks.insert(c_id, task.pid);
+                    metadata.push((c_id, container.labels));
+                }
+                log::debug!("Found {} running containers", metadata.len());
+
+                for container in metadata {
                     metadata_tx
                         .send(container)
                         .await
                         .expect("Reader side to still exist");
                 }
 
-                for task in running_root_tasks.values() {
+                for task in tasks {
                     let task = ContainerTask {
                         id: task.0,
                         pid: task.1,
