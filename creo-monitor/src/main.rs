@@ -81,6 +81,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     discoverer
         .start(Arc::clone(&monitor), rootfs, cgroup_root, metadata_tx)
         .await?;
+    log::debug!("Started containerd discovery");
 
     let stats_persister =
         creo_monitor::persistence::MySqlStatsPersister::new(db.clone(), machine_id);
