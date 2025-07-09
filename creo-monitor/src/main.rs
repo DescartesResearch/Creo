@@ -103,8 +103,6 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         });
     }
 
-    tokio::time::sleep(std::time::Duration::from_secs(3600)).await;
-
     let mut interval = tokio::time::interval(std::time::Duration::from_secs(1));
     loop {
         interval.tick().await;
