@@ -62,16 +62,13 @@ impl Discoverer {
         cgroup_root: PathBuf,
         metadata_tx: tokio::sync::mpsc::Sender<(ContainerID, HashMap<String, String>)>,
     ) -> Result<(), Error> {
-        let notify = Arc::new(tokio::sync::Notify::new());
         let (container_tx, rx) = tokio::sync::mpsc::channel::<ContainerTask>(10);
-        log::debug!("Starting `add_container_task`");
         self.join_handles.push(tokio::spawn(add_container_task(
             rx,
             rootfs,
             cgroup_root,
             Arc::clone(&monitor),
         )));
-        log::debug!("Starting `events_task`");
         self.join_handles.push({
             let channel = crate::grpc::channel_for_unix_socket(&self.socket_path)
                 .await
@@ -85,12 +82,10 @@ impl Discoverer {
             tokio::spawn(events_task(
                 client,
                 Arc::clone(&monitor),
-                Arc::clone(&notify),
                 container_tx,
                 metadata_tx,
             ))
         });
-        log::debug!("Starting `existing_containers_task`");
         self.join_handles.push({
             let channel = crate::grpc::channel_for_unix_socket(&self.socket_path)
                 .await
@@ -103,7 +98,6 @@ impl Discoverer {
             let containers_client = ContainersClient::new(channel);
 
             tokio::spawn(existing_containers_task(
-                notify,
                 namespace_client,
                 tasks_client,
                 containers_client,
@@ -111,7 +105,6 @@ impl Discoverer {
                 metadata_tx,
             ))
         });
-        log::debug!("Started all tasks");
 
         Ok(())
     }
@@ -160,23 +153,27 @@ async fn add_container_task(
                             }
                             log::debug!("cgroup_path={}", cgl.cgroup_path);
                             let mut builder = cgroup::CollectorBuilder::default();
-                            builder.set_cpu_stat_file(
-                                cgroup_root.join(format!("{}/cpu.stat", cgl.cgroup_path)),
-                            );
+                            let cgroup_path =
+                                cgl.cgroup_path.strip_prefix("/").unwrap_or(cgl.cgroup_path);
+                            let cpu_stat_file =
+                                cgroup_root.join(format!("{}/cpu.stat", cgroup_path));
+                            log::debug!("cpu_stat_file_path={}", cpu_stat_file.display());
+
+                            builder.set_cpu_stat_file(cpu_stat_file);
                             builder.set_cpu_limit_file(
-                                cgroup_root.join(format!("{}/cpu.max", cgl.cgroup_path)),
+                                cgroup_root.join(format!("{}/cpu.max", cgroup_path)),
                             );
                             builder.set_memory_stat_file(
-                                cgroup_root.join(format!("{}/memory.stat", cgl.cgroup_path)),
+                                cgroup_root.join(format!("{}/memory.stat", cgroup_path)),
                             );
                             builder.set_memory_usage_file(
-                                cgroup_root.join(format!("{}/memory.current", cgl.cgroup_path)),
+                                cgroup_root.join(format!("{}/memory.current", cgroup_path)),
                             );
                             builder.set_memory_limit_file(
-                                cgroup_root.join(format!("{}/memory.max", cgl.cgroup_path)),
+                                cgroup_root.join(format!("{}/memory.max", cgroup_path)),
                             );
                             builder.set_io_stat_file(
-                                cgroup_root.join(format!("{}/io.stat", cgl.cgroup_path)),
+                                cgroup_root.join(format!("{}/io.stat", cgroup_path)),
                             );
                             builder.set_network_stat_files(&[
                                 rootfs.join(format!("proc/{}/net/dev", container_task.pid))
@@ -260,20 +257,12 @@ fn parse_cgroup_line(line: &str) -> Result<CgroupLine<'_>, CgroupLineError> {
 //  3. Container Service:
 //      GetContainer: get labels
 async fn existing_containers_task(
-    notify: Arc<tokio::sync::Notify>,
     mut namespace_client: NamespacesClient<Channel>,
     mut task_client: TasksClient<Channel>,
     mut container_client: ContainersClient<Channel>,
     container_tx: tokio::sync::mpsc::Sender<ContainerTask>,
     metadata_tx: tokio::sync::mpsc::Sender<(ContainerID, HashMap<String, String>)>,
 ) -> Result<(), Error> {
-    log::debug!("`existing_containers_task` started");
-    // Wait for event task notification for successful event subscription.
-    // This is done, so no new containers between registering to the events API and listing
-    // all running tasks is lost.
-    notify.notified().await;
-    log::debug!("Received notification from events task");
-
     match namespace_client
         .list(ListNamespacesRequest {
             filter: String::new(),
@@ -299,47 +288,6 @@ async fn existing_containers_task(
                         continue;
                     }
                 };
-                // let mut request = tonic::Request::new(ListTasksRequest {
-                //     // filter: "status==running".to_owned(),
-                //     filter: String::new(),
-                // });
-                // request
-                //     .metadata_mut()
-                //     .insert("containerd-namespace", namespace_value.clone());
-                // let tasks = match task_client.list(request).await {
-                //     Ok(response) => response.into_inner().tasks,
-                //     Err(err) => {
-                //         log::error!(
-                //             "failed to list running tasks for namespace `{}`: {}",
-                //             &namespace.name,
-                //             err
-                //         );
-                //         continue;
-                //     }
-                // };
-                // log::debug!("Found {} existing tasks", tasks.len());
-                //
-                // let running_root_tasks = tasks
-                //     .into_iter()
-                //     .filter_map(|task| {
-                //         log::debug!("task.id={}", &task.id);
-                //         log::debug!("task.container_id={}", &task.container_id);
-                //         log::debug!("task.status={}", task.status);
-                //         log::debug!("task.pid={}", task.pid);
-                //         if !task.id.is_empty() {
-                //             return None;
-                //         }
-                //         log::debug!("task.status={}", &task.status);
-                //         if task.status() != Status::Running {
-                //             return None;
-                //         }
-                //
-                //         let c_id = ContainerID::from_str(&task.container_id).ok_log()?;
-                //
-                //         Some((task.container_id, (c_id, task.pid)))
-                //     })
-                //     .collect::<HashMap<_, _>>();
-                // log::debug!("Found {} running root tasks", running_root_tasks.len());
                 let mut request = tonic::Request::new(
                     crate::containerd::services::containers::v1::ListContainersRequest {
                         filters: Vec::default(),
@@ -360,14 +308,6 @@ async fn existing_containers_task(
                     }
                 };
                 log::debug!("Found {} existing containers", containers.len());
-                // let containers = containers
-                //     .into_iter()
-                //     .filter_map(|container| {
-                //         let c_id = ContainerID::from_str(&container.id).ok_log()?;
-                //
-                //         Some((c_id, container.labels))
-                //     })
-                //     .collect::<Vec<_>>();
                 let mut tasks = HashMap::with_capacity(containers.len());
                 let mut metadata = Vec::with_capacity(containers.len());
                 for container in containers {
@@ -449,11 +389,9 @@ pub struct ContainerTask {
 async fn events_task(
     mut client: EventsClient<Channel>,
     monitor: Arc<cgroup::Monitor>,
-    notify: Arc<tokio::sync::Notify>,
     container_tx: tokio::sync::mpsc::Sender<ContainerTask>,
     metadata_tx: tokio::sync::mpsc::Sender<(ContainerID, HashMap<String, String>)>,
 ) -> Result<(), Error> {
-    log::debug!("`events_task` started");
     let mut stream = match client
         .subscribe(SubscribeRequest {
             filters: vec![
@@ -471,12 +409,6 @@ async fn events_task(
             return Err(err);
         }
     };
-
-    log::debug!("Subscribed to events API! Notifying running container task");
-    // Notify the existing_containers_task that we successfully registered for the event API,
-    // so it knows that it can start finding all existing containers, while we track newly
-    // created containers.
-    notify.notify_one();
 
     while let Some(msg) = stream
         .message()
