@@ -112,6 +112,8 @@ INSERT INTO container_metadata (
 ) VALUES (
     ?, ?, ?, ?, ?
 )
+ON DUPLICATE KEY UPDATE
+    label_value = VALUES(label_value)
 "#;
         let mut tx: sqlx::Transaction<'_, sqlx::MySql> =
             self.db.begin().await.map_err(Error::InsertError)?;
