@@ -110,7 +110,7 @@ impl super::MetadataPersister for MySqlMetadataPersister {
 INSERT INTO container_metadata (
     container_id, machine_id, hostname, label_key, label_value,
 ) VALUES (
-    ?, ?, ?, ?,
+    ?, ?, ?, ?, ?,
 )
 "#;
         let mut tx: sqlx::Transaction<'_, sqlx::MySql> =
