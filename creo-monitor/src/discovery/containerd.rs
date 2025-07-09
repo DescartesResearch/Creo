@@ -71,13 +71,13 @@ impl Discoverer {
             })?;
         let notify = Arc::new(tokio::sync::Notify::new());
         let (container_tx, rx) = tokio::sync::mpsc::channel::<ContainerTask>(10);
-        log::debug!("Starting `add_container_task`");
-        self.join_handles.push(tokio::spawn(add_container_task(
-            rx,
-            rootfs,
-            cgroup_root,
-            Arc::clone(&monitor),
-        )));
+        // log::debug!("Starting `add_container_task`");
+        // self.join_handles.push(tokio::spawn(add_container_task(
+        //     rx,
+        //     rootfs,
+        //     cgroup_root,
+        //     Arc::clone(&monitor),
+        // )));
         log::debug!("Starting `events_task`");
         // self.join_handles.push(
         {
