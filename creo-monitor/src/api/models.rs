@@ -2,10 +2,20 @@ use std::collections::HashMap;
 
 use crate::persistence;
 
-#[derive(Debug, PartialEq, Eq, Hash, serde::Serialize)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 pub struct ContainerIdentifier {
     pub container_id: String,
     pub machine_id: String,
+}
+
+impl serde::Serialize for ContainerIdentifier {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = format!("{}:{}", self.container_id, self.machine_id);
+        serializer.serialize_str(&s)
+    }
 }
 
 impl ContainerIdentifier {
