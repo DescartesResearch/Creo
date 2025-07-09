@@ -64,12 +64,6 @@ impl Discoverer {
         cgroup_root: PathBuf,
         metadata_tx: tokio::sync::mpsc::Sender<(ContainerID, HashMap<String, String>)>,
     ) -> Result<(), Error> {
-        let channel = crate::grpc::channel_for_unix_socket(&self.socket_path)
-            .await
-            .map_err(|source| Error::SocketConnect {
-                path: self.socket_path.clone(),
-                source,
-            })?;
         let notify = Arc::new(tokio::sync::Notify::new());
         let (container_tx, rx) = tokio::sync::mpsc::channel::<ContainerTask>(10);
         log::debug!("Starting `add_container_task`");
@@ -81,7 +75,13 @@ impl Discoverer {
         )));
         log::debug!("Starting `events_task`");
         self.join_handles.push({
-            let client = EventsClient::new(channel.clone());
+            let channel = crate::grpc::channel_for_unix_socket(&self.socket_path)
+                .await
+                .map_err(|source| Error::SocketConnect {
+                    path: self.socket_path.clone(),
+                    source,
+                })?;
+            let client = EventsClient::new(channel);
             let container_tx = container_tx.clone();
             let metadata_tx = metadata_tx.clone();
             tokio::spawn(events_task(
@@ -94,6 +94,12 @@ impl Discoverer {
         });
         log::debug!("Starting `existing_containers_task`");
         self.join_handles.push({
+            let channel = crate::grpc::channel_for_unix_socket(&self.socket_path)
+                .await
+                .map_err(|source| Error::SocketConnect {
+                    path: self.socket_path.clone(),
+                    source,
+                })?;
             let namespace_client = NamespacesClient::new(channel.clone());
             let tasks_client = TasksClient::new(channel.clone());
             let containers_client = ContainersClient::new(channel);
