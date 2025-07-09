@@ -151,30 +151,19 @@ async fn add_container_task(
                                 );
                                 continue;
                             }
-                            log::debug!("cgroup_path={}", cgl.cgroup_path);
                             let mut builder = cgroup::CollectorBuilder::default();
                             let cgroup_path =
                                 cgl.cgroup_path.strip_prefix("/").unwrap_or(cgl.cgroup_path);
-                            let cpu_stat_file =
-                                cgroup_root.join(format!("{}/cpu.stat", cgroup_path));
-                            log::debug!("cpu_stat_file_path={}", cpu_stat_file.display());
+                            log::debug!("cgroup_path={}", cgroup_path);
+                            let cgroup_prefix = cgroup_root.join(cgroup_path);
+                            log::debug!("cgroup_prefix={}", cgroup_prefix.display());
 
-                            builder.set_cpu_stat_file(cpu_stat_file);
-                            builder.set_cpu_limit_file(
-                                cgroup_root.join(format!("{}/cpu.max", cgroup_path)),
-                            );
-                            builder.set_memory_stat_file(
-                                cgroup_root.join(format!("{}/memory.stat", cgroup_path)),
-                            );
-                            builder.set_memory_usage_file(
-                                cgroup_root.join(format!("{}/memory.current", cgroup_path)),
-                            );
-                            builder.set_memory_limit_file(
-                                cgroup_root.join(format!("{}/memory.max", cgroup_path)),
-                            );
-                            builder.set_io_stat_file(
-                                cgroup_root.join(format!("{}/io.stat", cgroup_path)),
-                            );
+                            builder.set_cpu_stat_file(cgroup_prefix.join("cpu.stat"));
+                            builder.set_cpu_limit_file(cgroup_prefix.join("cpu.max"));
+                            builder.set_memory_stat_file(cgroup_prefix.join("memory.stat"));
+                            builder.set_memory_usage_file(cgroup_prefix.join("memory.current"));
+                            builder.set_memory_limit_file(cgroup_prefix.join("memory.max"));
+                            builder.set_io_stat_file(cgroup_prefix.join("io.stat"));
                             builder.set_network_stat_files(&[
                                 rootfs.join(format!("proc/{}/net/dev", container_task.pid))
                             ]);
