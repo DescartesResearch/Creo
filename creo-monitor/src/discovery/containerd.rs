@@ -248,7 +248,7 @@ fn parse_cgroup_line(line: &str) -> Result<CgroupLine<'_>, CgroupLineError> {
     Ok(CgroupLine {
         hierarchy_id,
         controller_list,
-        cgroup_path,
+        cgroup_path: cgroup_path.trim(),
     })
 }
 
