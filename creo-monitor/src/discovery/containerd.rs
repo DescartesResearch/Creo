@@ -6,6 +6,7 @@ use std::sync::Arc;
 
 use prost::Message;
 use prost_types::Any;
+use tokio::time::timeout;
 use tonic::metadata::MetadataValue;
 use tonic::transport::Channel;
 
@@ -388,24 +389,33 @@ async fn events_task(
     metadata_tx: tokio::sync::mpsc::Sender<(ContainerID, HashMap<String, String>)>,
 ) -> Result<(), Error> {
     log::debug!("`events_task` started");
-    let mut stream = match client
-        .subscribe(SubscribeRequest {
+    let mut stream = match timeout(
+        std::time::Duration::from_secs(10),
+        client.subscribe(SubscribeRequest {
             filters: vec![
                 // r#"topic=="/tasks/start""#.to_owned(),
                 // r#"topic=="/tasks/delete""#.to_owned(),
                 // r#"topic=="/containers/update""#.to_owned(),
             ],
-        })
-        .await
-        .map_err(|err| Error::Subscribe(Box::new(err)))
+        }),
+    )
+    .await
+    // .map_err(|err| Error::Subscribe(Box::new(err)))
     {
-        Ok(response) => {
+        Ok(result) => {
             log::debug!("Received subscription response");
-            response.into_inner()
+            match result {
+               Ok(response) => response.into_inner(),
+                Err(err) => {
+                    log::error!("Response error: {}", err);
+                    return Err(Error::Subscribe(Box::new(err)));
+                }
+
+            }
         }
         Err(err) => {
             log::error!("{}", err);
-            return Err(err);
+            return Err(Error::Subscribe(Box::new(tonic::Status::deadline_exceeded("Subscription timed out"))));
         }
     };
 
