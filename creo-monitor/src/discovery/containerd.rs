@@ -6,7 +6,6 @@ use std::sync::Arc;
 
 use prost::Message;
 use prost_types::Any;
-use tokio::time::timeout;
 use tonic::metadata::MetadataValue;
 use tonic::transport::Channel;
 
@@ -20,6 +19,7 @@ use crate::containerd::services::namespaces::v1::ListNamespacesRequest;
 use crate::containerd::services::namespaces::v1::namespaces_client::NamespacesClient;
 use crate::containerd::services::tasks::v1::ListTasksRequest;
 use crate::containerd::services::tasks::v1::tasks_client::TasksClient;
+use crate::containerd::v1::types::Status;
 use crate::error::ResultOkLogExt;
 
 #[derive(Debug, thiserror::Error)]
@@ -298,7 +298,8 @@ async fn existing_containers_task(
                     }
                 };
                 let mut request = tonic::Request::new(ListTasksRequest {
-                    filter: "status==running".to_owned(),
+                    // filter: "status==running".to_owned(),
+                    filter: String::new(),
                 });
                 request
                     .metadata_mut()
@@ -314,11 +315,15 @@ async fn existing_containers_task(
                         continue;
                     }
                 };
+                log::debug!("Found {} existing tasks", tasks.len());
 
                 let running_root_tasks = tasks
                     .into_iter()
                     .filter_map(|task| {
                         if !task.id.is_empty() {
+                            return None;
+                        }
+                        if task.status() != Status::Running {
                             return None;
                         }
 
@@ -327,6 +332,7 @@ async fn existing_containers_task(
                         Some((task.container_id, (c_id, task.pid)))
                     })
                     .collect::<HashMap<_, _>>();
+                log::debug!("Found {} running root tasks", running_root_tasks.len());
                 let mut request = tonic::Request::new(
                     crate::containerd::services::containers::v1::ListContainersRequest {
                         filters: Vec::default(),
@@ -346,6 +352,7 @@ async fn existing_containers_task(
                         continue;
                     }
                 };
+                log::debug!("Found {} existing containers", containers.len());
                 let containers = containers
                     .into_iter()
                     .filter(|c| running_root_tasks.contains_key(&c.id))
@@ -356,6 +363,7 @@ async fn existing_containers_task(
                         )
                     })
                     .collect::<Vec<_>>();
+                log::debug!("Found {} running containers", containers.len());
 
                 for container in containers {
                     metadata_tx
