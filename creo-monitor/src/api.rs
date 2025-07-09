@@ -27,7 +27,7 @@ async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Resp
             );
         }
         Err(err) => {
-            log::error!("{}", err);
+            log::error!("Failed to query container stats: {}", err);
             return (
                 axum::http::StatusCode::INTERNAL_SERVER_ERROR,
                 "failed to export stats",
@@ -46,7 +46,7 @@ async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Resp
             );
         }
         Err(err) => {
-            log::error!("{}", err);
+            log::error!("Failed to query container metadata: {}", err);
             return (
                 axum::http::StatusCode::INTERNAL_SERVER_ERROR,
                 "failed to export stats",

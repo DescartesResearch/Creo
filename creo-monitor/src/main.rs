@@ -110,7 +110,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             .duration_since(std::time::UNIX_EPOCH)
             .expect("time to be later than UNIX EPOCH")
             .as_secs();
-        log::info!("Finding containers@{timestamp}");
+        log::trace!("Finding containers@{timestamp}");
 
         let monitor = Arc::clone(&monitor);
 
@@ -119,7 +119,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
             let before = std::time::Instant::now();
             monitor.collect_stats(timestamp, &mut out);
             let took = before.elapsed();
-            log::debug!("collect_stats() took {} nanoseconds", took.as_nanos());
+            log::trace!("collect_stats() took {} nanoseconds", took.as_nanos());
             out
         })
         .await
