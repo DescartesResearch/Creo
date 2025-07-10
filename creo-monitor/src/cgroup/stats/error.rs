@@ -19,7 +19,7 @@
 //!
 //! ```rust
 //! use std::io;
-//! use creo_monitor::stats::StatParseError;
+//! use creo_monitor::cgroup::stats::StatParseError;
 //!
 //! fn parse_line(val: &str) -> io::Result<()> {
 //!     let value = val.parse::<u64>().map_err(|e| {
