@@ -4,10 +4,8 @@ version = "0.1.0"
 edition = "2024"
 license = "GPL"
 
-
-[features]
-default = ["cgroup-v2"]
-cgroup-v2 = []
+[package.metadata]
+clippy = { version = "0.1", features = ["deny-warnings"] }
 
 
 [dependencies]
@@ -30,6 +28,7 @@ dashmap = "6.1.0"
 
 [dev-dependencies]
 testcontainers = "0.24.0"
+tempfile = "3.20.0"
 
 [build-dependencies]
 tonic-build = { version = "0.13.1", features = ["cleanup-markdown"] }
