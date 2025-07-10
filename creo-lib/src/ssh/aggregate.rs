@@ -153,7 +153,7 @@ impl PrometheusMetric for PrometheusDiskWrite {
 }
 
 lazy_static::lazy_static! {
-    static ref METRICS: [Box<dyn PrometheusMetric + Sync>; 6] = [
+    static ref METRICS: [Box<dyn PrometheusMetric + Send + Sync>; 6] = [
         Box::new(PrometheusCPU{}),
         Box::new(PrometheusMemory{}),
         Box::new(PrometheusNetworkReceive{}),
