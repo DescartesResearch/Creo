@@ -27,29 +27,6 @@
 //! - `io.stat`
 //! - `/proc/<pid>/net/dev` (for each PID) for network stats
 //!
-//! # Example
-//!
-//! ```rust
-//! # use creo_monitor::cgroup::{Monitor, ContainerScanner};
-//! # use creo_monitor::cgroup::v2::Scanner;
-//!
-//! # #[tokio::test]
-//! # async fn example() {
-//! let scanner = Scanner::default();
-//! let mut monitor = Monitor::default();
-//! let mut containerd_meta_provider = ContainerDMetaProvider::new().await;
-//!
-//! match scanner.scan_path(std::path::Path::new("/sys/fs/cgroup"), &mut monitor, &mut
-//! containerd_meta_provider) {
-//!     Ok(_) => {},
-//!     Err(err) => println!("Failed to scan path: {}", err),
-//! }
-//! monitor.collect_stats(1_723_456_789); // Supply a timestamp
-//! let stats = monitor.drain_stats();
-//! println!("Collected {} metrics", stats.len());
-//! # }
-//! ```
-//!
 //! # Platform Requirements
 //!
 //! - Linux with cgroup v2 support.
