@@ -1,14 +1,24 @@
-use std::env;
-use std::fs::{self, File};
-use std::io::{BufRead, BufReader};
-use std::path::{Path, PathBuf};
+use environment::RuntimeEnvironment;
+use persistence::{MetadataPersister, StatsPersister};
+use std::collections::HashMap;
+use std::path::PathBuf;
+use std::str::FromStr;
+use std::sync::Arc;
 
+/// Creo Monitor: A container monitoring tool that collects resource usage via cgroups
+/// and persists data to a MySQL database.
+///
+/// This library provides the core functionality for discovering containers (e.g., via containerd),
+/// monitoring their resource usage through cgroup files, and exposing metrics via an API.
 pub mod api;
 pub mod cgroup;
 pub mod container;
 pub mod discovery;
+pub mod environment;
 pub mod error;
+pub mod fsutil;
 pub mod grpc;
+pub mod mountinfo;
 pub mod persistence;
 
 // in container it is really important to have "--privileged"
@@ -89,251 +99,126 @@ pub mod containerd {
     }
 }
 
-#[derive(Debug, thiserror::Error)]
-pub enum Error {
-    #[error("failed to check if path `{path}` exists: {source}")]
-    ExistenceCheckError {
-        path: PathBuf,
-        #[source]
-        source: std::io::Error,
-    },
-    #[error("failed to read symlink `{path}`: {source}")]
-    ReadSymlinkError {
-        path: PathBuf,
-        #[source]
-        source: std::io::Error,
-    },
-    #[error("failed to open file `{path}`: {source}")]
-    FileOpenError {
-        path: PathBuf,
-        #[source]
-        source: std::io::Error,
-    },
-    #[error("failed to read line for file `{path}`: {source}")]
-    ReadLineError {
-        path: PathBuf,
-        #[source]
-        source: std::io::Error,
-    },
-}
-
-pub enum RuntimeEnvironment {
-    Host,
-    Container,
-}
-
-pub fn detect_runtime_environment(rootfs: impl AsRef<Path>) -> RuntimeEnvironment {
-    match has_rootfs_proc(rootfs.as_ref()) {
-        Ok(true) => match is_namespace_different_from_host(rootfs.as_ref()) {
-            Ok(true) => {
-                return RuntimeEnvironment::Container;
-            }
-            Ok(false) => {}
-            Err(err) => log::warn!("{}", err),
-        },
-        Ok(false) => {}
-        Err(err) => log::warn!("{}", err),
-    }
-
-    match in_container_cgroup() {
-        Ok(true) => {
-            return RuntimeEnvironment::Container;
-        }
-        Ok(false) => {}
-        Err(err) => log::warn!("{}", err),
-    }
-
-    if in_container_env() {
-        return RuntimeEnvironment::Container;
-    }
-
-    RuntimeEnvironment::Host
-}
-
-fn has_rootfs_proc(rootfs: impl AsRef<Path>) -> Result<bool, Error> {
-    let path = rootfs.as_ref().join("proc");
-
-    path.try_exists()
-        .map_err(|source| Error::ExistenceCheckError {
-            path: path.to_path_buf(),
-            source,
-        })
-}
-
-fn is_namespace_different_from_host(rootfs: impl AsRef<Path>) -> Result<bool, Error> {
-    let path = Path::new("/proc/self/ns/pid");
-    let self_ns = fs::read_link(path).map_err(|source| Error::ReadSymlinkError {
-        path: path.to_path_buf(),
-        source,
-    })?;
-
-    let path = rootfs.as_ref().join("proc/1/ns/pid");
-    let host_ns = fs::read_link(&path).map_err(|source| Error::ReadSymlinkError {
-        path: path.to_path_buf(),
-        source,
-    })?;
-
-    Ok(self_ns != host_ns)
-}
-
-fn in_container_cgroup() -> Result<bool, Error> {
-    let path = Path::new("/proc/self/cgroup");
-    let mut buf = BufReader::new(File::open(path).map_err(|source| Error::FileOpenError {
-        path: path.to_path_buf(),
-        source,
-    })?);
-
-    let mut line = String::with_capacity(256);
-
-    while buf
-        .read_line(&mut line)
-        .map_err(|source| Error::ReadLineError {
-            path: path.to_path_buf(),
-            source,
-        })?
-        != 0
-    {
-        if line.contains("docker")
-            || line.contains("kubepods")
-            || line.contains("containerd")
-            || line.contains("libpod")
-        {
-            return Ok(true);
-        }
-
-        if line.split("/").any(|part| part.len() >= 32 && is_hex(part)) {
-            return Ok(true);
-        }
-
-        line.clear();
-    }
-
-    Ok(false)
-}
-
-fn is_hex(s: &str) -> bool {
-    s.chars().all(|c| "a..f".contains(c) || "1..9".contains(c))
-}
-
-fn in_container_env() -> bool {
-    fs::metadata("/.dockerenv").is_ok()
-        || fs::metadata("/run/.containerenv").is_ok()
-        || env::var("container").is_ok()
-}
-
-#[derive(Debug, thiserror::Error)]
-pub enum MountInfoError {
-    #[error("missing mount info separator '-' in line `{0}`")]
-    MissingSeparatorInLine(String),
-    #[error("not enough pre-separator fields in line `{0}`")]
-    NotEnoughPreSeparatorFields(String),
-    #[error("not enough post-separator fields in line `{0}`")]
-    NotEnoughPostSeparatorFields(String),
-}
-
-/// Extracts the mountpoint from the given mountinfo line if the filesystem type is cgroup2.
+/// Runs the Creo Monitor application.
 ///
-/// # Notes
+/// Initializes the container runtime discovery, cgroup monitoring, data persistence,
+/// and API server.
 ///
-/// See [`proc_pid_mountinfo(5)`](https://man7.org/linux/man-pages/man5/proc_pid_mountinfo.5.html)
-/// for the expected format.
-fn extract_cgroup_v2_mount_point(line: &str) -> std::result::Result<Option<&str>, MountInfoError> {
-    // MountInfo Layout
-    // <mount-id> <parent-id> <major>:<minor> <root> <mount-point> <optional-fields> - <fs-type> <source> <super-options>
-    let parts = match line.split_once(" - ") {
-        None => {
-            return Err(MountInfoError::MissingSeparatorInLine(line.to_owned()));
-        }
-        Some(parts) => parts,
+/// # Returns
+///
+/// Returns `Ok(())` on successful execution, or an error if any component fails.
+///
+/// # Errors
+///
+/// Possible errors include:
+/// - Missing environment variables (e.g., `DATABASE_URL`).
+/// - Failure to connect to the database.
+/// - Failure to initialize the container runtime discovery.
+/// - I/O errors when reading system files (e.g., `/etc/machine-id`).
+pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
+    let rootfs = std::env::var_os("ROOTFS_MOUNT_PATH")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("/rootfs"));
+    let runtime_env = environment::detect_runtime_environment(&rootfs);
+    if matches!(runtime_env, RuntimeEnvironment::Container) && !rootfs.exists() {
+        return Err(format!(
+            "Detected container runtime environment, but missing host root mount at `{}`!",
+            rootfs.display()
+        )
+        .into());
+    }
+
+    let rootfs = match runtime_env {
+        RuntimeEnvironment::Container => rootfs,
+        RuntimeEnvironment::Host => PathBuf::from("/"),
     };
+    log::debug!("Final rootfs: {}", rootfs.display());
+    let cgroup_root =
+        mountinfo::detect_validated_cgroup2_mount_point(rootfs.join("proc/1/mountinfo"))?;
+    log::debug!("Final Cgroup Root: {}", cgroup_root.display());
 
-    let fields = parts.0;
-    let info = parts.1;
-    let mut it = fields.split_whitespace().take(5);
+    let monitor = Arc::new(cgroup::Monitor::default());
+    let mut discoverer = discovery::containerd::Discoverer::new(PathBuf::from(
+        "/var/run/containerd/containerd.sock",
+    ));
 
-    for _ in 0..4 {
-        it.next()
-            .ok_or_else(|| MountInfoError::NotEnoughPreSeparatorFields(line.to_owned()))?;
-    }
-    let mount_point = it
-        .next()
-        .ok_or_else(|| MountInfoError::NotEnoughPreSeparatorFields(line.to_owned()))?;
+    let machine_id = container::MachineID::from_str(
+        std::fs::read_to_string(rootfs.join("etc/machine-id"))?.trim(),
+    )?;
+    let hostname = std::fs::read_to_string(rootfs.join("etc/hostname"))?
+        .trim()
+        .to_owned();
+    log::debug!("Hostname: {}", &hostname);
+    let (metadata_tx, mut metadata_rx) =
+        tokio::sync::mpsc::channel::<(container::ContainerID, HashMap<String, String>)>(15);
 
-    let mut it = info.split_whitespace();
-    let fs_type = it
-        .next()
-        .ok_or_else(|| MountInfoError::NotEnoughPostSeparatorFields(line.to_owned()))?;
-    if it.take(2).count() < 2 {
-        return Err(MountInfoError::NotEnoughPostSeparatorFields(
-            line.to_owned(),
-        ));
-    }
+    let db_url =
+        std::env::var("DATABASE_URL").expect("environment variable `DATABASE_URL` must be set");
 
-    if fs_type == "cgroup2" {
-        return Ok(Some(mount_point));
-    }
+    let db = sqlx::mysql::MySqlPoolOptions::new()
+        .acquire_timeout(std::time::Duration::from_secs(10))
+        .max_connections(10)
+        .connect(&db_url)
+        .await?;
 
-    Ok(None)
-}
+    sqlx::migrate!().run(&db).await?;
 
-#[derive(Debug, thiserror::Error)]
-pub enum CgroupError {
-    #[error("failed to open file `{path}`: {source}")]
-    FileOpenError {
-        path: PathBuf,
-        #[source]
-        source: std::io::Error,
-    },
-    #[error("failed to read line for file `{path}`: {source}")]
-    ReadLineError {
-        path: PathBuf,
-        #[source]
-        source: std::io::Error,
-    },
-    #[error("failed to detect cgroup v2 mount point in file `{path}`")]
-    DetectionError { path: PathBuf },
-}
-
-pub fn detect_cgroup_root(path: impl AsRef<Path>) -> Result<PathBuf, CgroupError> {
-    let path = path.as_ref();
-    let mut buf =
-        BufReader::new(
-            File::open(path).map_err(|source| CgroupError::FileOpenError {
-                path: path.to_path_buf(),
-                source,
-            })?,
-        );
-
-    let mut line = String::with_capacity(256);
-    let mut mount_point = None;
-
-    while buf
-        .read_line(&mut line)
-        .map_err(|source| CgroupError::ReadLineError {
-            path: path.to_path_buf(),
-            source,
-        })?
-        != 0
-    {
-        match extract_cgroup_v2_mount_point(line.as_str()) {
-            Ok(Some(mp)) => {
-                log::debug!("Found cgroup v2 mount point at `{}`", mp);
-                mount_point = Some(PathBuf::from(mp));
-                // break;
-            }
-            Ok(None) => {}
-            Err(err) => {
-                log::warn!("{}", err);
+    let metadata_persister =
+        persistence::MySqlMetadataPersister::new(db.clone(), machine_id, hostname);
+    tokio::spawn(async move {
+        while let Some(metadata) = metadata_rx.recv().await {
+            match metadata_persister.persist_metadata(metadata).await {
+                Ok(_) => {}
+                Err(err) => log::error!("failed to persist metadata: {}", err),
             }
         }
+    });
 
-        line.clear();
+    discoverer
+        .start(Arc::clone(&monitor), rootfs, cgroup_root, metadata_tx)
+        .await?;
+    log::debug!("Started containerd discovery");
+
+    let stats_persister = persistence::MySqlStatsPersister::new(db.clone(), machine_id);
+    {
+        let db = api::DB::new(db);
+        tokio::spawn(async move {
+            let api = api::APIServer::new(db).await;
+            api.listen("0.0.0.0:3000").await
+        });
+    }
+    let (tx, mut rx) = tokio::sync::mpsc::channel::<Vec<cgroup::stats::ContainerStatsEntry>>(10);
+    {
+        tokio::spawn(async move {
+            while let Some(stats) = rx.recv().await {
+                if let Err(err) = stats_persister.persist_stats(&stats).await {
+                    log::error!("failed to persist stats: {}", err);
+                }
+            }
+        });
     }
 
-    match mount_point {
-        None => Err(CgroupError::DetectionError {
-            path: path.to_path_buf(),
-        }),
-        Some(mp) => Ok(mp),
+    let mut interval = tokio::time::interval(std::time::Duration::from_secs(1));
+    loop {
+        interval.tick().await;
+        let timestamp = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)?
+            .as_secs();
+        log::trace!("Finding containers@{timestamp}");
+
+        let monitor = Arc::clone(&monitor);
+
+        let out = tokio::task::spawn_blocking(move || {
+            let mut out = Vec::with_capacity(monitor.size());
+            let before = std::time::Instant::now();
+            monitor.collect_stats(timestamp, &mut out);
+            let took = before.elapsed();
+            log::trace!("collect_stats() took {} nanoseconds", took.as_nanos());
+            out
+        })
+        .await
+        .expect("spawn_blocking panicked");
+
+        tx.send(out).await.expect("Reader side to still exist");
     }
 }
