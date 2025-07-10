@@ -67,16 +67,7 @@ pub fn create_service_folder<R: rand::Rng>(
             service_call_data,
             service_call_template,
         )?;
-    } else {
-        std::fs::File::create(
-            service_dir.join(
-                file_name_generator
-                    .generate_service_call_file_name()
-                    .as_complete_file_name(),
-            ),
-        )?;
     }
-
     let info = template::ServiceInfo {
         title: format!("Service {}", service.id.0),
         description: String::new(),
