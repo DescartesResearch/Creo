@@ -16,24 +16,6 @@
 //! These stats can then be wrapped in [`CollectedStats`] to associate them with container and pod metadata
 //! along with a timestamp for collection time.
 //!
-//! # Example
-//!
-//! ```rust
-//! use creo_monitor::stats::{CollectedStats, ContainerStats, CpuStat, IoStat};
-//! use creo_monitor::container::{ContainerID, PodID};
-//!
-//! let container_id =
-//! ContainerID::new(*b"abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abcd").unwrap();
-//! let pod_id = PodID::new(*b"abc123abc123abc123abc123abc123ab").unwrap();
-//!
-//! // Imagine these stats were parsed from cgroup files
-//! let cpu_stat = Some(CpuStat::default());
-//! let io_stat = Some(IoStat::default());
-//! let container_stats = ContainerStats::new(cpu_stat, None, None, None, None, io_stat, None);
-//!
-//! let collected = CollectedStats::new_pod(1688390400, container_id, pod_id, container_stats, None,
-//! None);
-//! ```
 
 mod cpu;
 mod error;
