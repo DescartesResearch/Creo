@@ -22,6 +22,10 @@ pub struct Args {
     #[argh(subcommand)]
     pub command: Option<Commands>,
     #[argh(switch, short = 'v')]
-    /// display the version number
+    /// display the version
     pub version: bool,
+
+    #[argh(option, short = 'o')]
+    /// output directory
+    pub output: Option<std::path::PathBuf>,
 }

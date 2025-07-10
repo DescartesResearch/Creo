@@ -9,7 +9,11 @@ use crate::{config, util::DigitExt, Error, Result};
 mod application;
 mod graph;
 
-pub fn generate<P: AsRef<std::path::Path>>(args: &config::generate::Config, root: P) -> Result<()> {
+pub fn generate<P: AsRef<std::path::Path>>(
+    args: &config::generate::Config,
+    root: P,
+    out: impl AsRef<std::path::Path>,
+) -> Result<()> {
     let root = root.as_ref();
     let start_port = args.start_port;
 
@@ -100,7 +104,7 @@ pub fn generate<P: AsRef<std::path::Path>>(args: &config::generate::Config, root
     };
 
     // Create output directory (if it does not exist)
-    let out_dir = root.join(creo_lib::OUTPUT_DIR);
+    let out_dir = root.join(out.as_ref());
     crate::io::create_output_directory(&out_dir)?;
 
     // Create application directory

@@ -1,11 +1,11 @@
-application: my_first_application
+application: matrix-benchmark
 ssh:
   key_file: ~/.ssh/id_ed25519
-  user_name: creo
+  user_name: matthias
   master_hosts:
-    - 10.1.3.49
+    - 10.1.3.43
   worker_hosts:
-    - 10.1.3.32
+    - 10.1.3.43
 benchmark:
   warmup:
     rate: 5
@@ -15,4 +15,4 @@ benchmark:
     profile: getting_started.csv
   virtual_user: 200
   timeout: 8000
-  records: 3000000
+  records: 30000

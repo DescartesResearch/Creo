@@ -1,4 +1,8 @@
-pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Result<()> {
+pub async fn invoke(
+    config: &creo_lib::ssh::Config,
+    name: String,
+    out: impl AsRef<std::path::Path>,
+) -> crate::Result<()> {
     if config.master_hosts.len() != 1 {
         return Err(crate::Error::new(
             "application deployment only supports 1 master host at the moment".into(),
@@ -18,7 +22,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
         ))
         .await?;
 
-    let app_path = std::path::PathBuf::from_iter(&[creo_lib::OUTPUT_DIR, &name]);
+    let app_path = out.as_ref().join(&name);
 
     let local_archive_path = app_path.join("benchmarks.tar.gz");
     let mut local_archive = tokio::fs::File::create(&local_archive_path).await?;

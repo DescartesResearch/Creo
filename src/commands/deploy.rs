@@ -1,6 +1,10 @@
 use std::path::PathBuf;
 
-pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Result<()> {
+pub async fn invoke(
+    config: &creo_lib::ssh::Config,
+    name: String,
+    out: impl AsRef<std::path::Path>,
+) -> crate::Result<()> {
     if config.master_hosts.len() != 1 {
         return Err(crate::Error::new(
             "application deployment only supports 1 master host at the moment".into(),
@@ -21,7 +25,7 @@ pub async fn invoke(config: &creo_lib::ssh::Config, name: String) -> crate::Resu
     let master_client = &master_clients[0];
     let worker_client = &worker_clients[0];
 
-    let src = std::path::PathBuf::from_iter(&[creo_lib::OUTPUT_DIR, &name]);
+    let src = out.as_ref().join(&name);
 
     let (remote_worker_path, remote_master_path) = tokio::try_join!(
         worker_client.canonicalize("archive.tar.gz"),

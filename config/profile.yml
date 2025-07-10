@@ -1,12 +1,12 @@
-programming_language: rust
-application: profile-rust
+programming_language: python
+application: profile-node
 ssh_config:
   key_file: ~/.ssh/id_ed25519
   master_hosts:
-    - 1.1.1.1
+    - 10.1.3.43
   worker_hosts:
-    - 2.2.2.2
-  user_name: creo
+    - 10.1.3.19
+  user_name: matthias
 benchmark:
   rps:
     - 25
@@ -14,7 +14,7 @@ benchmark:
     - 150
   iterations: 5
   benchmark_duration: 900
-  virtual_users: 450
+  virtual_users: 600
   warmup_pause: 10
   warmup_duration: 120
   warmup_rps: 10

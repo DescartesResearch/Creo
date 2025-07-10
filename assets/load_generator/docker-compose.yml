@@ -3,6 +3,8 @@ services:
     build:
       context: "."
       dockerfile: loadgenerator.Dockerfile
+    ulimits:
+      nproc: 65535
     extra_hosts:
       - "host.docker.internal:host-gateway"
   director:
