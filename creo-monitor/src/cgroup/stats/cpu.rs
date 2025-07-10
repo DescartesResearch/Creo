@@ -29,7 +29,7 @@
 //!
 //! ```rust
 //! use std::io::BufReader;
-//! use creo_monitor::stats::{CpuStat, CpuLimit, KeyValueStat, SingleLineStat};
+//! use creo_monitor::cgroup::stats::{CpuStat, CpuLimit, KeyValueStat, SingleLineStat};
 //!
 //! let data = "\
 //! usage_usec 1000000

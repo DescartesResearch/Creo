@@ -20,7 +20,7 @@
 //!
 //! ```rust
 //! use std::collections::HashMap;
-//! use creo_monitor::stats::KeyValueStat;
+//! use creo_monitor::cgroup::stats::KeyValueStat;
 //! use std::sync::OnceLock;
 //!
 //! #[derive(Default)]

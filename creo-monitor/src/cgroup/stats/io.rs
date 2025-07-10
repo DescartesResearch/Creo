@@ -24,7 +24,7 @@
 //!
 //! ```rust
 //! use std::io::BufReader;
-//! use creo_monitor::stats::{IoStat, KeyValueStat};
+//! use creo_monitor::cgroup::stats::{IoStat, KeyValueStat};
 //!
 //! let data = "\
 //! 8:0 rbytes=1024 wbytes=2048 rios=12 wios=24
@@ -109,8 +109,8 @@ impl KeyValueStat for IoStat {
 
 #[cfg(test)]
 mod tests {
-    use crate::stats::StatParseError;
-    use crate::stats::error::extract_stat_parse_error;
+    use crate::cgroup::stats::StatParseError;
+    use crate::cgroup::stats::error::extract_stat_parse_error;
 
     use super::*;
 

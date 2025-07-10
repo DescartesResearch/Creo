@@ -28,7 +28,7 @@
 //!
 //! ```rust
 //! use std::io::BufReader;
-//! use creo_monitor::stats::{MemoryStat, MemoryUsage, MemoryLimit, KeyValueStat, SingleLineStat};
+//! use creo_monitor::cgroup::stats::{MemoryStat, MemoryUsage, MemoryLimit, KeyValueStat, SingleLineStat};
 //!
 //! let data = "anon 1000\nfile 2000\n";
 //! let mut reader = BufReader::new(data.as_bytes());
@@ -214,7 +214,7 @@ impl SingleLineStat for MemoryLimit {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::stats::error::extract_stat_parse_error;
+    use crate::cgroup::stats::error::extract_stat_parse_error;
 
     #[test]
     fn test_parse_empty_memory_stat() {
