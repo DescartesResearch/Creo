@@ -147,7 +147,7 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     )?;
 
     let hostname = std::fs::read_to_string(rootfs.join("etc/hostname"))
-        .or_else(|_| std::env::var("HOST_HOSTNAME"))?
+        .or_else(|_| std::fs::read_to_string("proc/sys/kernel/hostname"))?
         .trim()
         .to_owned();
     log::debug!("Hostname: {}", &hostname);
