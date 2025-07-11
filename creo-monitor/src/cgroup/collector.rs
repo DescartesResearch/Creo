@@ -1,19 +1,18 @@
 use super::stats::{CgroupStats, KeyValueStat, SingleLineStat};
 use std::fs::File;
-use std::io::BufReader;
 
 use super::utils;
 
 /// Monitors resource usage for a single container using cgroup and procfs data.
 #[derive(Debug)]
 pub struct Collector {
-    cpu_stat_file: Option<BufReader<File>>,
-    cpu_limit_file: Option<BufReader<File>>,
-    memory_stat_file: Option<BufReader<File>>,
-    memory_usage_file: Option<BufReader<File>>,
-    memory_limit_file: Option<BufReader<File>>,
-    io_stat_file: Option<BufReader<File>>,
-    network_stat_files: Vec<BufReader<File>>,
+    cpu_stat_file: Option<File>,
+    cpu_limit_file: Option<File>,
+    memory_stat_file: Option<File>,
+    memory_usage_file: Option<File>,
+    memory_limit_file: Option<File>,
+    io_stat_file: Option<File>,
+    network_stat_files: Vec<File>,
 }
 
 impl Collector {
@@ -27,35 +26,28 @@ impl Collector {
     ///
     /// Returns an I/O error if reading from any stat file fails.
     pub fn refresh_stats(&mut self) -> std::io::Result<CgroupStats> {
-        let cpu_stat = utils::read_and_rewind(
-            self.cpu_stat_file.as_mut(),
-            super::stats::CpuStat::from_reader,
-        )?;
+        let cpu_stat = utils::read_and_rewind(self.cpu_stat_file.as_mut(), |buf| {
+            super::stats::CpuStat::from_reader(buf)
+        })?;
 
-        let cpu_limit = utils::read_and_rewind(
-            self.cpu_limit_file.as_mut(),
-            super::stats::CpuLimit::from_reader,
-        )?;
-        let memory_stat = utils::read_and_rewind(
-            self.memory_stat_file.as_mut(),
-            super::stats::MemoryStat::from_reader,
-        )?;
-        let memory_usage = utils::read_and_rewind(
-            self.memory_usage_file.as_mut(),
-            super::stats::MemoryUsage::from_reader,
-        )?;
-        let memory_limit = utils::read_and_rewind(
-            self.memory_limit_file.as_mut(),
-            super::stats::MemoryLimit::from_reader,
-        )?;
-        let io_stat = utils::read_and_rewind(
-            self.io_stat_file.as_mut(),
-            super::stats::IoStat::from_reader,
-        )?;
-        let network_stat = utils::read_all_and_rewind(
-            self.network_stat_files.as_mut(),
-            super::stats::NetworkStat::from_reader,
-        )?;
+        let cpu_limit = utils::read_and_rewind(self.cpu_limit_file.as_mut(), |buf| {
+            super::stats::CpuLimit::from_reader(buf)
+        })?;
+        let memory_stat = utils::read_and_rewind(self.memory_stat_file.as_mut(), |buf| {
+            super::stats::MemoryStat::from_reader(buf)
+        })?;
+        let memory_usage = utils::read_and_rewind(self.memory_usage_file.as_mut(), |buf| {
+            super::stats::MemoryUsage::from_reader(buf)
+        })?;
+        let memory_limit = utils::read_and_rewind(self.memory_limit_file.as_mut(), |buf| {
+            super::stats::MemoryLimit::from_reader(buf)
+        })?;
+        let io_stat = utils::read_and_rewind(self.io_stat_file.as_mut(), |buf| {
+            super::stats::IoStat::from_reader(buf)
+        })?;
+        let network_stat = utils::read_all_and_rewind(self.network_stat_files.as_mut(), |buf| {
+            super::stats::NetworkStat::from_reader(buf)
+        })?;
         Ok(super::stats::CgroupStats::new(
             cpu_stat,
             cpu_limit,
@@ -70,13 +62,13 @@ impl Collector {
 
 #[derive(Debug, Default)]
 pub struct CollectorBuilder {
-    cpu_stat_file: Option<BufReader<File>>,
-    cpu_limit_file: Option<BufReader<File>>,
-    memory_stat_file: Option<BufReader<File>>,
-    memory_usage_file: Option<BufReader<File>>,
-    memory_limit_file: Option<BufReader<File>>,
-    io_stat_file: Option<BufReader<File>>,
-    network_stat_files: Vec<BufReader<File>>,
+    cpu_stat_file: Option<File>,
+    cpu_limit_file: Option<File>,
+    memory_stat_file: Option<File>,
+    memory_usage_file: Option<File>,
+    memory_limit_file: Option<File>,
+    io_stat_file: Option<File>,
+    network_stat_files: Vec<File>,
 }
 
 impl CollectorBuilder {

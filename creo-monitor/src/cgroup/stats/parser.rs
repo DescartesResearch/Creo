@@ -119,7 +119,7 @@ where
     ///
     /// # Errors
     /// Returns an `io::Error` if reading fails, or a `StatParseError` wrapped in `io::Error` if parsing fails.
-    fn from_reader<R: BufRead>(buf: &mut R) -> std::io::Result<Self> {
+    fn from_reader<R: BufRead + ?Sized>(buf: &mut R) -> std::io::Result<Self> {
         let mut stat = Self::default();
         let handlers = Self::field_handlers();
         let field_count = handlers.len();
@@ -315,5 +315,5 @@ pub trait SingleLineStat: Sized + Default {
     ///
     /// * `Ok(Self)` if parsing succeeds.
     /// * `Err(std::io::Error)` if reading or parsing fails.
-    fn from_reader<R: BufRead>(buf: &mut R) -> std::io::Result<Self>;
+    fn from_reader<R: BufRead + ?Sized>(buf: &mut R) -> std::io::Result<Self>;
 }

@@ -144,7 +144,7 @@ impl NetworkStat {
     ///
     /// Returns `Ok(NetworkStat)` with accumulated statistics if parsing succeeds,
     /// or an `Err(std::io::Error)` if reading from the input fails.
-    pub fn from_reader<R: BufRead>(buf: &mut R) -> std::io::Result<Self> {
+    pub fn from_reader<R: BufRead + ?Sized>(buf: &mut R) -> std::io::Result<Self> {
         let mut stat = NetworkStat::default();
         let mut line = String::new();
 

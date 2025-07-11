@@ -158,7 +158,7 @@ impl SingleLineStat for MemoryUsage {
     /// # Errors
     ///
     /// This function returns an error of kind `std::io::ErrorKind::InvalidData` if the value cannot be parsed as a `u64`.
-    fn from_reader<R: BufRead>(buf: &mut R) -> std::io::Result<Self> {
+    fn from_reader<R: BufRead + ?Sized>(buf: &mut R) -> std::io::Result<Self> {
         let mut stat = MemoryUsage::default();
         let mut line = String::new();
 
@@ -199,7 +199,7 @@ impl SingleLineStat for MemoryLimit {
     ///
     /// * `Ok(MemoryLimit)` with `Some(limit)` if a numeric value is provided.
     /// * `Ok(MemoryLimit)` with `None` if the value is "max".
-    fn from_reader<R: BufRead>(buf: &mut R) -> std::io::Result<Self> {
+    fn from_reader<R: BufRead + ?Sized>(buf: &mut R) -> std::io::Result<Self> {
         let mut line = String::new();
         buf.read_line(&mut line)?;
         let limit_bytes = match line.trim() {

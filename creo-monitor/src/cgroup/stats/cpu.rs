@@ -192,7 +192,7 @@ impl SingleLineStat for CpuLimit {
     ///
     /// This function returns an `Ok` even if quota or period parsing fails,
     /// falling back to default period of `100_000` and `None` for `quota` on `"max"`.
-    fn from_reader<R: BufRead>(buf: &mut R) -> std::io::Result<Self> {
+    fn from_reader<R: BufRead + ?Sized>(buf: &mut R) -> std::io::Result<Self> {
         let mut line = String::new();
         buf.read_line(&mut line)?;
         let mut parts = line.split_whitespace();
