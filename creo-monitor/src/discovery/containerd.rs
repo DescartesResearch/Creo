@@ -12,6 +12,7 @@ use tonic::transport::Channel;
 use crate::cgroup::{self, MonitoredContainer};
 use crate::container::ContainerID;
 use crate::containerd::events::{ContainerUpdate, TaskDelete, TaskStart};
+use crate::containerd::services::containers::v1::GetContainerRequest;
 use crate::containerd::services::containers::v1::containers_client::ContainersClient;
 use crate::containerd::services::events::v1::SubscribeRequest;
 use crate::containerd::services::events::v1::events_client::EventsClient;
@@ -76,11 +77,13 @@ impl Discoverer {
                     path: self.socket_path.clone(),
                     source,
                 })?;
-            let client = EventsClient::new(channel);
+            let event_client = EventsClient::new(channel.clone());
+            let container_client = ContainersClient::new(channel);
             let container_tx = container_tx.clone();
             let metadata_tx = metadata_tx.clone();
             tokio::spawn(events_task(
-                client,
+                event_client,
+                container_client,
                 Arc::clone(&monitor),
                 container_tx,
                 metadata_tx,
@@ -124,7 +127,6 @@ async fn add_container_task(
     cgroup_root: PathBuf,
     monitor: Arc<cgroup::Monitor>,
 ) -> Result<(), Error> {
-    log::debug!("`add_container_task` started");
     let mut line = String::with_capacity(255);
     while let Some(container_task) = rx.recv().await {
         line.clear();
@@ -374,12 +376,13 @@ pub struct ContainerTask {
 }
 
 async fn events_task(
-    mut client: EventsClient<Channel>,
+    mut events_client: EventsClient<Channel>,
+    mut container_client: ContainersClient<Channel>,
     monitor: Arc<cgroup::Monitor>,
     container_tx: tokio::sync::mpsc::Sender<ContainerTask>,
     metadata_tx: tokio::sync::mpsc::Sender<(ContainerID, HashMap<String, String>)>,
 ) -> Result<(), Error> {
-    let mut stream = match client
+    let mut stream = match events_client
         .subscribe(SubscribeRequest {
             filters: vec![
                 r#"topic=="/tasks/start""#.to_owned(),
@@ -416,6 +419,11 @@ async fn events_task(
                     Event::ContainerUpdate(container_update) => {
                         match ContainerID::from_str(&container_update.id) {
                             Ok(c_id) => {
+                                log::debug!(
+                                    "Received new labels for container `{}`: {:?}",
+                                    &c_id,
+                                    &container_update.labels
+                                );
                                 metadata_tx
                                     .send((c_id, container_update.labels))
                                     .await
@@ -432,6 +440,38 @@ async fn events_task(
                     Event::TaskStart(task_start) => {
                         match ContainerID::from_str(task_start.container_id.as_str()) {
                             Ok(id) => {
+                                log::debug!(
+                                    "Found new container with id `{}` and pid `{}`",
+                                    &id,
+                                    &task_start.pid
+                                );
+
+                                let mut request = tonic::Request::new(GetContainerRequest {
+                                    id: task_start.container_id,
+                                });
+                                request.metadata_mut().insert(
+                                    "containerd-namespace",
+                                    MetadataValue::from_str(&msg.namespace)
+                                        .expect("valid namespace"),
+                                );
+
+                                match container_client.get(request).await {
+                                    Ok(response) => {
+                                        if let Some(container) = response.into_inner().container {
+                                            metadata_tx
+                                                .send((id, container.labels))
+                                                .await
+                                                .expect("Reader side to still exist");
+                                        }
+                                    }
+                                    Err(err) => {
+                                        log::error!(
+                                            "failed to get container info for container id `{}`: {}",
+                                            &id,
+                                            err
+                                        );
+                                    }
+                                }
                                 container_tx
                                     .send(ContainerTask {
                                         id,
@@ -459,7 +499,14 @@ async fn events_task(
                         // tracking the container.
                         if task_delete.id.is_empty() {
                             match ContainerID::from_str(task_delete.container_id.as_str()) {
-                                Ok(ref container_id) => monitor.remove_container(container_id),
+                                Ok(ref container_id) => {
+                                    log::debug!(
+                                        "Deleting container with container_id `{}` and pid `{}`",
+                                        container_id,
+                                        task_delete.pid
+                                    );
+                                    monitor.remove_container(container_id)
+                                }
                                 Err(err) => {
                                     log::warn!(
                                         "failed to decode container ID from task delete event: {}",
