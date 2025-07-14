@@ -1,20 +1,19 @@
 use super::stats::{CgroupStats, KeyValueStat, SingleLineStat};
 use std::fs::File;
-use std::path::PathBuf;
+use std::io::BufReader;
 
 use super::utils;
 
 /// Monitors resource usage for a single container using cgroup and procfs data.
 #[derive(Debug)]
 pub struct Collector {
-    cpu_stat_file_path: Option<PathBuf>,
-    cpu_limit_file_path: Option<PathBuf>,
-    memory_stat_file_path: Option<PathBuf>,
-    memory_usage_file_path: Option<PathBuf>,
-    memory_limit_file_path: Option<PathBuf>,
-    io_stat_file_path: Option<PathBuf>,
-    network_stat_file_paths: Vec<PathBuf>,
-    network_stat_files_cache: Vec<File>,
+    cpu_stat_file: Option<BufReader<File>>,
+    cpu_limit_file: Option<BufReader<File>>,
+    memory_stat_file: Option<BufReader<File>>,
+    memory_usage_file: Option<BufReader<File>>,
+    memory_limit_file: Option<BufReader<File>>,
+    io_stat_file: Option<BufReader<File>>,
+    network_stat_files: Vec<BufReader<File>>,
 }
 
 impl Collector {
@@ -28,58 +27,35 @@ impl Collector {
     ///
     /// Returns an I/O error if reading from any stat file fails.
     pub fn refresh_stats(&mut self) -> std::io::Result<CgroupStats> {
-        let cpu_stat = utils::read(
-            self.cpu_stat_file_path
-                .as_ref()
-                .and_then(utils::open_file)
-                .as_mut(),
-            |buf| super::stats::CpuStat::from_reader(buf),
+        let cpu_stat = utils::read_and_rewind(
+            self.cpu_stat_file.as_mut(),
+            super::stats::CpuStat::from_reader,
         )?;
 
-        let cpu_limit = utils::read(
-            self.cpu_limit_file_path
-                .as_ref()
-                .and_then(utils::open_file)
-                .as_mut(),
-            |buf| super::stats::CpuLimit::from_reader(buf),
+        let cpu_limit = utils::read_and_rewind(
+            self.cpu_limit_file.as_mut(),
+            super::stats::CpuLimit::from_reader,
         )?;
-        let memory_stat = utils::read(
-            self.memory_stat_file_path
-                .as_ref()
-                .and_then(utils::open_file)
-                .as_mut(),
-            |buf| super::stats::MemoryStat::from_reader(buf),
+        let memory_stat = utils::read_and_rewind(
+            self.memory_stat_file.as_mut(),
+            super::stats::MemoryStat::from_reader,
         )?;
-        let memory_usage = utils::read(
-            self.memory_usage_file_path
-                .as_ref()
-                .and_then(utils::open_file)
-                .as_mut(),
-            |buf| super::stats::MemoryUsage::from_reader(buf),
+        let memory_usage = utils::read_and_rewind(
+            self.memory_usage_file.as_mut(),
+            super::stats::MemoryUsage::from_reader,
         )?;
-        let memory_limit = utils::read(
-            self.memory_limit_file_path
-                .as_ref()
-                .and_then(utils::open_file)
-                .as_mut(),
-            |buf| super::stats::MemoryLimit::from_reader(buf),
+        let memory_limit = utils::read_and_rewind(
+            self.memory_limit_file.as_mut(),
+            super::stats::MemoryLimit::from_reader,
         )?;
-        let io_stat = utils::read(
-            self.io_stat_file_path
-                .as_ref()
-                .and_then(utils::open_file)
-                .as_mut(),
-            |buf| super::stats::IoStat::from_reader(buf),
+        let io_stat = utils::read_and_rewind(
+            self.io_stat_file.as_mut(),
+            super::stats::IoStat::from_reader,
         )?;
-        self.network_stat_files_cache.extend(
-            self.network_stat_file_paths
-                .iter()
-                .flat_map(utils::open_file),
-        );
-        let network_stat = utils::read_all(&mut self.network_stat_files_cache, |buf| {
-            super::stats::NetworkStat::from_reader(buf)
-        })?;
-        self.network_stat_files_cache.clear();
+        let network_stat = utils::read_all_and_rewind(
+            self.network_stat_files.as_mut(),
+            super::stats::NetworkStat::from_reader,
+        )?;
         Ok(super::stats::CgroupStats::new(
             cpu_stat,
             cpu_limit,
@@ -94,13 +70,13 @@ impl Collector {
 
 #[derive(Debug, Default)]
 pub struct CollectorBuilder {
-    cpu_stat_file_path: Option<PathBuf>,
-    cpu_limit_file_path: Option<PathBuf>,
-    memory_stat_file_path: Option<PathBuf>,
-    memory_usage_file_path: Option<PathBuf>,
-    memory_limit_file_path: Option<PathBuf>,
-    io_stat_file_path: Option<PathBuf>,
-    network_stat_file_paths: Vec<PathBuf>,
+    cpu_stat_file: Option<BufReader<File>>,
+    cpu_limit_file: Option<BufReader<File>>,
+    memory_stat_file: Option<BufReader<File>>,
+    memory_usage_file: Option<BufReader<File>>,
+    memory_limit_file: Option<BufReader<File>>,
+    io_stat_file: Option<BufReader<File>>,
+    network_stat_files: Vec<BufReader<File>>,
 }
 
 impl CollectorBuilder {
@@ -114,7 +90,7 @@ impl CollectorBuilder {
     ///
     /// The builder with the `cpu_stat_file` set.
     pub fn set_cpu_stat_file(&mut self, path: impl AsRef<std::path::Path>) -> &mut Self {
-        self.cpu_stat_file_path = Some(path.as_ref().to_path_buf());
+        self.cpu_stat_file = utils::open_file(path);
         self
     }
 
@@ -128,7 +104,7 @@ impl CollectorBuilder {
     ///
     /// The builder with the `cpu_limit_file` set.
     pub fn set_cpu_limit_file(&mut self, path: impl AsRef<std::path::Path>) -> &mut Self {
-        self.cpu_limit_file_path = Some(path.as_ref().to_path_buf());
+        self.cpu_limit_file = utils::open_file(path);
         self
     }
 
@@ -142,7 +118,7 @@ impl CollectorBuilder {
     ///
     /// The builder with the `memory_stat_file` set.
     pub fn set_memory_stat_file(&mut self, path: impl AsRef<std::path::Path>) -> &mut Self {
-        self.memory_stat_file_path = Some(path.as_ref().to_path_buf());
+        self.memory_stat_file = utils::open_file(path);
         self
     }
 
@@ -156,7 +132,7 @@ impl CollectorBuilder {
     ///
     /// The builder with the `memory_usage_file` set.
     pub fn set_memory_usage_file(&mut self, path: impl AsRef<std::path::Path>) -> &mut Self {
-        self.memory_usage_file_path = Some(path.as_ref().to_path_buf());
+        self.memory_usage_file = utils::open_file(path);
         self
     }
 
@@ -170,7 +146,7 @@ impl CollectorBuilder {
     ///
     /// The builder with the `memory_limit_file` set.
     pub fn set_memory_limit_file(&mut self, path: impl AsRef<std::path::Path>) -> &mut Self {
-        self.memory_limit_file_path = Some(path.as_ref().to_path_buf());
+        self.memory_limit_file = utils::open_file(path);
         self
     }
 
@@ -184,7 +160,7 @@ impl CollectorBuilder {
     ///
     /// The builder with the `io_stat_file` set.
     pub fn set_io_stat_file(&mut self, path: impl AsRef<std::path::Path>) -> &mut Self {
-        self.io_stat_file_path = Some(path.as_ref().to_path_buf());
+        self.io_stat_file = utils::open_file(path);
         self
     }
 
@@ -198,7 +174,7 @@ impl CollectorBuilder {
     ///
     /// The builder with the `network_stat_files` vector populated.
     pub fn set_network_stat_files(&mut self, paths: &[impl AsRef<std::path::Path>]) -> &mut Self {
-        self.network_stat_file_paths = paths.iter().map(|p| p.as_ref().to_path_buf()).collect();
+        self.network_stat_files = paths.iter().filter_map(utils::open_file).collect();
         self
     }
 
@@ -210,16 +186,14 @@ impl CollectorBuilder {
     ///
     /// A fully constructed `ContainerMonitor`.
     pub fn build(self) -> Collector {
-        let cap = self.network_stat_file_paths.len();
         Collector {
-            cpu_stat_file_path: self.cpu_stat_file_path,
-            cpu_limit_file_path: self.cpu_limit_file_path,
-            memory_stat_file_path: self.memory_stat_file_path,
-            memory_usage_file_path: self.memory_usage_file_path,
-            memory_limit_file_path: self.memory_limit_file_path,
-            io_stat_file_path: self.io_stat_file_path,
-            network_stat_file_paths: self.network_stat_file_paths,
-            network_stat_files_cache: Vec::with_capacity(cap),
+            cpu_stat_file: self.cpu_stat_file,
+            cpu_limit_file: self.cpu_limit_file,
+            memory_stat_file: self.memory_stat_file,
+            memory_usage_file: self.memory_usage_file,
+            memory_limit_file: self.memory_limit_file,
+            io_stat_file: self.io_stat_file,
+            network_stat_files: self.network_stat_files,
         }
     }
 }
