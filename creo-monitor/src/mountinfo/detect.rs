@@ -124,7 +124,11 @@ fn detect_cgroup2_mount_point_from_reader<R: BufRead>(
             source,
         })?;
         if mount_info.fs_type == "cgroup2" {
-            log::debug!("Found `cgroup2` mount point: {}", mount_info.mount_point);
+            log::debug!(
+                "Found `cgroup2` mount point with root `{}`: {}",
+                mount_info.root,
+                mount_info.mount_point
+            );
             mount_point = Some(PathBuf::from(mount_info.mount_point));
             break;
         }
