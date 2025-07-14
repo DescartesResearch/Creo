@@ -135,6 +135,11 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     log::debug!("Final rootfs: {}", rootfs.display());
     let cgroup_root =
         mountinfo::detect_validated_cgroup2_mount_point(rootfs.join("proc/1/mountinfo"))?;
+    let cgroup_root = rootfs.join(
+        cgroup_root
+            .strip_prefix("/")
+            .expect("Mountinfo paths are absolute"),
+    );
     log::debug!("Final Cgroup Root: {}", cgroup_root.display());
 
     let monitor = Arc::new(cgroup::Monitor::default());
