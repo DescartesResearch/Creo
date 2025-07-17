@@ -1,0 +1,11 @@
+{
+  "name": "service",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.js",
+  "dependencies": {
+    {{#each dependencies}}
+    {{this}}{{#if @last}}{{else}},{{/if}}
+    {{/each}}
+  }
+}

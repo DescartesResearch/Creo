@@ -1,0 +1,54 @@
+const {{name}}QuerySchema = Joi.object({
+    {{#each query_params}}
+    {{this.name}}: {{this.param_type}}()
+        .description('{{this.description}}')
+        {{#if number_validation}}
+        {{#if minimum}}
+        .min({{this}})
+        {{/if}}
+        {{#if maximum}}
+        .max({{this}})
+        {{/if}}
+        {{/if}}
+        {{#if integer_validation}}
+        {{#if minimum}}
+        .min({{this}})
+        {{/if}}
+        {{#if maximum}}
+        .max({{this}})
+        {{/if}}
+        {{/if}}
+        {{#if string_validation}}
+        {{#if min_length}}
+        .min({{this}})
+        {{/if}}
+        {{#if max_length}}
+        .max({{this}})
+        {{/if}}
+        {{#if pattern}}
+        .pattern(/{{this}}/)
+        {{/if}}
+        {{/if}},
+    {{/each}}
+});
+
+router.get('{{path}}', async function {{name}}(req, res) {
+    const { value: { {{#each query_params}} {{this.name}}, {{/each}}}, error } = {{name}}QuerySchema.validate(req.query);
+
+    if (error) {
+        return res.status(400).json({ errors: error.details.map(detail => detail.message) });
+    }
+
+    {{#if has_service_calls}}
+    const calls = {{service_call_function_name}}();
+
+    {{/if}}
+
+    {{#if has_return_type}}const result = {{/if}}{{#if is_async}}await {{/if}}{{handler_func_name}}({{#each handler_args}}{{#if is_pos_arg}}{{name}}{{/if}}{{#unless is_pos_arg}}{{name}}={{name}}{{/unless}}{{#unless @last}}, {{/unless}}{{/each}})
+
+    {{#if has_service_calls}}
+    await calls;
+    {{/if}}
+
+    {{#if has_return_type}}return res.status(200).json(result){{/if}}{{#unless has_return_type}}return res.status(200).send(){{/unless}};
+});
