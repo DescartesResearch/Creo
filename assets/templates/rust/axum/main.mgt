@@ -2,7 +2,6 @@ use axum::{Router, Server, Extension};
 use std::net::SocketAddr;
 
 mod router;
-mod service_calls;
 
 #[tokio::main]
 async fn main() {

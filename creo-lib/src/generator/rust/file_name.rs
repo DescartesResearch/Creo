@@ -12,7 +12,7 @@ impl core::FileNameGenerator for FileNameGenerator {
 
     fn generate_service_call_file_name(&self) -> FileName {
         FileName {
-            path: "src/service_calls",
+            path: "src/router/service_calls",
             extension: "rs",
         }
     }

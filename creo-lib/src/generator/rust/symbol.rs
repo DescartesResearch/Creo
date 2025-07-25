@@ -29,7 +29,7 @@ impl core::SymbolGenerator for SymbolGenerator {
         } else {
             file_path
         };
-        format!("use crate::{file_name}::{function_name};")
+        format!("use {file_name}::{function_name};")
     }
 
     fn generate_individual_service_call_function_name(
