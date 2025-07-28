@@ -482,6 +482,10 @@ local function encode_number(val)
 	if val ~= val or val <= -math.huge or val >= math.huge then
 		error("unexpected number value '" .. tostring(val) .. "'")
 	end
+        if val % 1 == 0 then
+		return tostring(math.floor(val))
+	end
+
 	return string.format("%.14g", val)
 end
 
