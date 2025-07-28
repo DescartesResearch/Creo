@@ -33,6 +33,8 @@ services:
       - "/opt/profile.csv"
       - "-o"
       - "loadgenerator/summary_out.csv"
+      - "-ro"
+      - "loadgenerator/request_out.csv"
       - "-t"
       - "${VIRTUAL_USERS}"
       - "--timeout"
