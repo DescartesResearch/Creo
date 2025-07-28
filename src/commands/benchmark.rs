@@ -27,7 +27,24 @@ pub async fn invoke(
 
     match &benchmark_config.intensity {
         crate::cli::benchmark::Intensity::PROFILE { profile } => {
-            client.execute(format!(r#"screen -dm -S "{}" -L -Logfile "{}/benchmark.log" "{}/benchmark.sh" {} {} {} {} {} {} {} {} {} {}"#, &app_name, &app_name, &app_name, &ssh_config.user_name, &app_name, &ssh_config.worker_hosts[0], benchmark_config.virtual_user, benchmark_config.timeout, benchmark_config.warmup.pause, benchmark_config.warmup.duration, benchmark_config.warmup.rate, benchmark_config.records, profile)).await?;
+            let cmd = format!(
+                r#"screen -dm -S "{}" -L -Logfile "{}/benchmark.log" "{}/benchmark.sh" {} {} {} {} {} {} {} {} {} {}"#,
+                &app_name,
+                &app_name,
+                &app_name,
+                &ssh_config.user_name,
+                &app_name,
+                &ssh_config.worker_hosts[0],
+                benchmark_config.virtual_user,
+                benchmark_config.timeout,
+                benchmark_config.warmup.pause,
+                benchmark_config.warmup.duration,
+                benchmark_config.warmup.rate,
+                benchmark_config.records,
+                profile
+            );
+            log::debug!("Executing command: {}", &cmd);
+            client.execute(cmd).await?;
         }
     }
 
