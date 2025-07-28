@@ -7,4 +7,4 @@ name = "create_invoice"
 description = "Simple CRUD operations for an invoice entity"
 version = "1.0.0"
 requires-python = ">=3.9"
-dependencies = ["pydantic==2.5.2", "motor==3.2.2"]
+dependencies = ["pydantic==2.5.2", "motor==3.6.0"]
