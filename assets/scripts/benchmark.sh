@@ -22,7 +22,7 @@ PROFILE_NAME="${10}"
     script_path=$(readlink -f -- "${script_path}")
     cd "$script_path"
     LUA_PATH="$script_path/$LUA_FILE"
-    BENCHMARK_RUN="$script_path/benchmarks/${PROFILE_NAME::-4}"
+    BENCHMARK_RUN="$script_path/benchmarks/${PROFILE_NAME%.csv}"
     if [ -d "$BENCHMARK_RUN" ]; then
         TS=$(date +%s)
         BACKUP="$BENCHMARK_RUN-bck-$TS"
