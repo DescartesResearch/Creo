@@ -64,7 +64,7 @@ signature:
               maxLength: 128
             number:
               type: integer
-              format: int64
+              format: int32
               minimum: 0
               maximum: 10000
               exclusiveMaximum: false
@@ -108,7 +108,7 @@ signature:
               maxLength: 128
             number:
               type: integer
-              format: int64
+              format: int32
               minimum: 0
               maximum: 10000
               exclusiveMaximum: false
