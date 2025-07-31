@@ -1,0 +1,30 @@
+import_path: user-update
+description: "Simple CRUD operations for an user entity"
+is_async: true
+returns: true
+depends_on:
+  - name: db:mongo
+    init: seed-user
+signature:
+  function: updateUserById
+  parameters:
+    - arg: 0
+      type: integer
+      minimum: 1
+      maximum: 300000
+    - arg: 1
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 64
+        email:
+          type: string
+          minLength: 3
+          maxLength: 64
+        password:
+          type: string
+          minLength: 6
+          maxLength: 48
+      additionalProperties: false

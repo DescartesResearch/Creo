@@ -1,0 +1,9 @@
+{
+  "name": "user-delete",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "dependencies": {
+    "mongodb": "^6.12.0"
+  }
+}

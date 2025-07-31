@@ -1,0 +1,10 @@
+{
+  "name": "seed-invoice",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "dependencies": {
+    "@faker-js/faker": "^9",
+    "mongodb": "^6.12.0"
+  }
+}
