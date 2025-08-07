@@ -152,10 +152,15 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     )?;
 
     let hostname = std::fs::read_to_string(rootfs.join("etc/hostname"))
-        .or_else(|_| std::fs::read_to_string("proc/sys/kernel/hostname"))?
+        .or_else(|_| {
+            log::debug!("Reading NODE_NAME env variable");
+            std::env::var("NODE_NAME")
+        })?
         .trim()
         .to_owned();
+
     log::debug!("Hostname: {}", &hostname);
+
     let (metadata_tx, mut metadata_rx) =
         tokio::sync::mpsc::channel::<(container::ContainerID, HashMap<String, String>)>(15);
 
