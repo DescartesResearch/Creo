@@ -192,12 +192,14 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     log::debug!("Started containerd discovery");
 
     let stats_persister = persistence::MySqlStatsPersister::new(db.clone(), machine_id);
+    log::debug!("Starting API Server...");
     {
         let db = api::DB::new(db);
         tokio::spawn(async move {
             let api = api::APIServer::new(db).await;
             api.listen("0.0.0.0:3000").await
         });
+        log::debug!("Started API Server!");
     }
     let (tx, mut rx) = tokio::sync::mpsc::channel::<Vec<cgroup::stats::ContainerStatsEntry>>(10);
     {

@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::fmt::format;
 
 use axum::Json;
 use axum::extract::{Query, State};
@@ -18,13 +19,26 @@ pub struct ExportParams {
 }
 
 async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Response {
+    log::debug!(
+        "Received export request from timestamp {} to timestamp {}",
+        params.from,
+        params.to
+    );
     let mut body: HashMap<&'static str, serde_json::Value> = HashMap::default();
     match db.query_stats_by_time_range(params.from, params.to).await {
         Ok(stats) => {
-            body.insert(
-                "stats",
-                serde_json::to_value(stats).expect("serialization failed"),
-            );
+            log::debug!("Converting to JSON");
+            match serde_json::to_value(stats) {
+                Ok(stats) => body.insert("stats", stats),
+                Err(err) => {
+                    log::error!("Failed to serialize container stats: {}", err);
+                    return (
+                        axum::http::StatusCode::INTERNAL_SERVER_ERROR,
+                        "failed to serialize stats",
+                    )
+                        .into_response();
+                }
+            };
         }
         Err(err) => {
             log::error!("Failed to query container stats: {}", err);
@@ -35,15 +49,24 @@ async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Resp
                 .into_response();
         }
     }
+    log::debug!("Queried stats entries");
     match db
         .query_metadata_by_time_range(params.from, params.to)
         .await
     {
         Ok(metadata) => {
-            body.insert(
-                "metadata",
-                serde_json::to_value(metadata).expect("serialization failed"),
-            );
+            log::debug!("Converting to JSON");
+            match serde_json::to_value(metadata) {
+                Ok(metadata) => body.insert("metadata", metadata),
+                Err(err) => {
+                    log::error!("Failed to serialize container metadata: {}", err);
+                    return (
+                        axum::http::StatusCode::INTERNAL_SERVER_ERROR,
+                        "failed to serialize metadata",
+                    )
+                        .into_response();
+                }
+            };
         }
         Err(err) => {
             log::error!("Failed to query container metadata: {}", err);
@@ -54,6 +77,7 @@ async fn export_stats(db: State<DB>, Query(params): Query<ExportParams>) -> Resp
                 .into_response();
         }
     }
+    log::debug!("Queried metadata entries");
 
     (axum::http::StatusCode::OK, Json(body)).into_response()
 }
@@ -123,6 +147,13 @@ impl DB {
             out.entry(id).or_default().push(stat.into());
         }
 
+        log::debug!(
+            "Queried {} container stats entries for time range {} to {}",
+            out.len(),
+            from,
+            to
+        );
+
         Ok(out)
     }
 
@@ -163,6 +194,12 @@ ORDER BY container_id, machine_id
                 .labels
                 .insert(meta.label_key, meta.label_value);
         }
+        log::debug!(
+            "Queried {} container metadata entries for time range {} to {}",
+            out.len(),
+            from,
+            to
+        );
 
         Ok(out)
     }
