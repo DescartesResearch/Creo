@@ -172,7 +172,12 @@ pub async fn test_load_level(
     let mut results: HashMap<&'static str, Vec<Array1<f64>>> = HashMap::new();
     while let Some(iteration) = iterations.next_entry().await? {
         let path = iteration.path();
-        let summary_file = tokio::fs::File::open(path.join("summary_out.csv")).await?;
+        let p = path.join("summary_out.csv");
+        let summary_file = tokio::fs::File::open(&p).await?;
+        log::debug!(
+            "Trying to parse benchmark start timestamp from file: `{}`",
+            p.display()
+        );
         let mut first_line = String::new();
         let mut rdr = tokio::io::BufReader::new(summary_file);
         rdr.read_line(&mut first_line).await?;
@@ -180,6 +185,7 @@ pub async fn test_load_level(
         const TIME_STR_LEN: usize = "01.01.1970;00:00:00".len();
         log::debug!("Expected time str len: {TIME_STR_LEN}");
         let time = &time[..TIME_STR_LEN];
+        log::debug!("Read time string: {}", time);
         let dt = NaiveDateTime::parse_from_str(time, "%d.%m.%Y;%H:%M:%S")
             .expect("date time")
             .and_utc();
@@ -189,6 +195,7 @@ pub async fn test_load_level(
         log::debug!("End timestamp: {end}");
         let abs_path = tokio::fs::canonicalize(&path.join("metrics")).await?;
         let vol_map = format!("{}:/prometheus:rw", path_to_str(&abs_path)?);
+        log::debug!("Prometheus data mapping: {}", &vol_map);
         let mut docker = std::process::Command::new("docker");
         docker.args([
             "run",
@@ -204,6 +211,15 @@ pub async fn test_load_level(
             "--detach",
             "prom/prometheus:v2.49.1",
         ]);
+        log::debug!(
+            "Prometheus docker command: {} {}",
+            docker.get_program().to_string_lossy(),
+            docker
+                .get_args()
+                .map(|a| a.to_string_lossy())
+                .collect::<Vec<_>>()
+                .join(" ")
+        );
         let cid = docker.output().expect("docker start");
         assert!(cid.status.success());
         let mut started = false;
@@ -212,6 +228,7 @@ pub async fn test_load_level(
             match client.get("http://localhost:9090/status").send().await {
                 Ok(response) => {
                     if response.status() == 200 {
+                        log::debug!("Prometheus server started");
                         started = true;
                     }
                 }
@@ -224,16 +241,22 @@ pub async fn test_load_level(
         }
         for metric in METRICS.iter() {
             log::debug!("Pulling values for metric {}", metric.as_key());
-            let request = client
-                .post("http://localhost:9090/api/v1/query_range")
-                .form(&[
-                    ("query", metric.to_string()),
-                    ("start", &start.to_string()),
-                    ("end", &end.to_string()),
-                    ("step", "1s"),
-                ])
-                .build()
-                .unwrap();
+            let url = "http://localhost:9090/api/v1/query_range";
+            log::debug!("Request URL: {}", url);
+            let form_body = [
+                ("query", metric.to_string()),
+                ("start", &start.to_string()),
+                ("end", &end.to_string()),
+                ("step", "1s"),
+            ];
+            log::debug!(
+                "Form body: {:#?}",
+                form_body
+                    .map(|e| format!("{}={}", e.0, e.1))
+                    .iter()
+                    .collect::<Vec<_>>()
+            );
+            let request = client.post(url).form(&form_body).build().unwrap();
             let mut retries = 3;
             let response = loop {
                 if retries == 0 {
@@ -258,6 +281,7 @@ pub async fn test_load_level(
                 }
             };
             let response = response.expect("Maximum retries for API request");
+            log::debug!("Received response with status code: {}", response.status());
             let mut data: PrometheusAPIResponse = response.json().await.unwrap();
             assert_eq!(data.status, "success");
             if metric.is_required() {
