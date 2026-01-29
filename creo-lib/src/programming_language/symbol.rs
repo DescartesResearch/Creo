@@ -6,6 +6,7 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => &generator::python::SymbolGenerator,
             Rust(_) => &generator::rust::SymbolGenerator,
+            Node(_) => &generator::node::SymbolGenerator,
         }
     }
 }

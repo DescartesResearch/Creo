@@ -1,0 +1,10 @@
+{
+  "name": "invoice-update",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "dependencies": {
+    "joi": "^17.13.3",
+    "mongodb": "^6.12.0"
+  }
+}

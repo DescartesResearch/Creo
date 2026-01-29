@@ -1,0 +1,22 @@
+export async function {{name}}() {
+    let url = `http://${process.env['{{host_env_var}}']}{{path}}?`;
+
+    {{#if requires_data}}
+    const query = {{query_data_func}}();
+    url += Object.entries(query).map(([key, value]) => `${key}=${value}`).join('&');
+    {{/if}}
+
+    const payload = {{body_data_func}}();
+
+    try {
+        const _response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+    } catch (err) {
+        console.error(`An error occurred while request POST -> ${url}.`)
+    }
+}

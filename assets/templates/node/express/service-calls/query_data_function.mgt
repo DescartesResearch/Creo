@@ -1,0 +1,15 @@
+export function {{name}}() {
+    const obj = {};
+
+    {{#each params}}
+    {{#if nullable}}
+    if (Math.random() >= {{exclude_probability}}) {
+        obj['{{name}}'] = {{fake_func.name}}({{fake_func.args}});
+    }
+    {{else}}
+    obj['{{name}}'] = {{fake_func.name}}({{fake_func.args}});
+    {{/if}}
+    {{/each}}
+
+    return obj
+}

@@ -1,0 +1,28 @@
+import { Router } from 'express';
+import Joi from 'joi';
+
+{{#each service_call_imports}}
+{{this.import}};
+{{/each}}
+
+{{#each handler_func_imports}}
+{{this.import}};
+{{/each}}
+
+export const router = Router();
+
+const String = Joi.string.bind(Joi);
+const Number = Joi.number.bind(Joi);
+const Boolean = Joi.boolean.bind(Joi);
+const Date = Joi.date.bind(Joi);
+
+{{#each http_post_operations}}
+{{>post-operation}}
+{{/each}}
+
+{{#each http_get_operations}}
+{{>get-operation}}
+{{/each}}
+
+
+

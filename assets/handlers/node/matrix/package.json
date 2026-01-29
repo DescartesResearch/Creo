@@ -1,0 +1,9 @@
+{
+  "name": "matrix",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "dependencies": {
+    "mathjs": "^14.1.0"
+  }
+}

@@ -9,6 +9,7 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => generator::python::get_local_handler_dependencies(lib_dir),
             Rust(_) => generator::rust::get_local_handler_dependencies(lib_dir),
+            Node(_) => generator::node::get_local_handler_dependencies(lib_dir)
         }
     }
 
@@ -16,6 +17,7 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => generator::python::DEPENDENCY_FILE_NAME,
             Rust(_) => generator::rust::DEPENDENCY_FILE_NAME,
+            Node(_) => generator::node::DEPENDENCY_FILE_NAME,
         }
     }
 
@@ -23,6 +25,8 @@ impl ProgrammingLanguage {
         match self {
             Python(_) => generator::python::DEPENDENCY_FILE_TEMPLATE_PATH,
             Rust(_) => generator::rust::DEPENDENCY_FILE_TEMPLATE_PATH,
+            Node(_) => generator::node::DEPENDENCY_FILE_TEMPLATE_PATH,
         }
     }
 }
+

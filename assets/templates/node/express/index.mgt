@@ -1,0 +1,17 @@
+import express from 'express';
+import bodyParser from 'body-parser';
+
+import { router } from './router.js'
+
+const app = express();
+
+app.use(bodyParser.raw({ type: '*/*' }));
+
+app.use(router);
+
+app.listen(80, '0.0.0.0', (err) => {
+    if (err) {
+        console.error(err);
+    }
+    console.log('Server listening on port 80.')
+});

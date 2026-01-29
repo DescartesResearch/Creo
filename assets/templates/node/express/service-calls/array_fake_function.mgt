@@ -1,0 +1,3 @@
+export function {{name}}() {
+    return Array.from({ length: getRandomInt({{inclusive_min_items}}, {{exclusive_max_items}}) }).map(() => {{fake_func.name}}({{fake_func.args}}));
+}
